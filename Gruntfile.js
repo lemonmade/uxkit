@@ -33,9 +33,12 @@ module.exports = function(grunt) {
                 separator: "\n\n\n// -----\n\n\n"
             },
 
-            main: {
-                // src: ["src/_mixins/_bigfoot-mixins.scss", "src/_*/*-default.scss"],
-                // dest: "dist/bigfoot-default.scss"
+            springs: {
+                // src: [
+                //     "src/helpers.scss",
+                //     "src/springs.scss"
+                // ],
+                // dest: "dist/springs.scss"
             }
         },
 
@@ -47,7 +50,6 @@ module.exports = function(grunt) {
                 },
 
                 files: {
-                    "dist/example.css": "src/springs.scss",
                     "test/test.css": "test/test.scss"
                 }
             },
