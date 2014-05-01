@@ -1,0 +1,34 @@
+{
+  "name": "uxkit",
+  "main": [
+    "src/springs.js",
+    "src/springs.scss"
+  ],
+  "version": "0.0.1",
+  "authors": [
+    "Chris Sauve <chris@pxldot.com>"
+  ],
+  "description": "A modular front-end web framework inspired by iOS and built on delightful animations.",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "ios",
+    "framework",
+    "dynamic",
+    "animations",
+    "transitions",
+    "components",
+    "modular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.9.0"
+  }
+}

@@ -1,0 +1,156 @@
+@import "springs.scss";
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Proxima Nova", Helvetica, Arial, sans-serif;
+    background-color: rgb(240, 240, 240);
+}
+
+.outer-container {
+    max-width: 45em;
+    margin: 0 auto;
+}
+
+.inner-container {
+    padding: 2em 5% 2em 12.75em;
+}
+
+.test-browser {
+    position: fixed;
+    top: 0; bottom: 0;
+    left: 0;
+    background-color: rgb(50, 50, 50);
+    padding: 2em;
+
+    ul {
+        padding: 0;
+        list-style: none;
+        margin: 0 0 2em;
+        color: white;
+        font-size: 1.2em;
+        font-weight: bold;
+
+        a {
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: normal;
+            display: block;
+            position: relative;
+            color: rgba(white, 0.6);
+
+            &.active {
+                color: rgba(white, 0.8);
+            }
+
+            &.active:before {
+                content: '';
+                display: block;
+                height: 0.2em;
+                width: 1em;
+                background-color: rgba(white, 0.8);
+                position: absolute;
+                left: -1.5em;
+                top: 50%;
+                margin-top: -0.1em;
+                border-radius: 0.1em;
+            }
+        }
+    }
+}
+
+section {
+    border-top: 1px solid rgba(black, 0.15);
+    border-bottom: 1px solid rgba(black, 0.15);
+    padding: 2em 0 2.5em;
+
+    &:last-of-type {
+        border-bottom: none;
+    }
+
+    h2 {
+        margin: 0 0 2em;
+
+        code {
+            background-color: rgba(black, 0.15);
+        }
+    }
+
+    .test-description {
+        color: rgba(black, 0.4);
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+}
+
+$slider-size: 4em;
+
+.slider {
+    position: relative;
+    height: $slider-size;
+    width: calc(100% - 4em);
+
+    &.active {
+        transform: translateX(100%);
+    }
+
+    &:before {
+        content: '';
+        display: block;
+        width: $slider-size;
+        height: $slider-size;
+        background-color: gray;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 0.5em;
+        z-index: 20;
+    }
+}
+
+.slider-background {
+    width: calc(100% + 1em);
+    height: $slider-size + 1em;
+    background-color: white;
+    margin-left: -0.5em;
+    margin-top: -1 * $slider-size - 0.5em;
+    border-radius: 1em;
+}
+
+
+
+
+
+// TESTS
+
+.basic-spring .slider {
+    transition: transform 0.4s $basic-spring;
+}
+
+.spring-mixin-no-properties .slider {
+    transition-property: transform;
+    transition-duration: 0.4s;
+    @include spring-transition();
+}
+
+.spring-mixin-without-delay .slider {
+    @include spring-transition($property: transform, $duration: 0.4s);
+}
+
+.spring-mixin-including-delay .slider {
+    @include spring-transition($property: transform, $duration: 0.4s, $delay: 0.4s);
+}
+
+.spring-mixin-no-properties-double-intensity .slider {
+    transition-property: transform;
+    transition-duration: 0.4s;
+    @include spring-transition($springiness: 2);
+}
+
+.spring-mixin-no-properties-increased-backloading .slider {
+    transition-property: transform;
+    transition-duration: 0.4s;
+    @include spring-transition($backloading: 1.5);
+}

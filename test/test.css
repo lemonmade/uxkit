@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Proxima Nova", Helvetica, Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.outer-container {
+  max-width: 45em;
+  margin: 0 auto;
+}
+
+.inner-container {
+  padding: 2em 5% 2em 12.75em;
+}
+
+.test-browser {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #323232;
+  padding: 2em;
+}
+
+.test-browser ul {
+  padding: 0;
+  list-style: none;
+  margin: 0 0 2em;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.test-browser ul a {
+  text-decoration: none;
+  font-size: 0.8em;
+  font-weight: normal;
+  display: block;
+  position: relative;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.test-browser ul a.active {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.test-browser ul a.active:before {
+  content: '';
+  display: block;
+  height: 0.2em;
+  width: 1em;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  left: -1.5em;
+  top: 50%;
+  margin-top: -0.1em;
+  border-radius: 0.1em;
+}
+
+section {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 2em 0 2.5em;
+}
+
+section:last-of-type {
+  border-bottom: none;
+}
+
+section h2 {
+  margin: 0 0 2em;
+}
+
+section h2 code {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+section .test-description {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+section .test-description:last-of-type {
+  margin-bottom: 0;
+}
+
+.slider {
+  position: relative;
+  height: 4em;
+  width: -webkit-calc(100% - 4em);
+  width: calc(100% - 4em);
+}
+
+.slider.active {
+  -webkit-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  transform: translateX(100%);
+}
+
+.slider:before {
+  content: '';
+  display: block;
+  width: 4em;
+  height: 4em;
+  background-color: gray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0.5em;
+  z-index: 20;
+}
+
+.slider-background {
+  width: -webkit-calc(100% + 1em);
+  width: calc(100% + 1em);
+  height: 5em;
+  background-color: white;
+  margin-left: -0.5em;
+  margin-top: -4.5em;
+  border-radius: 1em;
+}
+
+.basic-spring .slider {
+  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.37, 1.65, 0.305, 0.855);
+  transition: transform 0.4s cubic-bezier(0.37, 1.65, 0.305, 0.855);
+}
+
+.spring-mixin-no-properties .slider {
+  -webkit-transition-property: -webkit-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -webkit-transition-timing-function: cubic-bezier(0.37, 1.65, 0.305, 0.855);
+  transition-timing-function: cubic-bezier(0.37, 1.65, 0.305, 0.855);
+}
+
+.spring-mixin-without-delay .slider {
+  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.37, 1.65, 0.305, 0.855);
+  transition: transform 0.4s cubic-bezier(0.37, 1.65, 0.305, 0.855);
+}
+
+.spring-mixin-including-delay .slider {
+  -webkit-transition: -webkit-transform 0.4s 0.4s cubic-bezier(0.37, 1.65, 0.305, 0.855);
+  transition: transform 0.4s 0.4s cubic-bezier(0.37, 1.65, 0.305, 0.855);
+}
+
+.spring-mixin-no-properties-double-intensity .slider {
+  -webkit-transition-property: -webkit-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -webkit-transition-timing-function: cubic-bezier(0.37, 3.3, 0.305, 0.4275);
+  transition-timing-function: cubic-bezier(0.37, 3.3, 0.305, 0.4275);
+}
+
+.spring-mixin-no-properties-increased-backloading .slider {
+  -webkit-transition-property: -webkit-transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -webkit-transition-timing-function: cubic-bezier(0.555, 1.65, 0.4575, 0.855);
+  transition-timing-function: cubic-bezier(0.555, 1.65, 0.4575, 0.855);
+}

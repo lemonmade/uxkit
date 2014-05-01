@@ -1,0 +1,50 @@
+//        ___       ___          ___          ___                             ___          ___          ___
+//       /  /\     /__/\        /__/\        /  /\         ___   ___         /  /\        /__/\        /  /\
+//      /  /:/_    \  \:\       \  \:\      /  /:/        /  /\ /  /\       /  /::\       \  \:\      /  /:/_
+//     /  /:/ /\    \  \:\       \  \:\    /  /:/        /  /://  /:/      /  /:/\:\       \  \:\    /  /:/ /\
+//    /  /:/ /:/___  \  \:\  _____\__\:\  /  /:/  ___   /  /://__/::\     /  /:/  \:\  _____\__\:\  /  /:/ /::\
+//   /__/:/ /://__/\  \__\:\/__/::::::::\/__/:/  /  /\ /  /::\\__\/\:\__ /__/:/ \__\:\/__/::::::::\/__/:/ /:/\:\
+//   \  \:\/:/ \  \:\ /  /:/\  \:\~~\~~\/\  \:\ /  /://__/:/\:\  \  \:\/\\  \:\ /  /:/\  \:\~~\~~\/\  \:\/:/~/:/
+//    \  \::/   \  \:\  /:/  \  \:\  ~~~  \  \:\  /:/ \__\/  \:\  \__\::/ \  \:\  /:/  \  \:\  ~~~  \  \::/ /:/
+//     \  \:\    \  \:\/:/    \  \:\       \  \:\/:/       \  \:\ /__/:/   \  \:\/:/    \  \:\       \__\/ /:/
+//      \  \:\    \  \::/      \  \:\       \  \::/         \__\/ \__\/     \  \::/      \  \:\        /__/:/
+//       \__\/     \__\/        \__\/        \__\/                           \__\/        \__\/        \__\/
+
+// @FUNCTION
+// ensure-type()
+// -----------------------------------------------------------------------------------------
+
+// @SUMMARY
+// -----------------------------------------------------------------------------------------
+// Checks that the supplied value is of the desired type and, if not, throws a warning
+// and sets it to the default value (if provided).
+
+// @PARAMETERS
+// -----------------------------------------------------------------------------------------
+// $value:       The value to check.
+// $type:        The type that the value should be (as a string).
+// $name:        The name of the variable (to be used in the warning message). Optional.
+// $default:     The default value to be assigned in the case of the type check failing. Optional.
+
+@function ensure-type($value,
+                      $type,
+                      $name: NULL,
+                      $default: NULL) {
+
+    @if type-of($value) != $type {
+        $message: " must be a " + $type + ".";
+        @if $name != NULL {
+            $message: "The variable '" + $name + "'" + $message;
+        } @else {
+            $message: "One of the provided variables" + $message;
+        }
+
+        @if $default != NULL { $message: $message + " A default value of '" + $default + "' has been used in place of the supplied value."; }
+
+        @warn $message;
+        @return $default;
+    }
+
+    @return $value;
+
+}

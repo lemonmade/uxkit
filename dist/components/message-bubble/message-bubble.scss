@@ -1,0 +1,65 @@
+$message-bubble-background-color: rgb(25, 131, 250);
+$message-bubble-text-color: rgb(255, 255, 255);
+$message-bubble-reply-background-color: rgb(229, 229, 234);
+$message-bubble-reply-text-color: rgb(2, 2, 2);
+
+$message-bubble-max-width: 15em;
+$message-bubble-padding: 0.5em 0.75em;
+$message-bubble-margin-top: 0.5em;
+
+// Total size with fully rounded corners appears to be
+// roughly 30 px, so 1/2 (15px) on each border
+$message-bubble-border-radius: #{(15/16)}em;
+$message-bubble-tail-width: 0.06*$message-bubble-max-width;
+
+// Tail .svg size-related variables
+$message-bubble-tail-default-width: 116.42;
+$message-bubble-tail-default-height: 97.35;
+$message-bubble-tail-aspect-ratio: ($message-bubble-tail-default-width/$message-bubble-tail-default-height);
+$message-bubble-tail-start-point-x: (65.84/$message-bubble-tail-default-width);
+$message-bubble-tail-horizontal-offset: (-$message-bubble-tail-width*$message-bubble-tail-start-point-x);
+
+.message-bubble {
+    background-color: $message-bubble-background-color;
+    max-width: $message-bubble-max-width;
+    position: relative;
+    border-radius: $message-bubble-border-radius;
+    padding: $message-bubble-padding;
+    color: $message-bubble-text-color;
+    line-height: 1.3;
+    font-family: Helvetica;
+    margin-top: $message-bubble-margin-top;
+
+    &:first-of-type { margin-top: 0; }
+
+    &.reply {
+        background-color: $message-bubble-reply-background-color;
+        color: $message-bubble-reply-text-color;
+
+        .message-bubble-whale-tail {
+            right: auto;
+            left: $message-bubble-tail-horizontal-offset;
+            transform: scaleX(-1);
+
+            path {
+                fill: $message-bubble-reply-background-color;
+            }
+        }
+    }
+
+    &.no-tail {
+        .message-bubble-whale-tail { display: none; }
+    }
+
+    .message-bubble-whale-tail {
+        position: absolute;
+        right: $message-bubble-tail-horizontal-offset;
+        bottom: 0;
+        width: $message-bubble-tail-width;
+        height: $message-bubble-tail-width / $message-bubble-tail-aspect-ratio;
+
+        path {
+            fill: $message-bubble-background-color;
+        }
+    }
+}

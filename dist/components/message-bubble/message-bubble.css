@@ -1,0 +1,48 @@
+.message-bubble {
+  background-color: #1983fa;
+  max-width: 15em;
+  position: relative;
+  border-radius: 0.9375em;
+  padding: 0.5em 0.75em;
+  color: white;
+  line-height: 1.3;
+  font-family: Helvetica;
+  margin-top: 0.5em;
+}
+
+.message-bubble:first-of-type {
+  margin-top: 0;
+}
+
+.message-bubble.reply {
+  background-color: #e5e5ea;
+  color: #020202;
+}
+
+.message-bubble.reply .message-bubble-whale-tail {
+  right: auto;
+  left: -0.50898em;
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.message-bubble.reply .message-bubble-whale-tail path {
+  fill: #e5e5ea;
+}
+
+.message-bubble.no-tail .message-bubble-whale-tail {
+  display: none;
+}
+
+.message-bubble .message-bubble-whale-tail {
+  position: absolute;
+  right: -0.50898em;
+  bottom: 0;
+  width: 0.9em;
+  height: 0.75258em;
+}
+
+.message-bubble .message-bubble-whale-tail path {
+  fill: #1983fa;
+}

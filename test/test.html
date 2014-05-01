@@ -1,0 +1,97 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="test.css">
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../dist/springs.js"></script>
+
+    <title>Springs Tests</title>
+</head>
+
+<body>
+    <nav class="test-browser">
+        <ul class="mixins-tests"> Mixins
+            <li><a href="#springs" class="active">Springs</a></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <ul class="components-tests"> Components
+            <li><a href="#message-bubble">Message Bubbles</a></li>
+            <li><a href="#shrinking-header">Shrinking Header</a></li>
+            <li><a href="#slide-menu">Slide Menu</a></li>
+        </ul>
+        <ul class="javascript-tests"> JavaScript
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </nav>
+    <div class="outer-container"><div class="inner-container">
+        <h1>Springs Tests</h1>
+
+        <section class="basic-spring">
+            <h2>Basic Spring Transition Timing Function (variable: <code>$basic-spring</code>)</h2>
+            <div class="slider"></div>
+            <div class="slider-background"></div>
+            <p class="test-description">Click on the slider. The dark bit inside the slider should slide nicely to the opposite side with a springy bounce effect.</p>
+        </section>
+
+        <section class="spring-mixin-no-properties">
+            <h2>Spring Transition Timing Mixin Without Properties (mixin: <code>spring-transition()</code>)</h2>
+            <div class="slider"></div>
+            <div class="slider-background"></div>
+            <p class="test-description">Click on the slider. The dark bit inside the slider should slide nicely to the opposite side with a springy bounce effect.</p>
+        </section>
+
+        <section class="spring-mixin-without-delay">
+            <h2>Spring Transition Timing Mixin With Properties Except Delay (mixin: <code>spring-transition($property, $duration)</code>)</h2>
+            <div class="slider"></div>
+            <div class="slider-background"></div>
+            <p class="test-description">Click on the slider. The dark bit inside the slider should slide nicely to the opposite side with a springy bounce effect.</p>
+        </section>
+
+        <section class="spring-mixin-including-delay">
+            <h2>Spring Transition Timing Mixin With Properties Including Delay (mixin: <code>spring-transition($property, $duration, $delay)</code>)</h2>
+            <div class="slider"></div>
+            <div class="slider-background"></div>
+            <p class="test-description">Click on the slider. The dark bit inside the slider should slide nicely to the opposite side with a springy bounce effect. There should be a slight delay before the transition begins.</p>
+        </section>
+
+        <section class="spring-mixin-no-properties-double-intensity">
+            <h2>Spring Transition Timing Mixin Without Properties With Spring Intensity Doubled (mixin: <code>spring-transition($springiness)</code>)</h2>
+            <div class="slider"></div>
+            <div class="slider-background"></div>
+            <p class="test-description">Click on the slider. The dark bit inside the slider should slide nicely to the opposite side with a springy bounce effect. This bounce effect should be twice as intense as the transitions above.</p>
+        </section>
+
+        <section class="spring-mixin-no-properties-increased-backloading">
+            <h2>Spring Transition Timing Mixin Without Properties With Increased Backloading (mixin: <code>spring-transition($backloading)</code>)</h2>
+            <div class="slider"></div>
+            <div class="slider-background"></div>
+            <p class="test-description">Click on the slider. The dark bit inside the slider should slide nicely to the opposite side with a springy bounce effect. This bounce effect should be Slightly quicker in the back portion (i.e., the maximum bounce isn't reached until later in the transition time).</p>
+        </section>
+
+    </div></div>
+</body>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+
+
+});
+
+$(".slider, .slider-background").click(function() {
+    var $slider = $(this).closest(".slider");
+    if($slider.length < 1) {
+        $slider = $(this).siblings(".slider");
+    }
+    $slider.toggleClass("active");
+});
+
+</script>
+
+</html>

@@ -1,0 +1,74 @@
+<head>
+    <link rel="stylesheet" href="message-bubble.css">
+    <script src="../../../bower_components/jquery/dist/jquery.js"></script>
+</head>
+
+<div class="message-bubble">
+    I'm right on the edge and I don't know what comes next.
+
+    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
+        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
+    </svg>
+</div>
+
+<div class="message-bubble no-tail">
+    I'm right on the edge and I don't know what comes next.
+
+    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
+        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
+    </svg>
+</div>
+
+<div class="message-bubble reply">
+    I'm right on the edge and I don't know what comes next.
+
+    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
+        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
+    </svg>
+</div>
+
+<div class="message-bubble reply no-tail">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, harum iusto nesciunt expedita dicta voluptate asperiores nulla veritatis magnam sed impedit doloribus ipsum obcaecati! Reprehenderit, odio laboriosam officia culpa harum!
+
+    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
+        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
+    </svg>
+</div>
+
+
+<script type="text/javascript">
+
+function MessageBubbles() {
+    this.messageBubbles = $(".message-bubble");
+}
+
+MessageBubbles.prototype = {
+    setBackgroundColor: function(color, selector) {
+        this.getSubsetOfMessages(selector).each(function() {
+            var $this = $(this);
+            $this.css("background-color", color);
+            $this.find(".message-bubble-whale-tail path").css("fill", color);
+        });
+    },
+
+    setTextColor: function(color, selector) {
+        this.getSubsetOfMessages(selector).each(function() {
+            var $this = $(this);
+            $this.css("color", color);
+        });
+    },
+
+    getSubsetOfMessages: function(selector) {
+        if(!selector) { return this.messageBubbles; }
+
+        return this.messageBubbles.filter(function() {
+            return $(this).is(selector);
+        });
+    },
+
+    update: function() {
+        this.messageBubbles = $(".message-bubble");
+    }
+}
+
+</script>
