@@ -34,11 +34,11 @@ module.exports = function(grunt) {
             },
 
             springs: {
-                // src: [
-                //     "src/helpers.scss",
-                //     "src/springs.scss"
-                // ],
-                // dest: "dist/springs.scss"
+                src: [
+                    "src/helpers.scss",
+                    "src/springs.scss"
+                ],
+                dest: "dist/springs.scss"
             }
         },
 
@@ -120,7 +120,7 @@ module.exports = function(grunt) {
             copyMain: {
                 command: [
                     "cp src/springs.js dist/springs.js",
-                    "cp src/springs.scss dist/springs.scss",
+                    // "cp src/springs.scss dist/springs.scss",
                     "rsync -av src/components/ dist/components/"
                 ].join("&&")
             }
@@ -131,6 +131,6 @@ module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
 
     // 3. PERFORM
-    grunt.registerTask("default", ["jshint", "sass", "autoprefixer", "uglify", "concat", "shell"]);
+    grunt.registerTask("default", ["jshint", "concat", "sass", "autoprefixer", "uglify", "shell"]);
 
 }
