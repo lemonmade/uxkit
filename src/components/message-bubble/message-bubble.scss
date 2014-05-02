@@ -1,3 +1,15 @@
+//                    ___          ___                     ___                                    ___          ___
+//        ___        /  /\        /  /\       ___         /  /\        _____                     /  /\        /  /\
+//       /__/\      /  /::\      /  /::\     /  /\       /  /::\      /  /::\                   /  /:/_      /  /:/_
+//       \  \:\    /  /:/\:\    /  /:/\:\   /  /:/      /  /:/\:\    /  /:/\:\   ___     ___   /  /:/ /\    /  /:/ /\
+//        \  \:\  /  /:/~/::\  /  /:/~/:/  /__/::\     /  /:/~/::\  /  /:/~/::\ /__/\   /  /\ /  /:/ /:/_  /  /:/ /::\
+//    ___  \__\:\/__/:/ /:/\:\/__/:/ /:/___\__\/\:\__ /__/:/ /:/\:\/__/:/ /:/\:|\  \:\ /  /://__/:/ /:/ /\/__/:/ /:/\:\
+//   /__/\ |  |:|\  \:\/:/__\/\  \:\/:::::/   \  \:\/\\  \:\/:/__\/\  \:\/:/~/:/ \  \:\  /:/ \  \:\/:/ /:/\  \:\/:/~/:/
+//   \  \:\|  |:| \  \::/      \  \::/~~~~     \__\::/ \  \::/      \  \::/ /:/   \  \:\/:/   \  \::/ /:/  \  \::/ /:/
+//    \  \:\__|:|  \  \:\       \  \:\         /__/:/   \  \:\       \  \:\/:/     \  \::/     \  \:\/:/    \__\/ /:/
+//     \__\::::/    \  \:\       \  \:\        \__\/     \  \:\       \  \::/       \__\/       \  \::/       /__/:/
+//         ~~~~      \__\/        \__\/                   \__\/        \__\/                     \__\/        \__\/
+
 $message-bubble-background-color: rgb(25, 131, 250);
 $message-bubble-text-color: rgb(255, 255, 255);
 $message-bubble-reply-background-color: rgb(229, 229, 234);
@@ -18,6 +30,58 @@ $message-bubble-tail-default-height: 97.35;
 $message-bubble-tail-aspect-ratio: ($message-bubble-tail-default-width/$message-bubble-tail-default-height);
 $message-bubble-tail-start-point-x: (65.84/$message-bubble-tail-default-width);
 $message-bubble-tail-horizontal-offset: (-$message-bubble-tail-width*$message-bubble-tail-start-point-x);
+
+
+//        ___                    ___                     ___          ___
+//       /__/\       ___        /__/|       ___         /__/\        /  /\
+//      |  |::\     /  /\      |  |:|      /  /\        \  \:\      /  /:/_
+//      |  |:|:\   /  /:/      |  |:|     /  /:/         \  \:\    /  /:/ /\
+//    __|__|:|\:\ /__/::\    __|__|:|    /__/::\     _____\__\:\  /  /:/ /::\
+//   /__/::::| \:\\__\/\:\__/__/::::\____\__\/\:\__ /__/::::::::\/__/:/ /:/\:\
+//   \  \:\~~\__\/   \  \:\/\  ~\~~\::::/   \  \:\/\\  \:\~~\~~\/\  \:\/:/~/:/
+//    \  \:\          \__\::/   |~~|:|~~     \__\::/ \  \:\  ~~~  \  \::/ /:/
+//     \  \:\         /__/:/    |  |:|       /__/:/   \  \:\       \__\/ /:/
+//      \  \:\        \__\/     |  |:|       \__\/     \  \:\        /__/:/
+//       \__\/                  |__|/                   \__\/        \__\/
+
+// @MIXIN
+// color-message-bubble()
+// -----------------------------------------------------------------------------------------
+
+// @SUMMARY
+// -----------------------------------------------------------------------------------------
+// Creates the spring cubic-bezier transition-timing-function declarations.
+
+// @PARAMETERS
+// -----------------------------------------------------------------------------------------
+// $springiness: The intensity of the spring effect. Defaults to 1.
+// $backloading: The amount by which the transition is at the back of transition
+//               duration -- higher values will create a more abrupt bounce. Defaults to 1.
+// $property:    The CSS properties to transition (can provide a single property or a list).
+// $duration:    The length of the transition.
+// $delay:       The delay before starting the transition.
+
+// @DETAILS
+// -----------------------------------------------------------------------------------------
+// The three above properties are all totally optional; if they aren't provided, just the
+// transition-timing-function property will be defined.
+
+@mixin color-message-bubble($color, $parent: NULL) {
+    $selector: ".message-bubble";
+    @if $parent != NULL {
+        $selector: "#{unquote($parent)} .message-bubble";
+    }
+
+    #{unquote($selector)} {
+        background-color: $color;
+
+        .message-bubble-whale-tail path {
+            fill: $color;
+        }
+    }
+}
+
+
 
 .message-bubble {
     background-color: $message-bubble-background-color;
