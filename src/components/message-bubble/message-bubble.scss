@@ -50,21 +50,13 @@ $message-bubble-tail-horizontal-offset: (-$message-bubble-tail-width*$message-bu
 
 // @SUMMARY
 // -----------------------------------------------------------------------------------------
-// Creates the spring cubic-bezier transition-timing-function declarations.
+// Does the required declarations to change the color of message bubbles.
 
 // @PARAMETERS
 // -----------------------------------------------------------------------------------------
-// $springiness: The intensity of the spring effect. Defaults to 1.
-// $backloading: The amount by which the transition is at the back of transition
-//               duration -- higher values will create a more abrupt bounce. Defaults to 1.
-// $property:    The CSS properties to transition (can provide a single property or a list).
-// $duration:    The length of the transition.
-// $delay:       The delay before starting the transition.
-
-// @DETAILS
-// -----------------------------------------------------------------------------------------
-// The three above properties are all totally optional; if they aren't provided, just the
-// transition-timing-function property will be defined.
+// $color:       The background color you'd like for the message bubble.
+// $parent:      A parent element that must be present for the message bubble to take on
+//               this background color (optional).
 
 @mixin color-message-bubble($color, $parent: NULL) {
     $selector: ".message-bubble";
