@@ -37,19 +37,6 @@
       });
     };
 
-    MessageController.prototype.getSubsetOfMessages = function(sel) {
-      if (sel == null) {
-        return this.messages;
-      }
-      return this.messages.filter(function() {
-        return $(this).is(sel);
-      });
-    };
-
-    MessageController.prototype.update = function() {
-      return this.messages = $(".message-bubble");
-    };
-
     MessageController.prototype.newMessage = function(msg, options) {
       var $afterElement, $beforeElement, $container, $insertionPoint, $lastDateSection, $lastMsg, $message, $relevantContainerChild, $replyMsg, curTSinDays, defaults, lastTSinDays, time;
       if (options == null) {
@@ -66,11 +53,11 @@
         reply: false
       };
       options = $.extend(defaults, options);
+      $message = $(this.messageBubbleHTML.replace("MESSAGE", msg));
       if (options.append instanceof jQuery || Object.prototype.toString.call(options.append) === "[object String]") {
         options.container = $(options.append);
         options.append = true;
       }
-      $message = $(this.messageBubbleHTML.replace("MESSAGE", msg));
       if (options.timestamp) {
         time = options.artificialDate != null ? new Date(options.artificialDate) : new Date;
         $message.attr("data-" + this.timestampKey, time.getTime());
@@ -137,7 +124,7 @@
       if (options.endMessage != null) {
         options.endMessage = 1 + this.convertPossibleSelectorToIndexNumber(options.endMessage, $messages);
       } else if (options.messageCount) {
-        options.endMessage = options.startMessage + options.messageCount;
+        options.endMessage = options.startMessage + options.messageCount + 1;
       }
       if ((options.endMessage == null) || (0 > (_ref = options.endMessage) && _ref > $messages.length)) {
         options.endMessage = $messages.length;
@@ -188,25 +175,27 @@
     };
 
     MessageController.prototype.removeMessage = function(sel) {
-      var removalsMade, that;
-      removalsMade = 0;
+      var $removalsMade, that;
+      $removalsMade = $();
       that = this;
       this.getSubsetOfMessages(sel).each(function() {
-        that.checkForSectionRemovalAndRemove($(this));
-        return removalsMade++;
+        var $this;
+        $this = $(this);
+        that.checkForSectionRemovalAndRemove($this);
+        return $removalsMade = $removalsMade.add($this);
       });
-      if (!(removalsMade > 0)) {
+      if (!($removalsMade > 0)) {
         this.messages.each(function() {
           var $this;
           $this = $(this);
           if ($this.text().match(sel)) {
             that.checkForSectionRemovalAndRemove($this);
-            return removalsMade++;
+            return $removalsMade = $removalsMade.add($this);
           }
         });
       }
       this.update();
-      return removalsMade;
+      return $removalsMade;
     };
 
     MessageController.prototype.remove = function(sel) {
@@ -218,7 +207,7 @@
     };
 
     MessageController.prototype.checkForSectionRemovalAndRemove = function($elem) {
-      if ($elem.parent().hasClass("message-bubble-date-section") && $elem.siblings(".message-bubble").length < 1) {
+      if ($elem.closest(".message-bubble-date-section").length > 0 && $elem.siblings(".message-bubble").length < 1) {
         return $elem.parent().remove();
       } else {
         return $elem.remove();
@@ -271,6 +260,19 @@
         default:
           return "Saturday";
       }
+    };
+
+    MessageController.prototype.getSubsetOfMessages = function(sel) {
+      if (sel == null) {
+        return this.messages;
+      }
+      return this.messages.filter(function() {
+        return $(this).is(sel);
+      });
+    };
+
+    MessageController.prototype.update = function() {
+      return this.messages = $(".message-bubble");
     };
 
     return MessageController;

@@ -403,8 +403,11 @@ describe("Removing messages", function() {
         $m2 = mc.add("Another message");
         $m3 = mc.add("A final message").addClass("SPECIAL");
 
-        var numberRemoved = mc.remove(".SPECIAL");
-        expect(numberRemoved).toBe(2);
+        var $removed = mc.remove(".SPECIAL");
+        expect($removed.length).toBe(2);
+        expect($removed.index($m1)).toBeGreaterThan(-1);
+        expect($removed.index($m2)).toBeLessThan(0);
+        expect($removed.index($m3)).toBeGreaterThan(-1);
         expect($m1.closest("body").length).toBe(0);
         expect($m2.closest("body").length).toBe(1);
         expect($m3.closest("body").length).toBe(0);
@@ -416,8 +419,11 @@ describe("Removing messages", function() {
         $m2 = mc.add(matchingMessage);
         $m3 = mc.add("A non-matching message");
 
-        var numberRemoved = mc.remove(matchingMessage);
-        expect(numberRemoved).toBe(2);
+        var $removed = mc.remove(matchingMessage);
+        expect($removed.length).toBe(2);
+        expect($removed.index($m1)).toBeGreaterThan(-1);
+        expect($removed.index($m2)).toBeGreaterThan(-1);
+        expect($removed.index($m3)).toBeLessThan(0);
         expect($m1.closest("body").length).toBe(0);
         expect($m2.closest("body").length).toBe(0);
         expect($m3.closest("body").length).toBe(1);
