@@ -1,6 +1,3 @@
-// uxkit - v0.0.5 - 2014.05.20
-
-
 // RESOURCES:
 
 // http://benalman.com/news/2010/03/jquery-special-events/
@@ -265,8 +262,3 @@ drag = $specialEvent.drag = {
 };
 
 $specialEvent.dragstart = $specialEvent.dragend = drag;
-
-
-// -----
-
-

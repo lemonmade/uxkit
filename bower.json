@@ -30,6 +30,7 @@
     "Gruntfile.js"
   ],
   "dependencies": {
-    "jquery": ">= 1.9.0"
+    "jquery": ">= 1.9.0",
+    "jasmine-jquery": "~2.0.3"
   }
 }

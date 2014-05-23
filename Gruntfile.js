@@ -18,10 +18,56 @@ module.exports = function(grunt) {
             target: ["src/springs.js"]
         },
 
+        jasmine: {
+            messageBubble: {
+                src: "dist/components/message-bubble/message-bubble.js",
+                options: {
+                    specs: "spec/message-bubble-spec.js",
+                    vendor: [
+                        "bower_components/jquery/dist/jquery.js",
+                        "bower_components/jasmine-jquery/lib/jasmine-jquery.js"
+                    ],
+                    helpers: [
+                        "spec/helpers/message-bubble-helpers.js"
+                    ],
+                    '--web-security' : false,
+                    '--local-to-remote-url-access' : true,
+                    '--ignore-ssl-errors' : true
+                }
+            }
+        },
+
+        coffee: {
+            build: {
+                src: "src/springs.coffee",
+                dest: "dist/springs.js"
+            },
+
+            components: {
+                files: [{
+                    expand: true,
+                    cwd: "src",
+                    src: ["components/**/*.coffee"],
+                    dest: "dist",
+                    ext: ".js"
+                }]
+            }
+        },
+
         uglify: {
             build: {
-                src: "src/springs.js",
+                src: "dist/springs.js",
                 dest: "dist/springs.min.js"
+            },
+
+            components: {
+                files: [{
+                    expand: true,
+                    cwd: "dist",
+                    src: ["components/**/*.js"],
+                    dest: "dist",
+                    ext: ".min.js"
+                }]
             }
         },
 
@@ -32,6 +78,11 @@ module.exports = function(grunt) {
                         "<%= grunt.template.today(\"yyyy.mm.dd\") %>\n\n\n",
                 separator: "\n\n\n// -----\n\n\n"
             },
+
+            // js: {
+            //     src: "src/*.js",
+            //     dest: "dist/springs.js"
+            // },
 
             springs: {
                 src: [
@@ -92,8 +143,19 @@ module.exports = function(grunt) {
             options: { livereload: false },
 
             js: {
-                files: ["src/springs.js"],
-                tasks: ["uglify", "jshint", "shell"],
+                files: ["src/**/*.js"],
+                tasks: ["jshint", "concat", "uglify", "shell"],
+                options: { spawn: false }
+            },
+
+            coffee: {
+                files: ["src/**/*.coffee"],
+                tasks: ["coffee", "jshint", "concat", "uglify", "shell"]
+            },
+
+            jsSpecs: {
+                files: "spec/**/*.js",
+                tasks: ["jasmine"],
                 options: { spawn: false }
             },
 
@@ -119,9 +181,9 @@ module.exports = function(grunt) {
         shell: {
             copyMain: {
                 command: [
-                    "cp src/springs.js dist/springs.js",
+                    // "cp src/springs.js dist/springs.js",
                     // "cp src/springs.scss dist/springs.scss",
-                    "rsync -av src/components/ dist/components/"
+                    // "rsync -av src/components/ dist/components/"
                 ].join("&&")
             }
         }
@@ -131,6 +193,8 @@ module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
 
     // 3. PERFORM
-    grunt.registerTask("default", ["jshint", "concat", "sass", "autoprefixer", "uglify", "shell"]);
+    grunt.registerTask("default", ["coffee", "jshint", "concat", "sass", "autoprefixer", "uglify", "shell"]);
+    grunt.registerTask("spec", ["jasmine"]);
+    grunt.registerTask("full", ["coffee", "jasmine", "jshint", "concat", "sass", "autoprefixer", "uglify", "shell"]);
 
 }

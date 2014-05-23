@@ -1,74 +1,50 @@
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="message-bubble.css">
     <script src="../../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="message-bubble.js"></script>
+    <script src="../../springs.js"></script>
 </head>
 
-<div class="message-bubble">
-    I'm right on the edge and I don't know what comes next.
-
-    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
-        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
-    </svg>
+<div class="message-bubble-container">
 </div>
-
-<div class="message-bubble no-tail">
-    I'm right on the edge and I don't know what comes next.
-
-    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
-        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
-    </svg>
-</div>
-
-<div class="message-bubble reply">
-    I'm right on the edge and I don't know what comes next.
-
-    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
-        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
-    </svg>
-</div>
-
-<div class="message-bubble reply no-tail">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil, harum iusto nesciunt expedita dicta voluptate asperiores nulla veritatis magnam sed impedit doloribus ipsum obcaecati! Reprehenderit, odio laboriosam officia culpa harum!
-
-    <svg class="message-bubble-whale-tail" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0" y="0" width="116.42" height="97.35" viewBox="0 0 116.42 97.35" enable-background="new 0 0 116.42 97.35" xml:space="preserve">
-        <path fill="#A0A0A0" d="M51.84 0c0 0-1.3 31.1 15.55 57.03 16.85 25.92 49.03 36.29 49.03 36.29s-42.54 9.07-69.76 0C19.44 84.24 0 57.03 0 57.03V0H51.84z"/>
-    </svg>
-</div>
-
 
 <script type="text/javascript">
+$(document).ready(function() {
 
-function MessageBubbles() {
-    this.messageBubbles = $(".message-bubble");
-}
+    var mc = new MessageController();
+    mc.timestamp();
+    mc.add("Sample message 1");
+    var $m2 = mc.add("Sample message 2");
+    var $m3 = mc.add("Sample message 3", { inReplyTo: $m2, artificialDate: (new Date()).getTime() + 80000000 });
+    mc.add("Sample message 4", { inReplyTo: $m3, artificialDate: (new Date()).getTime() + 2*80000000 });
+    mc.add("Sample message 5", { reply: true, artificialDate: (new Date()).getTime() + 2*83000000 });
 
-MessageBubbles.prototype = {
-    setBackgroundColor: function(color, selector) {
-        this.getSubsetOfMessages(selector).each(function() {
+    var $container = $(".message-bubble-container"),
+        maxMovement = $(".message-bubble-timestamp").first().outerWidth();
+    $container.on("dragstart", function(e) {
+        $(".message-bubble").removeClass("return");
+    });
+
+    $container.on("dragend", function(e) {
+        $(".message-bubble").addClass("return").css("transform", "translateX(0)");
+        $(".message-bubble-timestamp").css("opacity", 0);
+        var outerWidth = $container.outerWidth() - parseFloat($container.css("padding-left")) - parseFloat($container.css("padding-right"));
+        $(".message-bubble.reply").each(function() {
             var $this = $(this);
-            $this.css("background-color", color);
-            $this.find(".message-bubble-whale-tail path").css("fill", color);
+            $this.find(".message-bubble-timestamp").css("transform", "translate(" + (outerWidth - $this.outerWidth()) + "px, -50%)");
         });
-    },
+    });
 
-    setTextColor: function(color, selector) {
-        this.getSubsetOfMessages(selector).each(function() {
+    $container.on("drag", function(e) {
+        $(".message-bubble:not(.reply)").css("transform", "translateX(" + Math.max(e.deltaX, -maxMovement) + "px)");
+        $(".message-bubble-timestamp").css("opacity", Math.max(0, e.deltaX/-maxMovement));
+        var $container = $(".message-bubble-container"),
+            outerWidth = $container.outerWidth() - parseFloat($container.css("padding-left")) - parseFloat($container.css("padding-right"));
+        $(".message-bubble.reply").each(function() {
             var $this = $(this);
-            $this.css("color", color);
+            $this.find(".message-bubble-timestamp").css("transform", "translate(" + (outerWidth - $this.outerWidth() - Math.min(maxMovement, -e.deltaX)) + "px, -50%)");
         });
-    },
-
-    getSubsetOfMessages: function(selector) {
-        if(!selector) { return this.messageBubbles; }
-
-        return this.messageBubbles.filter(function() {
-            return $(this).is(selector);
-        });
-    },
-
-    update: function() {
-        this.messageBubbles = $(".message-bubble");
-    }
-}
-
+    });
+});
 </script>
