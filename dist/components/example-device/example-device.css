@@ -1,0 +1,197 @@
+.demo-device {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 15em;
+  -webkit-transition-property: max-width;
+  transition-property: max-width;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+.demo-device * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 30em) {
+  .demo-device {
+    max-width: 25em;
+  }
+}
+
+.demo-device:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0.3em;
+  height: 0.6em;
+  width: 2.6em;
+  margin-left: -1.3em;
+  top: 2.5em;
+  z-index: 10;
+  opacity: 1;
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+@media screen and (min-width: 30em) {
+  .demo-device:before {
+    opacity: 0;
+  }
+}
+
+.demo-device-ratiometer {
+  width: 100%;
+  padding-bottom: 200%;
+  background-color: #3c3c3c;
+  border-radius: 1.75em;
+  overflow: hidden;
+  position: relative;
+  z-index: 5;
+  -webkit-transition-property: padding-bottom;
+  transition-property: padding-bottom;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+@media screen and (min-width: 30em) {
+  .demo-device-ratiometer {
+    padding-bottom: 133%;
+  }
+}
+
+.demo-device-ratiometer:before,
+.demo-device-ratiometer:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+}
+
+.demo-device-ratiometer:before {
+  height: 0.6em;
+  width: 0.6em;
+  top: 1.25em;
+  margin: -0.3em 0 0 -0.3em;
+}
+
+.demo-device-ratiometer:after {
+  height: 2.4em;
+  width: 2.4em;
+  bottom: 1.7em;
+  margin: 0 0 -1.2em -1.2em;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+@media screen and (min-width: 30em) {
+  .demo-device-ratiometer:after {
+    height: 1.7em;
+    width: 1.7em;
+    bottom: 1.25em;
+    margin: 0 0 -0.85em -0.85em;
+  }
+}
+
+.demo-device-content-wrap {
+  position: absolute;
+  top: 3.5em;
+  bottom: 3.5em;
+  left: 0.75em;
+  right: 0.75em;
+  background-color: #f0f0f0;
+  overflow-y: scroll;
+  color: #1e1e1e;
+  padding: 0;
+  -webkit-transition-property: top, bottom, left, right, color, font-size;
+  transition-property: top, bottom, left, right, color, font-size;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+@media screen and (min-width: 30em) {
+  .demo-device-content-wrap {
+    top: 2.5em;
+    bottom: 2.5em;
+    left: 2.5em;
+    right: 2.5em;
+  }
+}
+
+.demo-device-content-wrap > div {
+  font-size: 0.9em;
+  height: 100%;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  padding: 0 1.5em;
+  -webkit-transition-delay: 0.3s;
+  transition-delay: 0.3s;
+  -webkit-transition-property: height, background-color;
+  transition-property: height, background-color;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+.demo-device-content-wrap > div > *:first-child {
+  margin-top: 1.5em;
+}
+
+.demo-device-content-wrap > div > *:last-child {
+  margin-bottom: 1.5em;
+}
+
+.demo-device-content-wrap h5 {
+  font-size: 1.3em;
+  margin-bottom: 0.5em;
+}
+
+.demo-device-content-wrap hr {
+  border-color: rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-transition-property: border-color;
+  transition-property: border-color;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease;
+  transition-timing-function: ease;
+}
+
+.demo-device-content-wrap a:not(.footnote-button) {
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: #627aff;
+}
+
+.demo-device-content-wrap a:not(.footnote-button):hover {
+  background: rgba(98, 122, 255, 0.3);
+}
+
+.demo-device-content-wrap sup {
+  font-size: 0.5em;
+}
