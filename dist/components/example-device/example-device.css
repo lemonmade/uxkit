@@ -1,4 +1,4 @@
-.demo-device {
+.example-device {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -12,19 +12,19 @@
   transition-timing-function: ease;
 }
 
-.demo-device * {
+.example-device * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
 @media screen and (min-width: 30em) {
-  .demo-device {
+  .example-device {
     max-width: 25em;
   }
 }
 
-.demo-device:before {
+.example-device:before {
   content: '';
   display: block;
   position: absolute;
@@ -46,12 +46,12 @@
 }
 
 @media screen and (min-width: 30em) {
-  .demo-device:before {
+  .example-device:before {
     opacity: 0;
   }
 }
 
-.demo-device-ratiometer {
+.example-device-ratiometer {
   width: 100%;
   padding-bottom: 200%;
   background-color: #3c3c3c;
@@ -68,13 +68,13 @@
 }
 
 @media screen and (min-width: 30em) {
-  .demo-device-ratiometer {
+  .example-device-ratiometer {
     padding-bottom: 133%;
   }
 }
 
-.demo-device-ratiometer:before,
-.demo-device-ratiometer:after {
+.example-device-ratiometer:before,
+.example-device-ratiometer:after {
   content: '';
   display: block;
   position: absolute;
@@ -83,14 +83,14 @@
   border-radius: 100%;
 }
 
-.demo-device-ratiometer:before {
+.example-device-ratiometer:before {
   height: 0.6em;
   width: 0.6em;
   top: 1.25em;
   margin: -0.3em 0 0 -0.3em;
 }
 
-.demo-device-ratiometer:after {
+.example-device-ratiometer:after {
   height: 2.4em;
   width: 2.4em;
   bottom: 1.7em;
@@ -104,7 +104,7 @@
 }
 
 @media screen and (min-width: 30em) {
-  .demo-device-ratiometer:after {
+  .example-device-ratiometer:after {
     height: 1.7em;
     width: 1.7em;
     bottom: 1.25em;
@@ -112,7 +112,7 @@
   }
 }
 
-.demo-device-content-wrap {
+.example-device-content-wrapper {
   position: absolute;
   top: 3.5em;
   bottom: 3.5em;
@@ -131,7 +131,7 @@
 }
 
 @media screen and (min-width: 30em) {
-  .demo-device-content-wrap {
+  .example-device-content-wrapper {
     top: 2.5em;
     bottom: 2.5em;
     left: 2.5em;
@@ -139,7 +139,7 @@
   }
 }
 
-.demo-device-content-wrap > div {
+.example-device-content-wrapper > div {
   font-size: 0.9em;
   height: 100%;
   overflow: scroll;
@@ -156,20 +156,20 @@
   transition-timing-function: ease;
 }
 
-.demo-device-content-wrap > div > *:first-child {
+.example-device-content-wrapper > div > *:first-child {
   margin-top: 1.5em;
 }
 
-.demo-device-content-wrap > div > *:last-child {
+.example-device-content-wrapper > div > *:last-child {
   margin-bottom: 1.5em;
 }
 
-.demo-device-content-wrap h5 {
+.example-device-content-wrapper h5 {
   font-size: 1.3em;
   margin-bottom: 0.5em;
 }
 
-.demo-device-content-wrap hr {
+.example-device-content-wrapper hr {
   border-color: rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -181,17 +181,17 @@
   transition-timing-function: ease;
 }
 
-.demo-device-content-wrap a:not(.footnote-button) {
+.example-device-content-wrapper a:not(.footnote-button) {
   border: none;
   margin: 0;
   padding: 0;
   color: #627aff;
 }
 
-.demo-device-content-wrap a:not(.footnote-button):hover {
+.example-device-content-wrapper a:not(.footnote-button):hover {
   background: rgba(98, 122, 255, 0.3);
 }
 
-.demo-device-content-wrap sup {
+.example-device-content-wrapper sup {
   font-size: 0.5em;
 }
