@@ -1,7 +1,51 @@
-daysInMS = 86400000
+# The standard template for a message bubble
+messageBubbleHTML = "<div class='message-bubble'>
+                      <div class='message-bubble-inner'>
+                      MESSAGE
+                      <svg class='message-bubble-whale-tail' width='116px' height='119px' viewBox='0 0 116 119' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' enable-background='new 0 0 116.42 97.35' xml:space='preserve'>
+                      <path fill='#A0A0A0' d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z'></path>
+                      </svg>
+                      </div>
+                      </div>"
 
-class MessageController
+DAYS_IN_MS = 86400000
+$w = $(window)
 
+# transitionEnd
+# ----------------------------------------------------------------------
+# Calls a function when the transition on that jQuery object ends (called only once)
+
+$.fn.transitionEnd = (handler) ->
+    this.one "transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", handler
+
+
+# animationEnd
+# ----------------------------------------------------------------------
+# Calls a function when the animation on that jQuery object ends (called only once)
+
+$.fn.animationEnd = (handler) ->
+    this.one "webkitAnimationEnd oanimationend msAnimationEnd animationend", handler
+
+$.fn.verticalSpaceAvail = ->
+    this.offset().top - $w.scrollTop()
+
+
+
+
+
+#        ___          ___          ___                   ___          ___
+#       /  /\        /  /\        /__/\         ___     /  /\        /  /\
+#      /  /:/       /  /::\       \  \:\       /  /\   /  /::\      /  /::\
+#     /  /:/       /  /:/\:\       \  \:\     /  /:/  /  /:/\:\    /  /:/\:\   ___     ___
+#    /  /:/  ___  /  /:/  \:\  _____\__\:\   /  /:/  /  /:/~/:/   /  /:/  \:\ /__/\   /  /\
+#   /__/:/  /  /\/__/:/ \__\:\/__/::::::::\ /  /::\ /__/:/ /:/___/__/:/ \__\:\\  \:\ /  /:/
+#   \  \:\ /  /:/\  \:\ /  /:/\  \:\~~\~~\//__/:/\:\\  \:\/:::::/\  \:\ /  /:/ \  \:\  /:/
+#    \  \:\  /:/  \  \:\  /:/  \  \:\  ~~~ \__\/  \:\\  \::/~~~~  \  \:\  /:/   \  \:\/:/
+#     \  \:\/:/    \  \:\/:/    \  \:\          \  \:\\  \:\       \  \:\/:/     \  \::/
+#      \  \::/      \  \::/      \  \:\          \__\/ \  \:\       \  \::/       \__\/
+#       \__\/        \__\/        \__\/                 \__\/        \__\/
+
+class MessageBubbleController
     #        ___                   ___          ___
     #       /  /\         ___     /  /\        /  /\
     #      /  /:/        /  /\   /  /::\      /  /::\
@@ -29,21 +73,12 @@ class MessageController
         # Store message bubbles for easy access
         @messages = $(".message-bubble")
 
-        # The standard template for a message bubble
-        @messageBubbleHTML = "<div class='message-bubble'>
-                              <div class='message-bubble-inner'>
-                              MESSAGE
-                              <svg class='message-bubble-whale-tail' width='116px' height='119px' viewBox='0 0 116 119' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' enable-background='new 0 0 116.42 97.35' xml:space='preserve'>
-                              <path fill='#A0A0A0' d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z'></path>
-                              </svg>
-                              </div>
-                              </div>"
-
         # The standard template for a message bubble date section
-        @messageDateSectionHTML = "<section class='message-bubble-date-section' />"
+        @_messageDateSectionHTML = "<section class='message-bubble-date-section' />"
 
         # The data attribute in which the message timestamp is stored
-        @timestampKey = "message-timestamp"
+        @_timestampKey = "message-timestamp"
+        @_timestamper = new Timestamper
 
         # Settings governing whether and how automatic date sections are constructed
         @automateDateSections = if settings.automateDateSections? then settings.automateDateSections else true
@@ -122,7 +157,7 @@ class MessageController
     #       \__\/
 
 
-    # newMessage
+    # newMessageBubble
     # -----------------------------------------------------------------------------------------
 
     # SUMMARY
@@ -135,7 +170,7 @@ class MessageController
     # options:      An object literal containing options for how the message should be added.
     #               see below for the defaults and explanations of each option.
 
-    newMessage: (msg, options = {}) ->
+    newMessageBubble: (msg, options = {}) ->
         defaults =
             after: null             # Element after which the new message should be inserted
             append: true            # If a container element is specified, this decies whether
@@ -146,11 +181,15 @@ class MessageController
             tail: true              # Whether to add a tail to the message (done through omission of no-tail class)
             inReplyTo: null         # A message to which this message is a reply to
             reply: false            # Whether or not this message is a reply (add reply class)
+            animate: null           # Details on how to animate the element in. See below for details.
 
         options = $.extend defaults, options
 
         # Create the new message
-        $message = $(@messageBubbleHTML.replace "MESSAGE", msg)
+        $message = $(messageBubbleHTML.replace "MESSAGE", msg).addClass("temp-hide")
+
+        # Hide element for now so animation can be determined post-DOM addition
+        if options.animate? then $message.css "visibility", "none"
 
         # If append given as an element, set that as the container and append to be true
         # (accounts for a possible alternate interpretation of the append option as the element to which
@@ -164,7 +203,7 @@ class MessageController
         if options.timestamp
             # timestamp with artificalDate if given
             time = if options.artificialDate? then new Date(options.artificialDate) else new Date
-            $message.attr "data-#{@timestampKey}", time.getTime()
+            $message.attr "data-#{@_timestampKey}", time.getTime()
             @timestamp $message
 
         $message.addClass "no-tail" unless options.tail
@@ -187,7 +226,7 @@ class MessageController
         #    with the options.append attribute. (this will insert the message at the end
         #    of a date section if one exists at the end (append) or beginning (prepend)
         #    of the container. This will obviously ignore automating of date sections).
-        # 5. Insertion in the container specified by the init function for MessageController.
+        # 5. Insertion in the container specified by the init function for MessageBubbleController.
         #    (same caveats as for #4).
         # 6. Insertion in .message-bubble-container, if such an element exists
         #    (body if one does not), if no user-passed container is specified.
@@ -205,14 +244,17 @@ class MessageController
             $lastMsg = @messages.last()
 
             # Compare the timestamp of the new message to that of the last message (make it in days)
-            curTSinDays = Math.floor new Date($message.data(@timestampKey)).getTime()/daysInMS
-            lastTSinDays = Math.floor new Date($lastMsg.data(@timestampKey)).getTime()/daysInMS
+            curTSinDays = Math.floor new Date($message.data(@_timestampKey)).getTime()/DAYS_IN_MS
+            lastTSinDays = Math.floor new Date($lastMsg.data(@_timestampKey)).getTime()/DAYS_IN_MS
 
             if curTSinDays - lastTSinDays >= 1
                 # If the difference is >= 1 day, append the new message, in a date section, after the last message
                 # (or the containing date section of the last message, if it is in one)
-                $insertionPoint = if ($lastDateSection = $lastMsg.closest ".message-bubble-date-section").length > 0 then $lastDateSection else $lastMsg;
-                @makeQuickDateSection($message).insertAfter $insertionPoint
+                $insertionPoint =   if($lastDateSection = $lastMsg.closest ".message-bubble-date-section").length > 0
+                                        $lastDateSection
+                                    else
+                                        $lastMsg
+                @_makeQuickDateSection($message).insertAfter $insertionPoint
             else
                 # Otherwise, just insert the new message directly after the previous one
                 $message.insertAfter $lastMsg
@@ -230,16 +272,79 @@ class MessageController
             # Actually append/ prepend the new message
             $message[if options.append then "appendTo" else "prependTo"] $container
 
+        if options.animate? then @_resolveAddAnimation $message, options.animate else $message.removeClass("temp-hide")
+
         # Update the internal storage of messages
-        @update()
+        @_update()
         # Return the message for chaining
         return $message
 
+    # TODO
+    _resolveAddAnimation: ($msg, animate) ->
+        # Animate should be an object with the following structure:
 
-    # add => newMessage
+        # animate =
+        #   props: <string>
+        #   duration: <number>
+        #   delay: <number>
+        #   timingFunction: <string>
+        #   from: <string>
+        #   callback: <function>
+
+        defaults =
+            props: null
+            duration: 400
+            delay: 0
+            timingFunction: "ease"
+            from: "right"
+            callback: null
+
+        options = $.extend defaults, animate
+
+        return null unless options.duration?
+
+        options.timingFunction = "cubic-bezier(0.37, 1.65, 0.305, 0.855)" if options.timingFunction is "spring"
+
+        # TODO: from an element to mimic the messages app
+        if ["right", "left", "top", "bottom"].indexOf(options.from) >= 0
+            # Create an animation from a specified location
+            $container = $msg.parent()
+            endTransition = "transform #{options.duration}#{if options.duration < 10 then "s" else "ms"} #{options.timingFunction}"
+
+            startTranslate = switch options.from
+                when "right" then $container.outerWidth() + $container.offset().left - $msg.offset().left
+                when "left" then -($msg.outerWidth() + $msg.offset().left - $container.offset().left)
+                when "top" then -($msg.outerHeight() + $msg.offset().top - Math.max(window.scrollY, $container.offset().top))
+                when "bottom"
+                    offset = $msg.offset()
+                    Math.min $w.height() - (offset.top - $w.scrollTop()),
+                             $msg.outerHeight() + $msg.offset().top - Math.max(window.scrollY, $container.offset().top)
+
+            startTranslate = switch options.from
+                when "right", "left" then "translate(#{startTranslate}px, 0)"
+                when "top", "bottom" then "translate(0, #{startTranslate}px)"
+
+            $msg.css "transform", startTranslate
+
+            $msg.transitionEnd ->
+                $msg.css
+                    "transition": "",
+                    "-webkit-transition": "",
+                    "transform": ""
+
+            setTimeout ->
+                $msg.removeClass "temp-hide"
+                    .css
+                        "transition": endTransition,
+                        "-webkit-transition": "-webkit-#{endTransition}",
+                        "transform": "translate(0, 0)"
+            , 5
+
+
+    # add => newMessageBubble
     # -----------------------------------------------------------------------------------------
 
-    add: (msg, options) -> return @newMessage msg, options
+    add: (msg, options) -> return @newMessageBubble msg, options
 
 
     # makeDateSection
@@ -268,12 +373,12 @@ class MessageController
         $messages = @messages
 
         # Get the startMessage as a 0-based index of all messages
-        options.startMessage = @convertPossibleSelectorToIndexNumber options.startMessage, $messages
+        options.startMessage = @_convertPossibleSelectorToIndexNumber options.startMessage, $messages
 
         ## If endMessage is given, convert to 0-based index of all messages (and add 1 since
         # slicing is exclusive of last index)
         if options.endMessage?
-            options.endMessage = 1 + @convertPossibleSelectorToIndexNumber options.endMessage, $messages
+            options.endMessage = 1 + @_convertPossibleSelectorToIndexNumber options.endMessage, $messages
 
         # If messageCount given, add that to the startMessage
         else if options.messageCount
@@ -286,10 +391,10 @@ class MessageController
         $messageSet = $messages.slice options.startMessage - 1, options.endMessage
 
         # Desctroy any existing containers of those elements (i.e., make them siblings)
-        @destroyOverlappingSections $messageSet
+        @_destroyOverlappingSections $messageSet
 
         # Wrap all elements in a date section container
-        $messageSet.wrapAll @messageDateSectionHTML
+        $messageSet.wrapAll @_messageDateSectionHTML
 
         $container = $messageSet.parent()
         # Heading text includes the date string passed in the options (if it exists) or weekday of the first message,
@@ -297,12 +402,12 @@ class MessageController
         headingText =
             "<h3 class='message-bubble-heading'>
             <span class='message-bubble-date'>
-            #{options.sectionHeadingDate or @weekdayString $messageSet.first().data @timestampKey}
+            #{options.sectionHeadingDate or @_weekdayString $messageSet.first().data @_timestampKey}
             </span>
              #{ if options.sectionHeadingTime
                     options.sectionHeadingTime
                 else if not options.sectionHeadingDate?
-                    @formatDateString $messageSet.first().data @timestampKey }
+                    @_formatDateString $messageSet.first().data @_timestampKey }
             </h3>"
         # Add the heading to the date section
         $(headingText).prependTo $container
@@ -311,7 +416,7 @@ class MessageController
         return $container
 
 
-    # makeQuickDateSection
+    # _makeQuickDateSection
     # -----------------------------------------------------------------------------------------
 
     # SUMMARY
@@ -324,27 +429,27 @@ class MessageController
     # $messagees:   Set of messages to group together.
 
 
-    makeQuickDateSection: ($messages) ->
-        $dateSection = $(@messageDateSectionHTML)
+    _makeQuickDateSection: ($messages) ->
+        $dateSection = $(@_messageDateSectionHTML)
         # Get date of first message in set
-        date = $messages.first().data @timestampKey
+        date = $messages.first().data @_timestampKey
 
         # Destroy any sections preventing the messages from being siblings
-        @destroyOverlappingSections $messages
+        @_destroyOverlappingSections $messages
         # Append the new elements to the new section
         $messages.appendTo $dateSection
         # Create and append the section heading
         $("<h3 class='message-bubble-heading'>
             <span class='message-bubble-date'>
-            #{@weekdayString date}
+            #{@_weekdayString date}
             </span>
-             #{@formatDateString date}
+             #{@_formatDateString date}
             </h3>").prependTo $dateSection
 
         return $dateSection
 
 
-    # destroyOverlappingSections
+    # _destroyOverlappingSections
     # -----------------------------------------------------------------------------------------
 
     # SUMMARY
@@ -355,7 +460,7 @@ class MessageController
     # -----------------------------------------------------------------------------------------
     # $messages:    Set of messages to review for destroyable date sections.
 
-    destroyOverlappingSections: ($messages) ->
+    _destroyOverlappingSections: ($messages) ->
         $messages.each ->
             $this = $(this)
             $parent = $this.parent()
@@ -367,7 +472,7 @@ class MessageController
                 $this.unwrap()
 
 
-    # convertPossibleSelectorToIndexNumber
+    # _convertPossibleSelectorToIndexNumber
     # -----------------------------------------------------------------------------------------
 
     # SUMMARY
@@ -379,7 +484,7 @@ class MessageController
     # shouldBeNum:      Unknown index-related parameter.
     # $containingSet:   Set within which to compute the index.
 
-    convertPossibleSelectorToIndexNumber: (shouldBeNum, $containingSet) ->
+    _convertPossibleSelectorToIndexNumber: (shouldBeNum, $containingSet) ->
         # If shouldBeNum is null, return null
         return null unless shouldBeNum?
 
@@ -408,7 +513,7 @@ class MessageController
     #       \__\/        \__\/        \__\/        \__\/          ~~~~      \__\/
 
 
-    # removeMessage
+    # removeMessageBubble
     # -----------------------------------------------------------------------------------------
 
     # SUMMARY
@@ -419,18 +524,18 @@ class MessageController
     # -----------------------------------------------------------------------------------------
     # sel:              Selector (or message text) of messages to be removed.
 
-    removeMessage: (sel) ->
+    removeMessageBubbles: (sel) ->
         # Keep track of number of removals so we can search through message text if
         # no elements match selector
         $removalsMade = $()
 
-        # Store MessageController to access its messages
+        # Store MessageBubbleController to access its messages
         that = this
 
         # Remove element and incremenet removals
         @getSubsetOfMessages(sel).each ->
             $this = $(this)
-            that.checkForSectionRemovalAndRemove $this
+            that._checkForSectionRemovalAndRemove $this
             $removalsMade = $removalsMade.add $this
 
         # If no matched elements based on selector...
@@ -439,25 +544,25 @@ class MessageController
                 $this = $(this)
                 # Go through each message and remove it if message text matches sel
                 if $this.text().match sel
-                    that.checkForSectionRemovalAndRemove $this
+                    that._checkForSectionRemovalAndRemove $this
                     $removalsMade = $removalsMade.add $this
 
         # Update internal store
-        @update()
+        @_update()
 
         # Return container of elements removed from DOM
-        return $removalsMade
+        $removalsMade
 
 
-    # remove => removeMessage
-    # delete => removeMessage
+    # remove => removeMessageBubbles
+    # delete => removeMessageBubbles
     # -----------------------------------------------------------------------------------------
 
-    remove: (sel) -> return @removeMessage sel
-    delete: (sel) -> return @removeMessage sel
+    remove: (sel) -> @removeMessageBubbles sel
+    delete: (sel) -> @removeMessageBubbles sel
 
 
-    # checkForSectionRemovalAndRemove
+    # _checkForSectionRemovalAndRemove
     # -----------------------------------------------------------------------------------------
 
     # SUMMARY
@@ -469,7 +574,7 @@ class MessageController
     # -----------------------------------------------------------------------------------------
     # $elem:            (jQuery) element to check.
 
-    checkForSectionRemovalAndRemove: ($elem) ->
+    _checkForSectionRemovalAndRemove: ($elem) ->
         # If the element is in a date section and has no sibling messages, remove the section
         if $elem.closest(".message-bubble-date-section").length > 0 and
             $elem.siblings(".message-bubble").length < 1
@@ -507,19 +612,108 @@ class MessageController
         # Convert passed selector to a jQuery selection
         $matching = if sel instanceof jQuery then sel else @getSubsetOfMessages sel
 
-        # Store MessageController
+        # Store MessageBubbleController
         that = this
 
         $matching.each ->
             $this = $(this)
             # Get the timestamp data attribute
-            timestamp = $this.data that.timestampKey
+            timestamp = $this.data that._timestampKey
             date = new Date timestamp
 
             # If the timestamp is valid...
             if timestamp and (not (new Date(timestamp) + "").match /Invalid/gi)
                 # Append the timestamp span (contains the time the message was timed at)
-                $this.append("<span class='message-bubble-timestamp'>#{that.formatDateString timestamp}</span>")
+                $this.append("<span class='message-bubble-timestamp'>#{that._formatDateString timestamp}</span>")
+
+
+
+    _formatDateString: (date) ->
+        @_timestamper.formatDateString date
+
+    _weekdayString: (date) ->
+        @_timestamper.weekdayString date
+
+
+
+    #        ___          ___                       ___       ___          ___
+    #       /__/\        /  /\                     /  /\     /  /\        /  /\
+    #       \  \:\      /  /:/_                   /  /::\   /  /:/_      /  /::\
+    #        \__\:\    /  /:/ /\   ___     ___   /  /:/\:\ /  /:/ /\    /  /:/\:\
+    #    ___ /  /::\  /  /:/ /:/_ /__/\   /  /\ /  /:/~/://  /:/ /:/_  /  /:/~/:/
+    #   /__/\  /:/\:\/__/:/ /:/ /\\  \:\ /  /://__/:/ /://__/:/ /:/ /\/__/:/ /:/___
+    #   \  \:\/:/__\/\  \:\/:/ /:/ \  \:\  /:/ \  \:\/:/ \  \:\/:/ /:/\  \:\/:::::/
+    #    \  \::/      \  \::/ /:/   \  \:\/:/   \  \::/   \  \::/ /:/  \  \::/~~~~
+    #     \  \:\       \  \:\/:/     \  \::/     \  \:\    \  \:\/:/    \  \:\
+    #      \  \:\       \  \::/       \__\/       \  \:\    \  \::/      \  \:\
+    #       \__\/        \__\/                     \__\/     \__\/        \__\/
+
+
+    # getSubsetOfMessages
+    # -----------------------------------------------------------------------------------------
+
+    # SUMMARY
+    # -----------------------------------------------------------------------------------------
+    # Get a subset of all elements that match the passed CSS selector
+
+    # PARAMETERS
+    # -----------------------------------------------------------------------------------------
+    # sel:          The selector to search for. Optional. If omitted, all messages are returned.
+
+    getSubsetOfMessages: (sel) ->
+        # if sel is undefined, return all messages
+        return @messages unless sel?
+        return @messages.filter ->
+            return $(this).is sel
+
+
+    # _update
+    # -----------------------------------------------------------------------------------------
+
+    # SUMMARY
+    # -----------------------------------------------------------------------------------------
+    # Update the internally stored messages collection (for quick access)
+
+    _update: ->
+        @messages = $(".message-bubble")
+
+
+
+
+    # TODO
+    typing: (state = true) ->
+        $typingIndicators = @container.children(".typing-indicator")
+
+        if state
+
+            # add new typing indicator if it doesn't already exist
+            if $typingIndicators.length < 1
+                $("<div class='typing-indicator'><div class='typing-indicator-dot' /></div>").appendTo @container
+            # Otherwise, return the old indicator
+            else
+                $typingIndicators
+
+        else
+            $typingIndicators.remove()
+
+
+
+
+
+#        ___          ___                       ___       ___          ___
+#       /__/\        /  /\                     /  /\     /  /\        /  /\
+#       \  \:\      /  /:/_                   /  /::\   /  /:/_      /  /::\
+#        \__\:\    /  /:/ /\   ___     ___   /  /:/\:\ /  /:/ /\    /  /:/\:\
+#    ___ /  /::\  /  /:/ /:/_ /__/\   /  /\ /  /:/~/://  /:/ /:/_  /  /:/~/:/
+#   /__/\  /:/\:\/__/:/ /:/ /\\  \:\ /  /://__/:/ /://__/:/ /:/ /\/__/:/ /:/___
+#   \  \:\/:/__\/\  \:\/:/ /:/ \  \:\  /:/ \  \:\/:/ \  \:\/:/ /:/\  \:\/:::::/
+#    \  \::/      \  \::/ /:/   \  \:\/:/   \  \::/   \  \::/ /:/  \  \::/~~~~
+#     \  \:\       \  \:\/:/     \  \::/     \  \:\    \  \:\/:/    \  \:\
+#      \  \:\       \  \::/       \__\/       \  \:\    \  \::/      \  \:\
+#       \__\/        \__\/                     \__\/     \__\/        \__\/
+
+class Timestamper
+    constructor: ->
 
 
     # formatDateString
@@ -577,47 +771,18 @@ class MessageController
 
 
 
-    #        ___          ___                       ___       ___          ___
-    #       /__/\        /  /\                     /  /\     /  /\        /  /\
-    #       \  \:\      /  /:/_                   /  /::\   /  /:/_      /  /::\
-    #        \__\:\    /  /:/ /\   ___     ___   /  /:/\:\ /  /:/ /\    /  /:/\:\
-    #    ___ /  /::\  /  /:/ /:/_ /__/\   /  /\ /  /:/~/://  /:/ /:/_  /  /:/~/:/
-    #   /__/\  /:/\:\/__/:/ /:/ /\\  \:\ /  /://__/:/ /://__/:/ /:/ /\/__/:/ /:/___
-    #   \  \:\/:/__\/\  \:\/:/ /:/ \  \:\  /:/ \  \:\/:/ \  \:\/:/ /:/\  \:\/:::::/
-    #    \  \::/      \  \::/ /:/   \  \:\/:/   \  \::/   \  \::/ /:/  \  \::/~~~~
-    #     \  \:\       \  \:\/:/     \  \::/     \  \:\    \  \:\/:/    \  \:\
-    #      \  \:\       \  \::/       \__\/       \  \:\    \  \::/      \  \:\
-    #       \__\/        \__\/                     \__\/     \__\/        \__\/
 
 
-    # getSubsetOfMessages
-    # -----------------------------------------------------------------------------------------
+#        ___                       ___                       ___
+#       /  /\                     /  /\        _____        /  /\
+#      /  /:/_                   /  /::\      /  /::\      /  /::\
+#     /  /:/ /\   ___     ___   /  /:/\:\    /  /:/\:\    /  /:/\:\   ___     ___
+#    /  /:/_/::\ /__/\   /  /\ /  /:/  \:\  /  /:/~/::\  /  /:/~/::\ /__/\   /  /\
+#   /__/:/__\/\:\\  \:\ /  /://__/:/ \__\:\/__/:/ /:/\:|/__/:/ /:/\:\\  \:\ /  /:/
+#   \  \:\ /~~/:/ \  \:\  /:/ \  \:\ /  /:/\  \:\/:/~/:/\  \:\/:/__\/ \  \:\  /:/
+#    \  \:\  /:/   \  \:\/:/   \  \:\  /:/  \  \::/ /:/  \  \::/       \  \:\/:/
+#     \  \:\/:/     \  \::/     \  \:\/:/    \  \:\/:/    \  \:\        \  \::/
+#      \  \::/       \__\/       \  \::/      \  \::/      \  \:\        \__\/
+#       \__\/                     \__\/        \__\/        \__\/
 
-    # SUMMARY
-    # -----------------------------------------------------------------------------------------
-    # Get a subset of all elements that match the passed CSS selector
-
-    # PARAMETERS
-    # -----------------------------------------------------------------------------------------
-    # sel:          The selector to search for. Optional. If omitted, all messages are returned.
-
-    getSubsetOfMessages: (sel) ->
-        # if sel is undefined, return all messages
-        return @messages unless sel?
-        return @messages.filter ->
-            return $(this).is sel
-
-
-    # update
-    # -----------------------------------------------------------------------------------------
-
-    # SUMMARY
-    # -----------------------------------------------------------------------------------------
-    # Update the internally stored messages collection (for quick access)
-
-    update: ->
-        @messages = $(".message-bubble")
-
-
-# Add to global namespace
-window.MessageController = MessageController
+window.MessageBubbleController = MessageBubbleController

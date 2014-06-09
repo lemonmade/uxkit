@@ -1,14 +1,14 @@
-//                    ___          ___                     ___                                    ___          ___
-//        ___        /  /\        /  /\       ___         /  /\        _____                     /  /\        /  /\
-//       /__/\      /  /::\      /  /::\     /  /\       /  /::\      /  /::\                   /  /:/_      /  /:/_
-//       \  \:\    /  /:/\:\    /  /:/\:\   /  /:/      /  /:/\:\    /  /:/\:\   ___     ___   /  /:/ /\    /  /:/ /\
-//        \  \:\  /  /:/~/::\  /  /:/~/:/  /__/::\     /  /:/~/::\  /  /:/~/::\ /__/\   /  /\ /  /:/ /:/_  /  /:/ /::\
-//    ___  \__\:\/__/:/ /:/\:\/__/:/ /:/___\__\/\:\__ /__/:/ /:/\:\/__/:/ /:/\:|\  \:\ /  /://__/:/ /:/ /\/__/:/ /:/\:\
-//   /__/\ |  |:|\  \:\/:/__\/\  \:\/:::::/   \  \:\/\\  \:\/:/__\/\  \:\/:/~/:/ \  \:\  /:/ \  \:\/:/ /:/\  \:\/:/~/:/
-//   \  \:\|  |:| \  \::/      \  \::/~~~~     \__\::/ \  \::/      \  \::/ /:/   \  \:\/:/   \  \::/ /:/  \  \::/ /:/
-//    \  \:\__|:|  \  \:\       \  \:\         /__/:/   \  \:\       \  \:\/:/     \  \::/     \  \:\/:/    \__\/ /:/
-//     \__\::::/    \  \:\       \  \:\        \__\/     \  \:\       \  \::/       \__\/       \  \::/       /__/:/
-//         ~~~~      \__\/        \__\/                   \__\/        \__\/                     \__\/        \__\/
+//                    ___          ___          ___
+//        ___        /  /\        /  /\        /  /\
+//       /__/\      /  /::\      /  /::\      /  /:/_
+//       \  \:\    /  /:/\:\    /  /:/\:\    /  /:/ /\
+//        \  \:\  /  /:/~/::\  /  /:/~/:/   /  /:/ /::\
+//    ___  \__\:\/__/:/ /:/\:\/__/:/ /:/___/__/:/ /:/\:\
+//   /__/\ |  |:|\  \:\/:/__\/\  \:\/:::::/\  \:\/:/~/:/
+//   \  \:\|  |:| \  \::/      \  \::/~~~~  \  \::/ /:/
+//    \  \:\__|:|  \  \:\       \  \:\       \__\/ /:/
+//     \__\::::/    \  \:\       \  \:\        /__/:/
+//         ~~~~      \__\/        \__\/        \__\/
 
 $message-bubble-background-color: rgb(25, 131, 250);
 $message-bubble-green-background-color: rgb(81, 198, 38);
@@ -34,7 +34,7 @@ $message-bubble-tail-width: 0.06*$message-bubble-max-width;
 $message-bubble-tail-default-width: 116.42;
 $message-bubble-tail-default-height: 97.35;
 $message-bubble-tail-aspect-ratio: ($message-bubble-tail-default-width/$message-bubble-tail-default-height);
-$message-bubble-tail-start-point-x: (63.84/$message-bubble-tail-default-width);
+$message-bubble-tail-start-point-x: 0.52;
 $message-bubble-tail-horizontal-offset: (-$message-bubble-tail-width*$message-bubble-tail-start-point-x);
 
 
@@ -50,15 +50,15 @@ $message-bubble-tail-horizontal-offset: (-$message-bubble-tail-width*$message-bu
 //      \  \:\        \__\/     |  |:|       \__\/     \  \:\        /__/:/
 //       \__\/                  |__|/                   \__\/        \__\/
 
-// @MIXIN
+// MIXIN
 // color-message-bubble()
 // -----------------------------------------------------------------------------------------
 
-// @SUMMARY
+// SUMMARY
 // -----------------------------------------------------------------------------------------
 // Does the required declarations to change the color of message bubbles.
 
-// @PARAMETERS
+// PARAMETERS
 // -----------------------------------------------------------------------------------------
 // $color:       The background color you'd like for the message bubble.
 // $parent:      A parent element that must be present for the message bubble to take on
@@ -92,109 +92,198 @@ $basic-spring:          cubic-bezier(#{$basic-spring-x1},
                                      #{$basic-spring-x2},
                                      #{$basic-spring-y2});
 
-.message-bubble.return {
-    transition: transform 0.4s ease;
 
-    .message-bubble-timestamp { transition: opacity 0.4s ease, transform 0.4s ease; }
-}
-
-
-
-.message-bubble-container {
+// Clearfix
+%clearfix {
     &:after {
         content: '';
         display: block;
         clear: both;
     }
+}
+
+
+//        ___          ___          ___                   ___                     ___
+//       /  /\        /  /\        /__/\         ___     /  /\       ___         /__/\
+//      /  /:/       /  /::\       \  \:\       /  /\   /  /::\     /  /\        \  \:\
+//     /  /:/       /  /:/\:\       \  \:\     /  /:/  /  /:/\:\   /  /:/         \  \:\
+//    /  /:/  ___  /  /:/  \:\  _____\__\:\   /  /:/  /  /:/~/::\ /__/::\     _____\__\:\
+//   /__/:/  /  /\/__/:/ \__\:\/__/::::::::\ /  /::\ /__/:/ /:/\:\\__\/\:\__ /__/::::::::\
+//   \  \:\ /  /:/\  \:\ /  /:/\  \:\~~\~~\//__/:/\:\\  \:\/:/__\/   \  \:\/\\  \:\~~\~~\/
+//    \  \:\  /:/  \  \:\  /:/  \  \:\  ~~~ \__\/  \:\\  \::/         \__\::/ \  \:\  ~~~
+//     \  \:\/:/    \  \:\/:/    \  \:\          \  \:\\  \:\         /__/:/   \  \:\
+//      \  \::/      \  \::/      \  \:\          \__\/ \  \:\        \__\/     \  \:\
+//       \__\/        \__\/        \__\/                 \__\/                   \__\/
+
+.message-bubble-container {
     border: 1px solid black;
     padding: 1em;
     overflow: hidden;
 
-    .message-bubble { float: right; clear: both; }
-    .message-bubble.reply { float: left; }
+    @extend %clearfix;
+}
+
+.message-bubble-date-section {
+    @extend %clearfix;
 }
 
 
-.message-bubble {
-    background-color: $message-bubble-background-color;
-    max-width: calc(100% - #{$message-bubble-timestamp-width});
+
+//                     ___                                                 ___
+//       _____        /__/\        _____        _____                     /  /\
+//      /  /::\       \  \:\      /  /::\      /  /::\                   /  /:/_
+//     /  /:/\:\       \  \:\    /  /:/\:\    /  /:/\:\   ___     ___   /  /:/ /\
+//    /  /:/~/::\  ___  \  \:\  /  /:/~/::\  /  /:/~/::\ /__/\   /  /\ /  /:/ /:/_
+//   /__/:/ /:/\:|/__/\  \__\:\/__/:/ /:/\:|/__/:/ /:/\:|\  \:\ /  /://__/:/ /:/ /\
+//   \  \:\/:/~/:/\  \:\ /  /:/\  \:\/:/~/:/\  \:\/:/~/:/ \  \:\  /:/ \  \:\/:/ /:/
+//    \  \::/ /:/  \  \:\  /:/  \  \::/ /:/  \  \::/ /:/   \  \:\/:/   \  \::/ /:/
+//     \  \:\/:/    \  \:\/:/    \  \:\/:/    \  \:\/:/     \  \::/     \  \:\/:/
+//      \  \::/      \  \::/      \  \::/      \  \::/       \__\/       \  \::/
+//       \__\/        \__\/        \__\/        \__\/                     \__\/
+
+// Generic shape that can apply to the bubbles
+// and typing indicators
+%bubble-shape {
+    // POSITION
     position: relative;
-    border-radius: $message-bubble-border-radius;
-    padding: $message-bubble-padding;
-    color: $message-bubble-text-color;
-    line-height: 1.3;
-    font-family: Helvetica;
+    float: right;
+    clear: both;
+
+    // DISPLAY AND SIZING
     margin-top: $message-bubble-margin-top;
 
+    // BACKDROP
+    border-radius: $message-bubble-border-radius;
+
+    // TEXT
+    line-height: 1.3;
+    font-family: Helvetica;
+}
+
+// Generic styles for a replying bubble
+%reply-style-bubble {
+    background-color: $message-bubble-reply-background-color;
+    color: $message-bubble-reply-text-color;
+    float: left;
+}
+
+.message-bubble {
+    @extend %bubble-shape;
+
+    padding: $message-bubble-padding;
+    max-width: calc(100% - #{$message-bubble-timestamp-width});
+    background-color: $message-bubble-background-color;
+    color: $message-bubble-text-color;
+
+    // ADJUSTMENTS
+
     &.reply {
-        background-color: $message-bubble-reply-background-color;
-        color: $message-bubble-reply-text-color;
+        @extend %reply-style-bubble;
 
         .message-bubble-whale-tail {
             right: auto;
-            left: $message-bubble-tail-horizontal-offset;
-            transform: scaleX(-1);
+            left: -#{$message-bubble-tail-width + $message-bubble-tail-horizontal-offset};
+            transform: scaleX(-1); // flip horizontally
 
-            path {
-                fill: $message-bubble-reply-background-color;
-            }
+            path { fill: $message-bubble-reply-background-color; }
         }
     }
 
-    &.no-tail {
-        .message-bubble-whale-tail { display: none; }
-    }
+    &.no-tail .message-bubble-whale-tail { display: none; }
 
+    // Select replies directly following other replies
     &.reply + .message-bubble.reply {
         margin-top: ($message-bubble-margin-top/2);
     }
 
+    // Select non-replies directly following other non-replies
     &:not(.reply) + .message-bubble:not(.reply) {
         margin-top: ($message-bubble-margin-top/2);
+    }
+
+    // For post-drag transitions
+    &.return {
+        transition: transform 0.4s ease;
+
+        .message-bubble-timestamp { transition: opacity 0.4s ease, transform 0.4s ease; }
+    }
+
+    &.temp-hide {
+        visibility: hidden;
+        transition: none;
     }
 
 
 
     .message-bubble-inner {
+        // Constrain the message bubble to a reasonable size
         max-width: $message-bubble-max-width;
     }
 
     p {
+        // Prevent extra top/ bottom padding within bubble
         &:first-of-type { margin-top: 0; }
         &:last-of-type { margin-bottom: 0; }
     }
 
+    // The little tail indicating directionality of the bubble
     .message-bubble-whale-tail {
+        // POSITION
         position: absolute;
         right: $message-bubble-tail-horizontal-offset;
         bottom: 0;
+
+        // DISPLAY AND SIZING
         width: $message-bubble-tail-width;
         height: $message-bubble-tail-width / $message-bubble-tail-aspect-ratio;
 
-        path {
-            fill: $message-bubble-background-color;
-        }
+        path { fill: $message-bubble-background-color; }
     }
 
+    // The time at which the message was sent/ received
     .message-bubble-timestamp {
+        // POSITION
         position: absolute;
         left: 100%; top: 50%;
         transform: translateY(-50%);
-        color: $message-bubble-extra-info-color;
-        opacity: 0;
+
+        // DISPLAN AND SIZING
         display: block;
-        font-size: $message-bubble-extra-info-font-size;
         width: $message-bubble-timestamp-width;
+
+        // BACKDROP
+        opacity: 0;
+
+        // TEXT
+        color: $message-bubble-extra-info-color;
+        font-size: $message-bubble-extra-info-font-size;
         text-align: center;
     }
 }
 
+
+
+//        ___          ___          ___         _____                    ___          ___
+//       /__/\        /  /\        /  /\       /  /::\      ___         /__/\        /  /\
+//       \  \:\      /  /:/_      /  /::\     /  /:/\:\    /  /\        \  \:\      /  /:/_
+//        \__\:\    /  /:/ /\    /  /:/\:\   /  /:/  \:\  /  /:/         \  \:\    /  /:/ /\
+//    ___ /  /::\  /  /:/ /:/_  /  /:/~/::\ /__/:/ \__\:|/__/::\     _____\__\:\  /  /:/_/::\
+//   /__/\  /:/\:\/__/:/ /:/ /\/__/:/ /:/\:\\  \:\ /  /:/\__\/\:\__ /__/::::::::\/__/:/__\/\:\
+//   \  \:\/:/__\/\  \:\/:/ /:/\  \:\/:/__\/ \  \:\  /:/    \  \:\/\\  \:\~~\~~\/\  \:\ /~~/:/
+//    \  \::/      \  \::/ /:/  \  \::/       \  \:\/:/      \__\::/ \  \:\  ~~~  \  \:\  /:/
+//     \  \:\       \  \:\/:/    \  \:\        \  \::/       /__/:/   \  \:\       \  \:\/:/
+//      \  \:\       \  \::/      \  \:\        \__\/        \__\/     \  \:\       \  \::/
+//       \__\/        \__\/        \__\/                                \__\/        \__\/
+
 .message-bubble-heading {
+    // DISPLAY AND SIZING
+    padding: 2em 0 0;
+    margin: 0;
     clear: both;
+
+    // TEXT
     font-family: Helvetica;
     text-align: center;
-    margin: 0;
-    padding: 2em 0 0;
     font-size: $message-bubble-extra-info-font-size;
     color: $message-bubble-extra-info-color;
     font-weight: normal;
@@ -202,5 +291,82 @@ $basic-spring:          cubic-bezier(#{$basic-spring-x1},
     .message-bubble-date {
         font-weight: bold;
         color: darken($message-bubble-extra-info-color, 10%);
+    }
+}
+
+
+
+
+.typing-indicator {
+    @extend %bubble-shape;
+    @extend %reply-style-bubble;
+
+    padding: 0.8em 1.6em;
+
+    &:before,
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 0.8em;
+        width: 0.8em;
+        border-radius: 0.8em;
+        left: -0.15em;
+        bottom: -0.15em;
+        background-color: $message-bubble-reply-background-color;
+    }
+
+    &:after {
+        height: 0.45em;
+        width: 0.45em;
+        left: -0.5em;
+        bottom: -0.5em;
+    }
+}
+
+$typing-indicator-dot-size: 0.55em;
+$typing-indicator-dot-start-color: rgba(black, 0.1);
+$typing-indicator-dot-end-color: rgba(black, 0.3);
+$typing-indicator-dot-inner-spacing: 0.3em;
+$typing-indicator-dot-animation: typing-indicator-dot 1.8s ease infinite;
+$typing-indicator-dot-animation-delay-interval: 0.3s;
+
+@keyframes typing-indicator-dot {
+    0% { background-color: $typing-indicator-dot-start-color; }
+    35% { background-color: $typing-indicator-dot-end-color; }
+    70% { background-color: $typing-indicator-dot-start-color; }
+}
+
+.typing-indicator-dot {
+    display: block;
+    position: relative;
+    height: $typing-indicator-dot-size;
+    width: $typing-indicator-dot-size;
+    border-radius: $typing-indicator-dot-size;
+    background-color: $typing-indicator-dot-start-color;
+
+    animation: $typing-indicator-dot-animation;
+    animation-delay: $typing-indicator-dot-animation-delay-interval;
+
+    &:before,
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: $typing-indicator-dot-size;
+        width: $typing-indicator-dot-size;
+        border-radius: $typing-indicator-dot-size;
+        background-color: $typing-indicator-dot-start-color;
+        top: 0;
+        animation: $typing-indicator-dot-animation;
+    }
+
+    &:before {
+        left: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
+    }
+
+    &:after {
+        right: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
+        animation-delay: (2*$typing-indicator-dot-animation-delay-interval);
     }
 }

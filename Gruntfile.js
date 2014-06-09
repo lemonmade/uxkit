@@ -4,20 +4,6 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
-        jshint: {
-            options: {
-                reporter: require("jshint-stylish"),
-
-                globals: {
-                    console:    true,
-                    $:          true,
-                    jQuery:     true,
-                }
-            },
-
-            target: ["src/springs.js"]
-        },
-
         jasmine: {
             messageBubble: {
                 src: "dist/components/message-bubble/message-bubble.js",
@@ -27,13 +13,28 @@ module.exports = function(grunt) {
                         "bower_components/jquery/dist/jquery.js",
                         "bower_components/jasmine-jquery/lib/jasmine-jquery.js"
                     ],
-                    helpers: [
-                        "spec/helpers/message-bubble-helpers.js"
-                    ],
-                    '--web-security' : false,
-                    '--local-to-remote-url-access' : true,
-                    '--ignore-ssl-errors' : true
+                    helpers: "spec/helpers/message-bubble-helpers.js",
+                    styles: "dist/components/message-bubble/message-bubble.css"
                 }
+            },
+
+            toggleSwitch: {
+                src: "dist/components/toggle-switch/toggle-switch.js",
+                options: {
+                    specs: "spec/toggle-switch-spec.js",
+                    vendor: [
+                        "bower_components/jquery/dist/jquery.js",
+                        "bower_components/jasmine-jquery/lib/jasmine-jquery.js"
+                    ],
+                    helpers: "spec/helpers/toggle-switch-helpers.js",
+                    styles: "dist/components/toggle-switch/toggle-switch.css"
+                }
+            },
+
+            options: {
+                "--web-security" : false,
+                "--local-to-remote-url-access" : true,
+                "--ignore-ssl-errors" : true
             }
         },
 
@@ -41,6 +42,16 @@ module.exports = function(grunt) {
             build: {
                 src: "src/springs.coffee",
                 dest: "dist/springs.js"
+            },
+
+            tests: {
+                files: [{
+                    expand: true,
+                    cwd: "spec",
+                    src: ["**/*.coffee"],
+                    dest: "spec",
+                    ext: ".js"
+                }]
             },
 
             components: {
@@ -51,6 +62,16 @@ module.exports = function(grunt) {
                     dest: "dist",
                     ext: ".js"
                 }]
+            }
+        },
+
+        coffeelint: {
+            components: ["src/**/*.coffee"],
+            spec: ["spec/**/*.coffee"],
+            options: {
+                // See options here: https://github.com/dotcypress/CoffeeLint/blob/master/CoffeeLint.sublime-settings
+                "indentation": { value: 4, level: "warn" },
+                "max_line_length": { value: 120, level: "warn" }
             }
         },
 
@@ -143,14 +164,20 @@ module.exports = function(grunt) {
             options: { livereload: false },
 
             js: {
-                files: ["src/**/*.js"],
-                tasks: ["jshint", "concat", "uglify", "shell"],
+                files: ["dist/**/*.js"],
+                tasks: ["concat", "shell"],
                 options: { spawn: false }
             },
 
             coffee: {
                 files: ["src/**/*.coffee"],
-                tasks: ["coffee", "jshint", "concat", "uglify", "shell"]
+                tasks: ["coffee:components", "coffee:build"]
+            },
+
+            coffeeSpecs: {
+                files: "spec/**/*.coffee",
+                tasks: ["coffee:tests"],
+                options: { spawn: false }
             },
 
             jsSpecs: {
@@ -161,7 +188,7 @@ module.exports = function(grunt) {
 
             scss: {
                 files: ["src/**/*.scss", "test/**/*.scss"],
-                tasks: ["concat", "sass", "shell", "autoprefixer"],
+                tasks: ["concat", "sass", "autoprefixer", "shell"],
                 options: { spawn: false }
             },
 
@@ -183,7 +210,7 @@ module.exports = function(grunt) {
                 command: [
                     // "cp src/springs.js dist/springs.js",
                     // "cp src/springs.scss dist/springs.scss",
-                    // "rsync -av src/components/ dist/components/"
+                    "rsync -av src/components/ dist/components/"
                 ].join("&&")
             }
         }
@@ -193,8 +220,8 @@ module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
 
     // 3. PERFORM
-    grunt.registerTask("default", ["coffee", "jshint", "concat", "sass", "autoprefixer", "uglify", "shell"]);
-    grunt.registerTask("spec", ["jasmine"]);
-    grunt.registerTask("full", ["coffee", "jasmine", "jshint", "concat", "sass", "autoprefixer", "uglify", "shell"]);
+    grunt.registerTask("default", ["coffeelint", "coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "uglify", "shell"]);
+    grunt.registerTask("tests", ["coffee:tests", "jasmine"]);
+    grunt.registerTask("full", ["coffeelint", "coffee", "jasmine", "concat", "sass", "autoprefixer", "uglify", "shell"]);
 
 }

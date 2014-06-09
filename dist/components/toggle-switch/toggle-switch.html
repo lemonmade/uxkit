@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="toggle-switch.css">
+    <script src="../../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="toggle-switch.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+
+var tsc, $ts;
+
+$(document).ready(function() {
+    tsc = new ToggleSwitchController();
+    for(var i = 1; i <= 1; i++) {
+        var color = "rgb(" + Math.ceil(255*Math.random()) + ", " + Math.ceil(255*Math.random()) + ", " + Math.ceil(255*Math.random()) + ")";
+        $ts = tsc.add();
+    }
+});
+
+</script>
+
+</body>
+</html>
