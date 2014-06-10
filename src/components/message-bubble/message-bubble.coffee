@@ -1,13 +1,3 @@
-# The standard template for a message bubble
-messageBubbleHTML = "<div class='message-bubble'>
-                      <div class='message-bubble-inner'>
-                      MESSAGE
-                      <svg class='message-bubble-whale-tail' width='116px' height='119px' viewBox='0 0 116 119' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' enable-background='new 0 0 116.42 97.35' xml:space='preserve'>
-                      <path fill='#A0A0A0' d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z'></path>
-                      </svg>
-                      </div>
-                      </div>"
-
 DAYS_IN_MS = 86400000
 $w = $(window)
 
@@ -28,6 +18,23 @@ $.fn.animationEnd = (handler) ->
 
 $.fn.verticalSpaceAvail = ->
     this.offset().top - $w.scrollTop()
+
+
+
+
+
+class MessageBubble
+    constructor: ->
+
+# The standard template for a message bubble
+MessageBubble.template =    "<div class='message-bubble'>
+                                <div class='message-bubble-inner'>
+                                MESSAGE
+                                <svg class='message-bubble-whale-tail' width='116px' height='119px' viewBox='0 0 116 119' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' enable-background='new 0 0 116.42 97.35' xml:space='preserve'>
+                                <path fill='#A0A0A0' d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z'></path>
+                                </svg>
+                                </div>
+                            </div>"
 
 
 
@@ -186,7 +193,7 @@ class MessageBubbleController
         options = $.extend defaults, options
 
         # Create the new message
-        $message = $(messageBubbleHTML.replace "MESSAGE", msg).addClass("temp-hide")
+        $message = $(MessageBubble.template.replace "MESSAGE", msg).addClass("temp-hide")
 
         # Hide element for now so animation can be determined post-DOM addition
         if options.animate? then $message.css "visibility", "none"

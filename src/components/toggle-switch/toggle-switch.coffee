@@ -1,8 +1,3 @@
-toggleSwitchHTML = "<div class='toggle-switch' tabindex='0'>
-                        <input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'>
-                        <label for='TOGGLE_ID'>LABEL</label>
-                    </div>"
-
 #                               ___          ___
 #        ___       ___         /  /\        /__/\
 #       /__/\     /  /\       /  /:/_      _\_ \:\
@@ -266,6 +261,10 @@ class ToggleSwitch
         else
             @_input.prop property
 
+ToggleSwitch.template = "<div class='toggle-switch' tabindex='0'>
+                            <input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'>
+                            <label for='TOGGLE_ID'>LABEL</label>
+                        </div>"
 
 
 
@@ -353,7 +352,7 @@ class ToggleSwitchController
         toggleID = if options.id? then options.id else "toggle-switch-#{@_uniqueID()}"
 
         # Replace HTML template items with relevant strings
-        toggleHTML = toggleSwitchHTML.replace /(TOGGLE_ID|LABEL|NAME)/g, (match) ->
+        toggleHTML = ToggleSwitch.template.replace /(TOGGLE_ID|LABEL|NAME)/g, (match) ->
             switch match
                 when "TOGGLE_ID" then toggleID
                 when "LABEL" then options.label

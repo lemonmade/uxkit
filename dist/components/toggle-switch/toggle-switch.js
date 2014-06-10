@@ -1,7 +1,5 @@
 (function() {
-  var ToggleSwitch, ToggleSwitchController, toggleSwitchHTML;
-
-  toggleSwitchHTML = "<div class='toggle-switch' tabindex='0'> <input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'> <label for='TOGGLE_ID'>LABEL</label> </div>";
+  var ToggleSwitch, ToggleSwitchController;
 
   ToggleSwitch = (function() {
     function ToggleSwitch($toggle) {
@@ -251,6 +249,8 @@
 
   })();
 
+  ToggleSwitch.template = "<div class='toggle-switch' tabindex='0'> <input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'> <label for='TOGGLE_ID'>LABEL</label> </div>";
+
   ToggleSwitchController = (function() {
     function ToggleSwitchController() {
       var existingToggles;
@@ -283,7 +283,7 @@
       };
       options = $.extend(defaults, options);
       toggleID = options.id != null ? options.id : "toggle-switch-" + (this._uniqueID());
-      toggleHTML = toggleSwitchHTML.replace(/(TOGGLE_ID|LABEL|NAME)/g, function(match) {
+      toggleHTML = ToggleSwitch.template.replace(/(TOGGLE_ID|LABEL|NAME)/g, function(match) {
         switch (match) {
           case "TOGGLE_ID":
             return toggleID;
