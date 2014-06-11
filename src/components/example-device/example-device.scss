@@ -1,168 +1,223 @@
+// example-device: container of all other pieces
+// example-device::before: iphone speaker
+// example-device-ratiometer: maintains the proper proportions for frame, frame color
+// example-device-ratiometer::before: camera
+// example-device-ratiometer::after: home button
+// example-device-content-wrapper: the background of the content
+// example-device-content: The container for the actual content
+
+$device-speaker-width: 2.6em;
+$device-speaker-height: 0.6em;
+$device-border-radius: 2em;
+$device-camera-size: 0.6em;
+$device-home-button-size: 2.4em;
+$device-content-background-color: white;
+
+$device-iphone-width: 15em;
+$device-iphone-side-frame-size: (2.75/55.76*100%);
+$device-iphone-top-frame-size: (15.25/123.83*100%);
+$device-iphone-height-to-width-ratio: (4.87/2.31);
+
+$device-ipad-width: 25em;
+$device-ipad-top-frame-size: 3em;
+$device-ipad-side-frame-size: 0.75em;
+$device-ipad-height-to-width-ratio: 1.33;
+
+$default-transition-length: 0.3s;
+$default-transition-easing: ease;
+
+$device-transition-cutoff-point: 30em;
+
+$device-iphone-class: device-iphone;
+$device-ipad-class: device-ipad;
+$device-both-class: device-transform;
+
+$device-flat-style-class: style-flat;
+$device-realistic-style-class: style-realistic;
+
+
 @mixin after($point) {
     @media screen and (min-width: #{$point}) { @content; }
 }
 
 @mixin default-transition($properties...) {
     @if length($properties) == 0 { $properties: all; }
-    $transition-length: 0.3s;
 
     transition-property: $properties;
-    transition-duration: $transition-length;
-    transition-timing-function: ease;
+    transition-duration: $default-transition-length;
+    transition-timing-function: $default-transition-easing;
 }
 
-$max-page-menu-width: 30em;
+@mixin ipad-version($same-level: false) {
+    @if $same-level == true {
+        &.#{$device-both-class} {
+            @include after($device-transition-cutoff-point) {
+                @content;
+            }
+        }
+
+        &.#{$device-ipad-class} { @content; }
+    }
+
+    @else {
+        .#{$device-both-class} & {
+            @include after($device-transition-cutoff-point) {
+                @content;
+            }
+        }
+
+        .#{$device-ipad-class} & { @content; }
+    }
+}
+
+%centered-pseudo-content {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+}
 
 
+
+
+// Container
 .example-device {
     box-sizing: border-box;
     margin: 0 auto;
-    max-width: 15em;
-
-    * {
-        box-sizing: border-box;
-    }
-
-    @include after($max-page-menu-width) {
-        max-width: 25em;
-    }
-
+    max-width: $device-iphone-width;
     @include default-transition(max-width);
 
+    @include ipad-version(true) { max-width: $device-ipad-width; }
+
+
+
+
+
+
+    // Speaker
     &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 50%;
-        background-color: rgba(black, 0.2);
-        border-radius: 0.3em;
-        height: 0.6em;
-        width: 2.6em;
-        margin-left: -1.3em;
-        top: 2.5em;
-        z-index: 10;
-        opacity: 1;
-
+        @extend %centered-pseudo-content;
+        width: $device-speaker-width;
+        height: $device-speaker-height;
+        border-radius: (0.5*$device-speaker-height);
+        margin-left: (-0.5*$device-speaker-width);
         @include default-transition(opacity);
-
-        @include after($max-page-menu-width) {
-            opacity: 0;
-        }
     }
+
+    @include ipad-version(true) {
+        &:before { opacity: 0; }
+    }
+
+    // &:before {
+    //     background-color: rgba(black, 0.2);
+    //     border-radius: 0.3em;
+    //     top: 2.5em;
+    //     z-index: 10;
+    // }
+
+
+
+
+
+
+    * { box-sizing: border-box; }
 }
 
+
+
+// Frame
 .example-device-ratiometer {
     width: 100%;
-    padding-bottom: 200%;
-    //background-color: rgba(black, 0.7);
-    background-color: rgb(60, 60, 60);
-    border-radius: 1.75em;
+    border-radius: $device-border-radius;
     overflow: hidden;
     position: relative;
-    z-index: 5;
-
+    padding-bottom: ($device-iphone-height-to-width-ratio*100%);
     @include default-transition(padding-bottom);
 
-    @include after($max-page-menu-width) {
-        padding-bottom: 133%;
+    @include ipad-version {
+        padding-bottom: ($device-ipad-height-to-width-ratio*100%);
     }
 
-    &:before, &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 50%;
-        background-color: rgba(black, 0.2);
+    &:before,
+    &:after {
+        @extend %centered-pseudo-content;
         border-radius: 100%;
     }
 
     &:before {
-        height: 0.6em;
-        width: 0.6em;
-        top: 1.25em;
-        margin: -0.3em 0 0 -0.3em;
+        height: $device-camera-size;
+        width: $device-camera-size;
+        margin-left: (-0.5*$device-camera-size);
     }
 
     &:after {
-        height: 2.4em;
-        width: 2.4em;
-        bottom: 1.7em;
-        margin: 0 0 -1.2em -1.2em;
+        height: $device-home-button-size;
+        width: $device-home-button-size;
+        margin-left: (-0.5*$device-home-button-size);
+    }
 
-        @include default-transition(all);
+    // .example-device-ratiometer {
+    //     background-color: rgb(60, 60, 60);
+    //     z-index: 5;
 
-        @include after($max-page-menu-width) {
-            height: 1.7em;
-            width: 1.7em;
-            bottom: 1.25em;
-            margin: 0 0 -0.85em -0.85em;
-        }
+    //     &:before, &:after {
+    //         background-color: rgba(black, 0.2);
+    //     }
+
+    //     &:before {
+    //         top: 1.25em;
+    //     }
+
+    //     &:after {
+    //         bottom: 1.7em;
+
+    //         @include default-transition(all);
+
+    //         @include after($max-page-menu-width) {
+    //             height: 1.7em;
+    //             width: 1.7em;
+    //             bottom: 1.25em;
+    //             margin: 0 0 -0.85em -0.85em;
+    //         }
+    //     }
+    // }
+}
+
+
+
+// Content background
+.example-device-content-wrapper {
+    position: absolute;
+    top: $device-iphone-top-frame-size;
+    bottom: $device-iphone-top-frame-size;
+    left: $device-iphone-side-frame-size;
+    right: $device-iphone-side-frame-size;
+    padding: 0;
+    background-color: $device-content-background-color;
+
+    @include ipad-version {
+        top: $device-ipad-top-frame-size;
+        bottom: $device-ipad-top-frame-size;
+        left: $device-ipad-side-frame-size;
+        right: $device-ipad-side-frame-size;
     }
 }
 
-.example-device-content-wrapper {
-    position: absolute;
-    top: 3.5em;
-    bottom: 3.5em;
-    left: 0.75em;
-    right: 0.75em;
-    background-color: rgb(240, 240, 240);
-    overflow-y: scroll;
-    color: rgb(30, 30, 30);
-    padding: 0;
 
-    @include default-transition(top, bottom, left, right, color, font-size);
 
-    @include after($max-page-menu-width) {
-        top: 2.5em;
-        bottom: 2.5em;
-        left: 2.5em;
-        right: 2.5em;
-    }
+// Content
+.example-device-content {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
 
-    > div {
-        font-size: 0.9em;
-        height: 100%;
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
-        width: 100%;
-        padding: 0 1.5em;
-        transition-delay: 0.3s;
 
-        @include default-transition(height, background-color);
 
-        > *:first-child {
-            margin-top: 1.5em;
-        }
 
-        > *:last-child {
-            margin-bottom: 1.5em;
-        }
-    }
-
-    h5 {
-        font-size: 1.3em;
-        margin-bottom: 0.5em;
-    }
-
-    hr {
-        border-color: rgba(black, 0.25);
-        box-shadow: none;
-        @include default-transition(border-color);
-    }
-
-    a:not(.footnote-button) {
-        border: none;
-        margin: 0;
-        padding: 0;
-        color: rgb(98, 122, 255);
-
-        &:hover {
-            background: rgba(98, 122, 255, 0.3);
-        }
-    }
-
-    sup {
-        font-size: 0.5em;
+.example-device.#{$device-flat-style-class} {
+    .example-device-ratiometer {
+        background-color: rgb(60, 60, 60);
     }
 }
