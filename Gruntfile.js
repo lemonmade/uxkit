@@ -65,16 +65,6 @@ module.exports = function(grunt) {
             }
         },
 
-        coffeelint: {
-            components: ["src/**/*.coffee"],
-            spec: ["spec/**/*.coffee"],
-            options: {
-                // See options here: https://github.com/dotcypress/CoffeeLint/blob/master/CoffeeLint.sublime-settings
-                "indentation": { value: 4, level: "warn" },
-                "max_line_length": { value: 120, level: "warn" }
-            }
-        },
-
         uglify: {
             build: {
                 src: "dist/springs.js",
@@ -142,6 +132,16 @@ module.exports = function(grunt) {
             }
         },
 
+        csscss: {
+            options: {
+                ignoreSassMixins: true
+            },
+
+            dist: {
+                src: ["scss/**/*.scss"]
+            }
+        },
+
         autoprefixer: {
             dist: {
                 files: {
@@ -158,6 +158,13 @@ module.exports = function(grunt) {
                     ext: ".css"
                 }]
             }
+        },
+
+        compare_size: {
+            files: [
+                "dist/*.js",
+                "dist/components/*.js"
+            ]
         },
 
         watch: {
@@ -188,7 +195,7 @@ module.exports = function(grunt) {
 
             scss: {
                 files: ["src/**/*.scss", "test/**/*.scss"],
-                tasks: ["concat", "sass", "autoprefixer", "shell"],
+                tasks: ["concat", "sass", "autoprefixer", "csscss", "shell"],
                 options: { spawn: false }
             },
 
@@ -220,8 +227,8 @@ module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
 
     // 3. PERFORM
-    grunt.registerTask("default", ["coffeelint", "coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "uglify", "shell"]);
+    grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "shell"]);
     grunt.registerTask("tests", ["coffee:tests", "jasmine"]);
-    grunt.registerTask("full", ["coffeelint", "coffee", "jasmine", "concat", "sass", "autoprefixer", "uglify", "shell"]);
+    grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "shell"]);
 
 }

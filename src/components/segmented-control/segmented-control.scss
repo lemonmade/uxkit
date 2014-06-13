@@ -8,6 +8,7 @@ $segmented-control-font-size: 0.8em;
 
 .segmented-control {
     border-radius: $segmented-control-option-border-radius;
+    text-align: center;
 }
 
 .segmented-option {
@@ -16,10 +17,10 @@ $segmented-control-font-size: 0.8em;
     position: relative;
     border: 1px solid $segmented-control-main-color;
     color: $segmented-control-main-color;
-    background-color: $segmented-control-secondary-color;
     width: $segmented-control-option-target-width;
     max-width: 33%;
     font-size: $segmented-control-font-size;
+    overflow: hidden;
 
     &:not(:first-of-type) {
         margin-left: -5px;
@@ -40,6 +41,7 @@ $segmented-control-font-size: 0.8em;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        background-color: $segmented-control-secondary-color;
     }
 
     input {

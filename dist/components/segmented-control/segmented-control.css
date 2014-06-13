@@ -1,5 +1,6 @@
 .segmented-control {
   border-radius: 0.35em;
+  text-align: center;
 }
 
 .segmented-option {
@@ -8,10 +9,10 @@
   position: relative;
   border: 1px solid #0b61ff;
   color: #0b61ff;
-  background-color: white;
   width: 8em;
   max-width: 33%;
   font-size: 0.8em;
+  overflow: hidden;
 }
 
 .segmented-option:not(:first-of-type) {
@@ -33,6 +34,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: white;
 }
 
 .segmented-option input {

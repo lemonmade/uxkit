@@ -17,6 +17,8 @@
     "grunt-shell": "~0.6.4",
     "grunt-contrib-jasmine": "~0.6.4",
     "grunt-contrib-coffee": "~0.10.1",
-    "grunt-coffeelint": "0.0.10"
+    "grunt-compare-size": "~0.4.0",
+    "grunt-contrib-haml": "~0.2.0",
+    "grunt-csscss": "~0.6.2"
   }
 }
