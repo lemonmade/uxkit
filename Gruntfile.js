@@ -8,12 +8,12 @@ module.exports = function(grunt) {
             messageBubble: {
                 src: "dist/components/message-bubble/message-bubble.js",
                 options: {
-                    specs: "spec/message-bubble-spec.js",
+                    specs: "spec/specs-js/message-bubble-spec.js",
                     vendor: [
                         "bower_components/jquery/dist/jquery.js",
                         "bower_components/jasmine-jquery/lib/jasmine-jquery.js"
                     ],
-                    helpers: "spec/helpers/message-bubble-helpers.js",
+                    helpers: "spec/helpers-js/message-bubble-helpers.js",
                     styles: "dist/components/message-bubble/message-bubble.css"
                 }
             },
@@ -21,12 +21,12 @@ module.exports = function(grunt) {
             toggleSwitch: {
                 src: "dist/components/toggle-switch/toggle-switch.js",
                 options: {
-                    specs: "spec/toggle-switch-spec.js",
+                    specs: "spec/specs-js/toggle-switch-spec.js",
                     vendor: [
                         "bower_components/jquery/dist/jquery.js",
                         "bower_components/jasmine-jquery/lib/jasmine-jquery.js"
                     ],
-                    helpers: "spec/helpers/toggle-switch-helpers.js",
+                    helpers: "spec/helpers-js/toggle-switch-helpers.js",
                     styles: "dist/components/toggle-switch/toggle-switch.css"
                 }
             },
@@ -44,12 +44,22 @@ module.exports = function(grunt) {
                 dest: "dist/springs.js"
             },
 
-            tests: {
+            specs: {
                 files: [{
                     expand: true,
-                    cwd: "spec",
+                    cwd: "spec/specs",
                     src: ["**/*.coffee"],
-                    dest: "spec",
+                    dest: "spec/specs-js",
+                    ext: ".js"
+                }]
+            },
+
+            specHelpers: {
+                files: [{
+                    expand: true,
+                    cwd: "spec/helpers",
+                    src: ["**/*.coffee"],
+                    dest: "spec/helpers-js",
                     ext: ".js"
                 }]
             },
@@ -167,6 +177,29 @@ module.exports = function(grunt) {
             ]
         },
 
+        haml: {
+            components: {
+                files: [{
+                    expand: true,
+                    cwd: "src/components",
+                    src: ["**/*.haml"],
+                    dest: "dist/components",
+                    ext: ".html"
+                }]
+            }
+        },
+
+        shell: {
+            copyMain: {
+                command: [
+                    // "cp src/springs.js dist/springs.js",
+                    // "cp src/springs.scss dist/springs.scss",
+                    "cp src/components/*/*.scss docs/scss/components",
+                    "rsync -av src/components/ dist/components/"
+                ].join("&&")
+            }
+        },
+
         watch: {
             options: { livereload: false },
 
@@ -205,21 +238,17 @@ module.exports = function(grunt) {
                 options: { spawn: false }
             },
 
-            html: {
-                files: ["src/**/*.html"],
-                tasks: ["shell"],
+            haml: {
+                files: ["src/**/*.haml"],
+                tasks: ["haml"],
                 options: { spawn: false }
-            }
-        },
+            }//,
 
-        shell: {
-            copyMain: {
-                command: [
-                    // "cp src/springs.js dist/springs.js",
-                    // "cp src/springs.scss dist/springs.scss",
-                    "rsync -av src/components/ dist/components/"
-                ].join("&&")
-            }
+            // docs: {
+            //     files: ["docs/views/**/*.slim"],
+            //     tasks: ["slim"],
+            //     options: { spawn: false }
+            // }
         }
     });
 
@@ -227,8 +256,8 @@ module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
 
     // 3. PERFORM
-    grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "shell"]);
-    grunt.registerTask("tests", ["coffee:tests", "jasmine"]);
-    grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "shell"]);
+    grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "haml", "shell"]);
+    grunt.registerTask("tests", ["coffee:specHelpers", "coffee:specs", "jasmine"]);
+    grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "slim", "shell"]);
 
 }

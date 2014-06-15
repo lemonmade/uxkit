@@ -28,7 +28,7 @@ describe "Message Bubble", ->
 
             it "Should create a message that contains the same HTML as the passed string", ->
                 mHTML = "This is a new message with <strong>a number of</strong> <a href=\"www.lemondesign.co\">HTML tags</a>"
-                $m = mc.add(mHTML)
+                $m = mc.add mHTML
                 expect($m.html()).toMatch mHTML
         # end of basic addition operations spec
 
