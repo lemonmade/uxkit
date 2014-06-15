@@ -9,3 +9,5 @@ examples/
 .sass-cache
 new.sh
 site/
+spec/specs-js/
+spec/helpers-js/
