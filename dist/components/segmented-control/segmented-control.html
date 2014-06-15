@@ -1,39 +1,27 @@
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="segmented-control.css">
-    <script src="../../../bower_components/jquery/dist/jquery.js"></script>
-    <script src="segmented-control.js"></script>
-</head>
-
-<body>
-<!-- <div class="segmented-control">
-    <div class="segmented-option">
-        <input type="radio" name="segmented-control" id="segmented-option-1">
-        <label for="segmented-option-1">Option 1</label>
-    </div>
-    <div class="segmented-option">
-        <input type="radio" name="segmented-control" id="segmented-option-2">
-        <label for="segmented-option-2">Option 2</label>
-    </div>
-    <div class="segmented-option">
-        <input type="radio" name="segmented-control" id="segmented-option-3">
-        <label for="segmented-option-3">Option 3</label>
-    </div>
-</div> -->
-
-
-
-<script type="text/javascript">
-
-var scc = new SegmentedControlController;
-scc.newSegmentedControl(
-    new SegmentedControlOption("free", "Free", true),
-    new SegmentedControlOption("paid", "Paid", true),
-    new SegmentedControlOption("top-grossing", "Top Grossing"),
-
-    {name: "my-control"}
-);
-
-</script>
-
-</body>
+<div class='segmented-control'>
+  <div class='segmented-option'>
+    <input id='segmented-option-1' name='segmented-control' type='radio'>
+      <label for='segmented-option-1'>Option 1</label>
+    </input>
+  </div>
+  <div class='segmented-option'>
+    <input id='segmented-option-2' name='segmented-control' type='radio'>
+      <label for='segmented-option-2'>Option 2</label>
+    </input>
+  </div>
+  <div class='segmented-option'>
+    <input id='segmented-option-3' name='segmented-control' type='radio'>
+      <label for='segmented-option-3'>Option 3</label>
+    </input>
+  </div>
+</div>
+<!-- <script type="text/javascript"> -->
+<!-- var scc = new SegmentedControlController; -->
+<!-- scc.newSegmentedControl( -->
+<!-- new SegmentedControlOption("free", "Free", true), -->
+<!-- new SegmentedControlOption("paid", "Paid", true), -->
+<!-- new SegmentedControlOption("top-grossing", "Top Grossing"), -->
+<!-- {name: "my-control"} -->
+<!-- ); -->
+<!-- </script> -->
+<!-- </body> -->

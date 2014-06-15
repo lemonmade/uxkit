@@ -1,56 +1,10 @@
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="message-bubble.css">
-    <script src="../../../bower_components/jquery/dist/jquery.js"></script>
-    <script src="message-bubble.js"></script>
-    <script src="../../springs.js"></script>
-</head>
-
-<div class="message-bubble-container">
+<div class='message-bubble-container'>
+  <div class='message-bubble'>
+    <div class='message-bubble-inner'>
+      Here is the message
+      <svg class='message-bubble-whale-tail' enable-background='new 0 0 116.42 97.35' height='119px' version='1.1' viewbox='0 0 116 119' width='116px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'>
+        <path d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z' fill='#AOAOAO'></path>
+      </svg>
+    </div>
+  </div>
 </div>
-
-<script type="text/javascript">
-var mc;
-
-$(document).ready(function() {
-
-    mc = new MessageController();
-    mc.timestamp();
-    mc.add("Sample message 1");
-    var $m2 = mc.add("Sample message 2");
-    var $m3 = mc.add("Sample message 3", { inReplyTo: $m2, artificialDate: (new Date()).getTime() + 80000000 });
-    mc.add("Sample message 4", { inReplyTo: $m3, artificialDate: (new Date()).getTime() + 2*80000000, animate: true });
-    mc.add("Sample message 5", { reply: true, artificialDate: (new Date()).getTime() + 2*83000000 });
-    mc.typing()
-
-    setTimeout(function() {
-        var $container = $(".message-bubble-container"),
-            maxMovement = $(".message-bubble-timestamp").first().outerWidth();
-
-        $container.on("dragstart", function(e) {
-            $(".message-bubble").removeClass("return");
-        });
-
-        $container.on("dragend", function(e) {
-            $(".message-bubble").addClass("return").css("transform", "translateX(0)");
-            $(".message-bubble-timestamp").css("opacity", 0);
-            var outerWidth = $container.outerWidth() - parseFloat($container.css("padding-left")) - parseFloat($container.css("padding-right"));
-            $(".message-bubble.reply").each(function() {
-                var $this = $(this);
-                $this.find(".message-bubble-timestamp").css("transform", "translate(" + (outerWidth - $this.outerWidth()) + "px, -50%)");
-            });
-        });
-
-        $container.on("drag", function(e) {
-            $(".message-bubble:not(.reply)").css("transform", "translateX(" + Math.max(e.deltaX, -maxMovement) + "px)");
-            $(".message-bubble-timestamp").css("opacity", Math.max(0, e.deltaX/-maxMovement));
-            var $container = $(".message-bubble-container"),
-                outerWidth = $container.outerWidth() - parseFloat($container.css("padding-left")) - parseFloat($container.css("padding-right"));
-            $(".message-bubble.reply").each(function() {
-                var $this = $(this);
-                $this.find(".message-bubble-timestamp").css("transform", "translate(" + (outerWidth - $this.outerWidth() - Math.min(maxMovement, -e.deltaX)) + "px, -50%)");
-            });
-        });
-    }, 50);
-});
-</script>
