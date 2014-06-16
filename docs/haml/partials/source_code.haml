@@ -1,5 +1,18 @@
+%div.example-component
+    = html
 %div.source-code
-    %div.escaped
-        &= source_code
-    %div.unescaped
-        = source_code
+    %div.source-html
+        %pre
+            %code
+                = preserve do
+                    &= html
+    %div.source-css
+        %pre
+            %code
+                = preserve do
+                    &= css
+    %div.source-js
+        %pre
+            %code
+                = preserve do
+                    &= js
