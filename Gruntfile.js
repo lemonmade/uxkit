@@ -111,6 +111,11 @@ module.exports = function(grunt) {
                     "src/springs.scss"
                 ],
                 dest: "dist/springs.scss"
+            },
+
+            components: {
+                src: ["src/components/*/*.scss"],
+                dest: "docs/scss/components.scss"
             }
         },
 
@@ -139,6 +144,12 @@ module.exports = function(grunt) {
                     dest: "dist",
                     ext: ".css"
                 }]
+            },
+
+            docs: {
+                files: {
+                    "docs/public/css/style.css": "docs/scss/style.scss"
+                }
             }
         },
 
@@ -167,6 +178,12 @@ module.exports = function(grunt) {
                     dest: "dist/components",
                     ext: ".css"
                 }]
+            },
+
+            docs: {
+                files: {
+                    "docs/public/css/style.css": "docs/public/css/style.css"
+                }
             }
         },
 
@@ -196,6 +213,12 @@ module.exports = function(grunt) {
                     dest: "docs/pages",
                     ext: ".html"
                 }]
+            },
+
+            fullDocs: {
+                files: {
+                    "docs/pages/full.html": "docs/haml/site.haml"
+                }
             }
         },
 
@@ -252,13 +275,19 @@ module.exports = function(grunt) {
                 files: ["src/**/*.haml"],
                 tasks: ["haml"],
                 options: { spawn: false }
-            }//,
+            },
 
-            // docs: {
-            //     files: ["docs/views/**/*.slim"],
-            //     tasks: ["slim"],
-            //     options: { spawn: false }
-            // }
+            docsHaml: {
+                files: ["docs/haml/**/*.haml"],
+                tasks: ["haml:fullDocs"],
+                options: { spawn: false }
+            },
+
+            docsScss: {
+                files: ["docs/scss/**/*.scss"],
+                tasks: ["sass:docs", "autoprefixer:docs"],
+                options: { spawn: false }
+            }
         }
     });
 
@@ -269,5 +298,6 @@ module.exports = function(grunt) {
     grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "haml", "shell"]);
     grunt.registerTask("tests", ["coffee:specHelpers", "coffee:specs", "jasmine"]);
     grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "slim", "shell"]);
+    grunt.registerTask("docs", ["haml:fullDocs", "sass:docs", "autoprefixer:docs"]);
 
 }
