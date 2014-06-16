@@ -1,0 +1,10 @@
+- load "docs/haml/helpers.rb"
+- component = "message-bubble"
+- component_name = component.split("-").map(&:capitalize).join " "
+- source_html = File.read("dist/components/#{component}/#{component}.html")
+- source_css = File.read("dist/components/#{component}/#{component}.css")
+- source_js = File.read("dist/components/#{component}/#{component}.js")
+
+/ Start writting the documentation here
+%h1= component_name
+= render :source_code, source_code: source_css

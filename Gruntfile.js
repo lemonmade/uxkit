@@ -186,6 +186,16 @@ module.exports = function(grunt) {
                     dest: "dist/components",
                     ext: ".html"
                 }]
+            },
+
+            docs: {
+                files: [{
+                    expand: true,
+                    cwd: "docs/haml/pages",
+                    src: ["**/*.haml"],
+                    dest: "docs/pages",
+                    ext: ".html"
+                }]
             }
         },
 

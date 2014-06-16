@@ -1,29 +1,452 @@
-<html>
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/message-bubble.css">
-    <script src="js/script.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <title>uxkit</title>
-</head>
-<body>
-
+<!-- Start writting the documentation here -->
 <h1>Message Bubble</h1>
-
-<div class="source">
-    <h2>Unescaped:</h2>
-    <div>
-        <div class='message-bubble'><div class='message-bubble-inner'>HELLO GOOD FRIEND<svg class='message-bubble-whale-tail' width='116px' height='119px' viewBox='0 0 116 119' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' enable-background='new 0 0 116.42 97.35' xml:space='preserve'><path fill='#A0A0A0' d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z'></path></svg></div></div>
-    </div>
-
-    <h2>Escaped:</h2>
-    <div>
-        &lt;div class=&#39;message-bubble&#39;&gt;&lt;div class=&#39;message-bubble-inner&#39;&gt;HELLO GOOD FRIEND&lt;svg class=&#39;message-bubble-whale-tail&#39; width=&#39;116px&#39; height=&#39;119px&#39; viewBox=&#39;0 0 116 119&#39; version=&#39;1.1&#39; xmlns=&#39;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&#39; xmlns:xlink=&#39;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xlink&#39; enable-background=&#39;new 0 0 116.42 97.35&#39; xml:space=&#39;preserve&#39;&gt;&lt;path fill=&#39;#A0A0A0&#39; d=&#39;M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z&#39;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;svg&gt;&lt;&#x2F;div&gt;&lt;&#x2F;div&gt;
-    </div>
+<div class='source-code'>
+  <div class='escaped'>
+    .message-bubble-container:after,
+    .message-bubble-date-section:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    
+    .message-bubble-container {
+      border: 1px solid black;
+      padding: 1em;
+      overflow: hidden;
+    }
+    
+    .message-bubble,
+    .typing-indicator {
+      position: relative;
+      float: right;
+      clear: both;
+      margin-top: 0.5em;
+      border-radius: 1.0625em;
+      line-height: 1.3;
+      font-family: Helvetica;
+    }
+    
+    .message-bubble.reply,
+    .typing-indicator {
+      background-color: #e5e5ea;
+      color: #020202;
+      float: left;
+    }
+    
+    .message-bubble {
+      padding: 0.5em 0.75em;
+      max-width: -webkit-calc(100% - 7em);
+      max-width: calc(100% - 7em);
+      background-color: #1983fa;
+      color: white;
+    }
+    
+    .message-bubble.reply .message-bubble-whale-tail {
+      right: auto;
+      left: -0.5184em;
+      -webkit-transform: scaleX(-1);
+      -ms-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
+    
+    .message-bubble.reply .message-bubble-whale-tail path {
+      fill: #e5e5ea;
+    }
+    
+    .message-bubble.no-tail .message-bubble-whale-tail {
+      display: none;
+    }
+    
+    .message-bubble.reply + .message-bubble.reply {
+      margin-top: 0.25em;
+    }
+    
+    .message-bubble:not(.reply) + .message-bubble:not(.reply) {
+      margin-top: 0.25em;
+    }
+    
+    .message-bubble.return {
+      -webkit-transition: -webkit-transform 0.4s ease;
+      transition: transform 0.4s ease;
+    }
+    
+    .message-bubble.return .message-bubble-timestamp {
+      -webkit-transition: opacity 0.4s ease, -webkit-transform 0.4s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    
+    .message-bubble.temp-hide {
+      visibility: hidden;
+      -webkit-transition: none;
+      transition: none;
+    }
+    
+    .message-bubble .message-bubble-inner {
+      max-width: 18em;
+    }
+    
+    .message-bubble p:first-of-type {
+      margin-top: 0;
+    }
+    
+    .message-bubble p:last-of-type {
+      margin-bottom: 0;
+    }
+    
+    .message-bubble .message-bubble-whale-tail {
+      position: absolute;
+      right: -0.5616em;
+      bottom: 0;
+      width: 1.08em;
+      height: 0.90309em;
+    }
+    
+    .message-bubble .message-bubble-whale-tail path {
+      fill: #1983fa;
+    }
+    
+    .message-bubble .message-bubble-timestamp {
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      display: block;
+      width: 7em;
+      opacity: 0;
+      color: #bebebe;
+      font-size: 0.8em;
+      text-align: center;
+    }
+    
+    .message-bubble-heading {
+      padding: 2em 0 0;
+      margin: 0;
+      clear: both;
+      font-family: Helvetica;
+      text-align: center;
+      font-size: 0.8em;
+      color: #bebebe;
+      font-weight: normal;
+    }
+    
+    .message-bubble-heading .message-bubble-date {
+      font-weight: bold;
+      color: #a5a5a5;
+    }
+    
+    .typing-indicator {
+      padding: 0.8em 1.6em;
+    }
+    
+    .typing-indicator:before,
+    .typing-indicator:after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 0.8em;
+      width: 0.8em;
+      border-radius: 0.8em;
+      left: -0.15em;
+      bottom: -0.15em;
+      background-color: #e5e5ea;
+    }
+    
+    .typing-indicator:after {
+      height: 0.45em;
+      width: 0.45em;
+      left: -0.5em;
+      bottom: -0.5em;
+    }
+    
+    @-webkit-keyframes typing-indicator-dot {
+      0% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    
+      35% {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    
+      70% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    @keyframes typing-indicator-dot {
+      0% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    
+      35% {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    
+      70% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    .typing-indicator-dot {
+      display: block;
+      position: relative;
+      height: 0.55em;
+      width: 0.55em;
+      border-radius: 0.55em;
+      background-color: rgba(0, 0, 0, 0.1);
+      -webkit-animation: typing-indicator-dot 1.8s ease infinite;
+      animation: typing-indicator-dot 1.8s ease infinite;
+      -webkit-animation-delay: 0.3s;
+      animation-delay: 0.3s;
+    }
+    
+    .typing-indicator-dot:before,
+    .typing-indicator-dot:after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 0.55em;
+      width: 0.55em;
+      border-radius: 0.55em;
+      background-color: rgba(0, 0, 0, 0.1);
+      top: 0;
+      -webkit-animation: typing-indicator-dot 1.8s ease infinite;
+      animation: typing-indicator-dot 1.8s ease infinite;
+    }
+    
+    .typing-indicator-dot:before {
+      left: -0.85em;
+    }
+    
+    .typing-indicator-dot:after {
+      right: -0.85em;
+      -webkit-animation-delay: 0.6s;
+      animation-delay: 0.6s;
+    }
+  </div>
+  <div class='unescaped'>
+    .message-bubble-container:after,
+    .message-bubble-date-section:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    
+    .message-bubble-container {
+      border: 1px solid black;
+      padding: 1em;
+      overflow: hidden;
+    }
+    
+    .message-bubble,
+    .typing-indicator {
+      position: relative;
+      float: right;
+      clear: both;
+      margin-top: 0.5em;
+      border-radius: 1.0625em;
+      line-height: 1.3;
+      font-family: Helvetica;
+    }
+    
+    .message-bubble.reply,
+    .typing-indicator {
+      background-color: #e5e5ea;
+      color: #020202;
+      float: left;
+    }
+    
+    .message-bubble {
+      padding: 0.5em 0.75em;
+      max-width: -webkit-calc(100% - 7em);
+      max-width: calc(100% - 7em);
+      background-color: #1983fa;
+      color: white;
+    }
+    
+    .message-bubble.reply .message-bubble-whale-tail {
+      right: auto;
+      left: -0.5184em;
+      -webkit-transform: scaleX(-1);
+      -ms-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
+    
+    .message-bubble.reply .message-bubble-whale-tail path {
+      fill: #e5e5ea;
+    }
+    
+    .message-bubble.no-tail .message-bubble-whale-tail {
+      display: none;
+    }
+    
+    .message-bubble.reply + .message-bubble.reply {
+      margin-top: 0.25em;
+    }
+    
+    .message-bubble:not(.reply) + .message-bubble:not(.reply) {
+      margin-top: 0.25em;
+    }
+    
+    .message-bubble.return {
+      -webkit-transition: -webkit-transform 0.4s ease;
+      transition: transform 0.4s ease;
+    }
+    
+    .message-bubble.return .message-bubble-timestamp {
+      -webkit-transition: opacity 0.4s ease, -webkit-transform 0.4s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    
+    .message-bubble.temp-hide {
+      visibility: hidden;
+      -webkit-transition: none;
+      transition: none;
+    }
+    
+    .message-bubble .message-bubble-inner {
+      max-width: 18em;
+    }
+    
+    .message-bubble p:first-of-type {
+      margin-top: 0;
+    }
+    
+    .message-bubble p:last-of-type {
+      margin-bottom: 0;
+    }
+    
+    .message-bubble .message-bubble-whale-tail {
+      position: absolute;
+      right: -0.5616em;
+      bottom: 0;
+      width: 1.08em;
+      height: 0.90309em;
+    }
+    
+    .message-bubble .message-bubble-whale-tail path {
+      fill: #1983fa;
+    }
+    
+    .message-bubble .message-bubble-timestamp {
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      display: block;
+      width: 7em;
+      opacity: 0;
+      color: #bebebe;
+      font-size: 0.8em;
+      text-align: center;
+    }
+    
+    .message-bubble-heading {
+      padding: 2em 0 0;
+      margin: 0;
+      clear: both;
+      font-family: Helvetica;
+      text-align: center;
+      font-size: 0.8em;
+      color: #bebebe;
+      font-weight: normal;
+    }
+    
+    .message-bubble-heading .message-bubble-date {
+      font-weight: bold;
+      color: #a5a5a5;
+    }
+    
+    .typing-indicator {
+      padding: 0.8em 1.6em;
+    }
+    
+    .typing-indicator:before,
+    .typing-indicator:after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 0.8em;
+      width: 0.8em;
+      border-radius: 0.8em;
+      left: -0.15em;
+      bottom: -0.15em;
+      background-color: #e5e5ea;
+    }
+    
+    .typing-indicator:after {
+      height: 0.45em;
+      width: 0.45em;
+      left: -0.5em;
+      bottom: -0.5em;
+    }
+    
+    @-webkit-keyframes typing-indicator-dot {
+      0% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    
+      35% {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    
+      70% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    @keyframes typing-indicator-dot {
+      0% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    
+      35% {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    
+      70% {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+    }
+    
+    .typing-indicator-dot {
+      display: block;
+      position: relative;
+      height: 0.55em;
+      width: 0.55em;
+      border-radius: 0.55em;
+      background-color: rgba(0, 0, 0, 0.1);
+      -webkit-animation: typing-indicator-dot 1.8s ease infinite;
+      animation: typing-indicator-dot 1.8s ease infinite;
+      -webkit-animation-delay: 0.3s;
+      animation-delay: 0.3s;
+    }
+    
+    .typing-indicator-dot:before,
+    .typing-indicator-dot:after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 0.55em;
+      width: 0.55em;
+      border-radius: 0.55em;
+      background-color: rgba(0, 0, 0, 0.1);
+      top: 0;
+      -webkit-animation: typing-indicator-dot 1.8s ease infinite;
+      animation: typing-indicator-dot 1.8s ease infinite;
+    }
+    
+    .typing-indicator-dot:before {
+      left: -0.85em;
+    }
+    
+    .typing-indicator-dot:after {
+      right: -0.85em;
+      -webkit-animation-delay: 0.6s;
+      animation-delay: 0.6s;
+    }
+  </div>
 </div>
-
-</body>
-
-</html>
