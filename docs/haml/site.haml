@@ -1,0 +1,9 @@
+- load "docs/haml/helpers.rb"
+
+%html
+    = render_partial :head
+
+    - component_files = Dir["docs/haml/pages/*.haml"]
+    - component_files.each do |component_file|
+        %div.component
+            = render component_file

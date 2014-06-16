@@ -1,7 +1,31 @@
 <!-- Start writting the documentation here -->
 <h1>Message Bubble</h1>
+<div class='example-component'>
+  <div class='message-bubble-container'>
+    <div class='message-bubble'>
+      <div class='message-bubble-inner'>
+        Here is the message
+        <svg class='message-bubble-whale-tail' enable-background='new 0 0 116.42 97.35' height='119px' version='1.1' viewbox='0 0 116 119' width='116px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'>
+          <path d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z' fill='#AOAOAO'></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
 <div class='source-code'>
-  <div class='escaped'>
+  <div class='source-html'>
+    &lt;div class='message-bubble-container'&gt;
+      &lt;div class='message-bubble'&gt;
+        &lt;div class='message-bubble-inner'&gt;
+          Here is the message
+          &lt;svg class='message-bubble-whale-tail' enable-background='new 0 0 116.42 97.35' height='119px' version='1.1' viewbox='0 0 116 119' width='116px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'&gt;
+            &lt;path d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z' fill='#AOAOAO'&gt;&lt;/path&gt;
+          &lt;/svg&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  </div>
+  <div class='source-css'>
     .message-bubble-container:after,
     .message-bubble-date-section:after {
       content: '';
@@ -225,228 +249,415 @@
       animation-delay: 0.6s;
     }
   </div>
-  <div class='unescaped'>
-    .message-bubble-container:after,
-    .message-bubble-date-section:after {
-      content: '';
-      display: block;
-      clear: both;
-    }
+  <div class='source-js'>
+    (function() {
+      var $w, DAYS_IN_MS, MessageBubble, MessageBubbleController, Timestamper;
     
-    .message-bubble-container {
-      border: 1px solid black;
-      padding: 1em;
-      overflow: hidden;
-    }
+      DAYS_IN_MS = 86400000;
     
-    .message-bubble,
-    .typing-indicator {
-      position: relative;
-      float: right;
-      clear: both;
-      margin-top: 0.5em;
-      border-radius: 1.0625em;
-      line-height: 1.3;
-      font-family: Helvetica;
-    }
+      $w = $(window);
     
-    .message-bubble.reply,
-    .typing-indicator {
-      background-color: #e5e5ea;
-      color: #020202;
-      float: left;
-    }
+      $.fn.transitionEnd = function(handler) {
+        return this.one(&quot;transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd&quot;, handler);
+      };
     
-    .message-bubble {
-      padding: 0.5em 0.75em;
-      max-width: -webkit-calc(100% - 7em);
-      max-width: calc(100% - 7em);
-      background-color: #1983fa;
-      color: white;
-    }
+      $.fn.animationEnd = function(handler) {
+        return this.one(&quot;webkitAnimationEnd oanimationend msAnimationEnd animationend&quot;, handler);
+      };
     
-    .message-bubble.reply .message-bubble-whale-tail {
-      right: auto;
-      left: -0.5184em;
-      -webkit-transform: scaleX(-1);
-      -ms-transform: scaleX(-1);
-      transform: scaleX(-1);
-    }
+      $.fn.verticalSpaceAvail = function() {
+        return this.offset().top - $w.scrollTop();
+      };
     
-    .message-bubble.reply .message-bubble-whale-tail path {
-      fill: #e5e5ea;
-    }
+      MessageBubble = (function() {
+        function MessageBubble() {}
     
-    .message-bubble.no-tail .message-bubble-whale-tail {
-      display: none;
-    }
+        return MessageBubble;
     
-    .message-bubble.reply + .message-bubble.reply {
-      margin-top: 0.25em;
-    }
+      })();
     
-    .message-bubble:not(.reply) + .message-bubble:not(.reply) {
-      margin-top: 0.25em;
-    }
+      MessageBubble.template = &quot;&lt;div class='message-bubble'&gt; &lt;div class='message-bubble-inner'&gt; MESSAGE &lt;svg class='message-bubble-whale-tail' width='116px' height='119px' viewBox='0 0 116 119' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' enable-background='new 0 0 116.42 97.35' xml:space='preserve'&gt; &lt;path fill='#A0A0A0' d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z'&gt;&lt;/path&gt; &lt;/svg&gt; &lt;/div&gt; &lt;/div&gt;&quot;;
     
-    .message-bubble.return {
-      -webkit-transition: -webkit-transform 0.4s ease;
-      transition: transform 0.4s ease;
-    }
+      MessageBubbleController = (function() {
+        function MessageBubbleController(settings) {
+          var $messageBubbleContainer;
+          if (settings == null) {
+            settings = {};
+          }
+          $messageBubbleContainer = $(&quot;.message-bubble-container&quot;);
+          if ($messageBubbleContainer.length &lt; 1) {
+            $messageBubbleContainer = $(&quot;body&quot;);
+          }
+          this.container = settings.container != null ? settings.container : $messageBubbleContainer;
+          this.messages = $(&quot;.message-bubble&quot;);
+          this._messageDateSectionHTML = &quot;&lt;section class='message-bubble-date-section' /&gt;&quot;;
+          this._timestampKey = &quot;message-timestamp&quot;;
+          this._timestamper = new Timestamper;
+          this.automateDateSections = settings.automateDateSections != null ? settings.automateDateSections : true;
+          this.dateSectionCutoff = settings.dateSectionCutoff != null ? settings.dateSectionCutoff : &quot;unique-day&quot;;
+        }
     
-    .message-bubble.return .message-bubble-timestamp {
-      -webkit-transition: opacity 0.4s ease, -webkit-transform 0.4s ease;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
+        MessageBubbleController.prototype.setBackgroundColor = function(color, sel) {
+          return this.getSubsetOfMessages(sel).each(function() {
+            var $this;
+            $this = $(this);
+            $this.css(&quot;background-color&quot;, color);
+            return $this.find(&quot;.message-bubble-whale-tail path&quot;).css(&quot;fill&quot;, color);
+          });
+        };
     
-    .message-bubble.temp-hide {
-      visibility: hidden;
-      -webkit-transition: none;
-      transition: none;
-    }
+        MessageBubbleController.prototype.setTextColor = function(color, sel) {
+          return this.getSubsetOfMessages(sel).each(function() {
+            return $(this).css(&quot;color&quot;, color);
+          });
+        };
     
-    .message-bubble .message-bubble-inner {
-      max-width: 18em;
-    }
+        MessageBubbleController.prototype.newMessageBubble = function(msg, options) {
+          var $afterElement, $beforeElement, $container, $insertionPoint, $lastDateSection, $lastMsg, $message, $relevantContainerChild, $replyMsg, curTSinDays, defaults, lastTSinDays, time;
+          if (options == null) {
+            options = {};
+          }
+          defaults = {
+            after: null,
+            append: true,
+            container: null,
+            artificialDate: null,
+            timestamp: true,
+            tail: true,
+            inReplyTo: null,
+            reply: false,
+            animate: null
+          };
+          options = $.extend(defaults, options);
+          $message = $(MessageBubble.template.replace(&quot;MESSAGE&quot;, msg)).addClass(&quot;temp-hide&quot;);
+          if (options.animate != null) {
+            $message.css(&quot;visibility&quot;, &quot;none&quot;);
+          }
+          if (options.append instanceof jQuery || Object.prototype.toString.call(options.append) === &quot;[object String]&quot;) {
+            options.container = $(options.append);
+            options.append = true;
+          }
+          if (options.timestamp) {
+            time = options.artificialDate != null ? new Date(options.artificialDate) : new Date;
+            $message.attr(&quot;data-&quot; + this._timestampKey, time.getTime());
+            this.timestamp($message);
+          }
+          if (!options.tail) {
+            $message.addClass(&quot;no-tail&quot;);
+          }
+          if (options.reply) {
+            $message.addClass(&quot;reply&quot;);
+          }
+          if ((options.inReplyTo != null) &amp;&amp; ($replyMsg = $(options.inReplyTo)).length &gt; 0) {
+            $message[$replyMsg.hasClass(&quot;reply&quot;) ? &quot;removeClass&quot; : &quot;addClass&quot;](&quot;reply&quot;);
+          }
+          if (options.after) {
+            if (($afterElement = $(options.after)).length &gt; 0) {
+              $message.insertAfter($afterElement);
+            }
+          } else if (options.before) {
+            if (($beforeElement = $(options.before)).length &gt; 0) {
+              $message.insertBefore($beforeElement);
+            }
+          } else if (this.automateDateSections &amp;&amp; (options.timestamp != null) &amp;&amp; this.messages.length &gt; 0) {
+            $lastMsg = this.messages.last();
+            curTSinDays = Math.floor(new Date($message.data(this._timestampKey)).getTime() / DAYS_IN_MS);
+            lastTSinDays = Math.floor(new Date($lastMsg.data(this._timestampKey)).getTime() / DAYS_IN_MS);
+            if (curTSinDays - lastTSinDays &gt;= 1) {
+              $insertionPoint = ($lastDateSection = $lastMsg.closest(&quot;.message-bubble-date-section&quot;)).length &gt; 0 ? $lastDateSection : $lastMsg;
+              this._makeQuickDateSection($message).insertAfter($insertionPoint);
+            } else {
+              $message.insertAfter($lastMsg);
+            }
+          } else {
+            $container = options.container != null ? $(options.container) : this.container;
+            $relevantContainerChild = $container.children(options.append ? &quot;:last-child&quot; : &quot;:first-child&quot;);
+            if ($relevantContainerChild.hasClass(&quot;message-bubble-date-section&quot;)) {
+              $container = $relevantContainerChild;
+            }
+            $message[options.append ? &quot;appendTo&quot; : &quot;prependTo&quot;]($container);
+          }
+          if (options.animate != null) {
+            this._resolveAddAnimation($message, options.animate);
+          } else {
+            $message.removeClass(&quot;temp-hide&quot;);
+          }
+          this._update();
+          return $message;
+        };
     
-    .message-bubble p:first-of-type {
-      margin-top: 0;
-    }
+        MessageBubbleController.prototype._resolveAddAnimation = function($msg, animate) {
+          var $container, defaults, endTransition, offset, options, startTranslate;
+          defaults = {
+            props: null,
+            duration: 400,
+            delay: 0,
+            timingFunction: &quot;ease&quot;,
+            from: &quot;right&quot;,
+            callback: null
+          };
+          options = $.extend(defaults, animate);
+          if (options.duration == null) {
+            return null;
+          }
+          if (options.timingFunction === &quot;spring&quot;) {
+            options.timingFunction = &quot;cubic-bezier(0.37, 1.65, 0.305, 0.855)&quot;;
+          }
+          if ([&quot;right&quot;, &quot;left&quot;, &quot;top&quot;, &quot;bottom&quot;].indexOf(options.from) &gt;= 0) {
+            $container = $msg.parent();
+            endTransition = &quot;transform &quot; + options.duration + (options.duration &lt; 10 ? &quot;s&quot; : &quot;ms&quot;) + &quot; &quot; + options.timingFunction;
+            startTranslate = (function() {
+              switch (options.from) {
+                case &quot;right&quot;:
+                  return $container.outerWidth() + $container.offset().left - $msg.offset().left;
+                case &quot;left&quot;:
+                  return -($msg.outerWidth() + $msg.offset().left - $container.offset().left);
+                case &quot;top&quot;:
+                  return -($msg.outerHeight() + $msg.offset().top - Math.max(window.scrollY, $container.offset().top));
+                case &quot;bottom&quot;:
+                  offset = $msg.offset();
+                  return Math.min($w.height() - (offset.top - $w.scrollTop()), $msg.outerHeight() + $msg.offset().top - Math.max(window.scrollY, $container.offset().top));
+              }
+            })();
+            startTranslate = (function() {
+              switch (options.from) {
+                case &quot;right&quot;:
+                case &quot;left&quot;:
+                  return &quot;translate(&quot; + startTranslate + &quot;px, 0)&quot;;
+                case &quot;top&quot;:
+                case &quot;bottom&quot;:
+                  return &quot;translate(0, &quot; + startTranslate + &quot;px)&quot;;
+              }
+            })();
+            $msg.css(&quot;transform&quot;, startTranslate);
+            $msg.transitionEnd(function() {
+              return $msg.css({
+                &quot;transition&quot;: &quot;&quot;,
+                &quot;-webkit-transition&quot;: &quot;&quot;,
+                &quot;transform&quot;: &quot;&quot;
+              });
+            });
+            return setTimeout(function() {
+              return $msg.removeClass(&quot;temp-hide&quot;).css({
+                &quot;transition&quot;: endTransition,
+                &quot;-webkit-transition&quot;: &quot;-webkit-&quot; + endTransition,
+                &quot;transform&quot;: &quot;translate(0, 0)&quot;
+              });
+            }, 5);
+          }
+        };
     
-    .message-bubble p:last-of-type {
-      margin-bottom: 0;
-    }
+        MessageBubbleController.prototype.add = function(msg, options) {
+          return this.newMessageBubble(msg, options);
+        };
     
-    .message-bubble .message-bubble-whale-tail {
-      position: absolute;
-      right: -0.5616em;
-      bottom: 0;
-      width: 1.08em;
-      height: 0.90309em;
-    }
+        MessageBubbleController.prototype.makeDateSection = function(options) {
+          var $container, $messageSet, $messages, defaults, headingText, _ref;
+          if (options == null) {
+            options = {};
+          }
+          defaults = {
+            startMessage: null,
+            endMessage: null,
+            messageCount: null,
+            sectionHeadingDate: null,
+            sectionHeadingTime: null
+          };
+          options = $.extend(defaults, options);
+          $messages = this.messages;
+          options.startMessage = this._convertPossibleSelectorToIndexNumber(options.startMessage, $messages);
+          if (options.endMessage != null) {
+            options.endMessage = 1 + this._convertPossibleSelectorToIndexNumber(options.endMessage, $messages);
+          } else if (options.messageCount) {
+            options.endMessage = options.startMessage + options.messageCount + 1;
+          }
+          if ((options.endMessage == null) || (0 &gt; (_ref = options.endMessage) &amp;&amp; _ref &gt; $messages.length)) {
+            options.endMessage = $messages.length;
+          }
+          $messageSet = $messages.slice(options.startMessage - 1, options.endMessage);
+          this._destroyOverlappingSections($messageSet);
+          $messageSet.wrapAll(this._messageDateSectionHTML);
+          $container = $messageSet.parent();
+          headingText = &quot;&lt;h3 class='message-bubble-heading'&gt; &lt;span class='message-bubble-date'&gt; &quot; + (options.sectionHeadingDate || this._weekdayString($messageSet.first().data(this._timestampKey))) + &quot; &lt;/span&gt; &quot; + (options.sectionHeadingTime ? options.sectionHeadingTime : options.sectionHeadingDate == null ? this._formatDateString($messageSet.first().data(this._timestampKey)) : void 0) + &quot; &lt;/h3&gt;&quot;;
+          $(headingText).prependTo($container);
+          return $container;
+        };
     
-    .message-bubble .message-bubble-whale-tail path {
-      fill: #1983fa;
-    }
+        MessageBubbleController.prototype._makeQuickDateSection = function($messages) {
+          var $dateSection, date;
+          $dateSection = $(this._messageDateSectionHTML);
+          date = $messages.first().data(this._timestampKey);
+          this._destroyOverlappingSections($messages);
+          $messages.appendTo($dateSection);
+          $(&quot;&lt;h3 class='message-bubble-heading'&gt; &lt;span class='message-bubble-date'&gt; &quot; + (this._weekdayString(date)) + &quot; &lt;/span&gt; &quot; + (this._formatDateString(date)) + &quot; &lt;/h3&gt;&quot;).prependTo($dateSection);
+          return $dateSection;
+        };
     
-    .message-bubble .message-bubble-timestamp {
-      position: absolute;
-      left: 100%;
-      top: 50%;
-      -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-      display: block;
-      width: 7em;
-      opacity: 0;
-      color: #bebebe;
-      font-size: 0.8em;
-      text-align: center;
-    }
+        MessageBubbleController.prototype._destroyOverlappingSections = function($messages) {
+          return $messages.each(function() {
+            var $parent, $this;
+            $this = $(this);
+            $parent = $this.parent();
+            if ($parent.hasClass(&quot;message-bubble-date-section&quot;)) {
+              $parent.children(&quot;.message-bubble-heading&quot;).remove();
+              return $this.unwrap();
+            }
+          });
+        };
     
-    .message-bubble-heading {
-      padding: 2em 0 0;
-      margin: 0;
-      clear: both;
-      font-family: Helvetica;
-      text-align: center;
-      font-size: 0.8em;
-      color: #bebebe;
-      font-weight: normal;
-    }
+        MessageBubbleController.prototype._convertPossibleSelectorToIndexNumber = function(shouldBeNum, $containingSet) {
+          if (shouldBeNum == null) {
+            return null;
+          }
+          if (typeof shouldBeNum !== &quot;number&quot;) {
+            shouldBeNum = $(shouldBeNum);
+            shouldBeNum = $containingSet.index(shouldBeNum);
+            if (shouldBeNum &lt; 0) {
+              return null;
+            }
+          }
+          return shouldBeNum;
+        };
     
-    .message-bubble-heading .message-bubble-date {
-      font-weight: bold;
-      color: #a5a5a5;
-    }
+        MessageBubbleController.prototype.removeMessageBubbles = function(sel) {
+          var $removalsMade, that;
+          $removalsMade = $();
+          that = this;
+          this.getSubsetOfMessages(sel).each(function() {
+            var $this;
+            $this = $(this);
+            that._checkForSectionRemovalAndRemove($this);
+            return $removalsMade = $removalsMade.add($this);
+          });
+          if (!($removalsMade &gt; 0)) {
+            this.messages.each(function() {
+              var $this;
+              $this = $(this);
+              if ($this.text().match(sel)) {
+                that._checkForSectionRemovalAndRemove($this);
+                return $removalsMade = $removalsMade.add($this);
+              }
+            });
+          }
+          this._update();
+          return $removalsMade;
+        };
     
-    .typing-indicator {
-      padding: 0.8em 1.6em;
-    }
+        MessageBubbleController.prototype.remove = function(sel) {
+          return this.removeMessageBubbles(sel);
+        };
     
-    .typing-indicator:before,
-    .typing-indicator:after {
-      content: '';
-      display: block;
-      position: absolute;
-      height: 0.8em;
-      width: 0.8em;
-      border-radius: 0.8em;
-      left: -0.15em;
-      bottom: -0.15em;
-      background-color: #e5e5ea;
-    }
+        MessageBubbleController.prototype[&quot;delete&quot;] = function(sel) {
+          return this.removeMessageBubbles(sel);
+        };
     
-    .typing-indicator:after {
-      height: 0.45em;
-      width: 0.45em;
-      left: -0.5em;
-      bottom: -0.5em;
-    }
+        MessageBubbleController.prototype._checkForSectionRemovalAndRemove = function($elem) {
+          if ($elem.closest(&quot;.message-bubble-date-section&quot;).length &gt; 0 &amp;&amp; $elem.siblings(&quot;.message-bubble&quot;).length &lt; 1) {
+            return $elem.parent().remove();
+          } else {
+            return $elem.remove();
+          }
+        };
     
-    @-webkit-keyframes typing-indicator-dot {
-      0% {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+        MessageBubbleController.prototype.timestamp = function(sel) {
+          var $matching, that;
+          $matching = sel instanceof jQuery ? sel : this.getSubsetOfMessages(sel);
+          that = this;
+          return $matching.each(function() {
+            var $this, date, timestamp;
+            $this = $(this);
+            timestamp = $this.data(that._timestampKey);
+            date = new Date(timestamp);
+            if (timestamp &amp;&amp; (!(new Date(timestamp) + &quot;&quot;).match(/Invalid/gi))) {
+              return $this.append(&quot;&lt;span class='message-bubble-timestamp'&gt;&quot; + (that._formatDateString(timestamp)) + &quot;&lt;/span&gt;&quot;);
+            }
+          });
+        };
     
-      35% {
-        background-color: rgba(0, 0, 0, 0.3);
-      }
+        MessageBubbleController.prototype._formatDateString = function(date) {
+          return this._timestamper.formatDateString(date);
+        };
     
-      70% {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-    }
+        MessageBubbleController.prototype._weekdayString = function(date) {
+          return this._timestamper.weekdayString(date);
+        };
     
-    @keyframes typing-indicator-dot {
-      0% {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
+        MessageBubbleController.prototype.getSubsetOfMessages = function(sel) {
+          if (sel == null) {
+            return this.messages;
+          }
+          return this.messages.filter(function() {
+            return $(this).is(sel);
+          });
+        };
     
-      35% {
-        background-color: rgba(0, 0, 0, 0.3);
-      }
+        MessageBubbleController.prototype._update = function() {
+          return this.messages = $(&quot;.message-bubble&quot;);
+        };
     
-      70% {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-    }
+        MessageBubbleController.prototype.typing = function(state) {
+          var $typingIndicators;
+          if (state == null) {
+            state = true;
+          }
+          $typingIndicators = this.container.children(&quot;.typing-indicator&quot;);
+          if (state) {
+            if ($typingIndicators.length &lt; 1) {
+              return $(&quot;&lt;div class='typing-indicator'&gt;&lt;div class='typing-indicator-dot' /&gt;&lt;/div&gt;&quot;).appendTo(this.container);
+            } else {
+              return $typingIndicators;
+            }
+          } else {
+            return $typingIndicators.remove();
+          }
+        };
     
-    .typing-indicator-dot {
-      display: block;
-      position: relative;
-      height: 0.55em;
-      width: 0.55em;
-      border-radius: 0.55em;
-      background-color: rgba(0, 0, 0, 0.1);
-      -webkit-animation: typing-indicator-dot 1.8s ease infinite;
-      animation: typing-indicator-dot 1.8s ease infinite;
-      -webkit-animation-delay: 0.3s;
-      animation-delay: 0.3s;
-    }
+        return MessageBubbleController;
     
-    .typing-indicator-dot:before,
-    .typing-indicator-dot:after {
-      content: '';
-      display: block;
-      position: absolute;
-      height: 0.55em;
-      width: 0.55em;
-      border-radius: 0.55em;
-      background-color: rgba(0, 0, 0, 0.1);
-      top: 0;
-      -webkit-animation: typing-indicator-dot 1.8s ease infinite;
-      animation: typing-indicator-dot 1.8s ease infinite;
-    }
+      })();
     
-    .typing-indicator-dot:before {
-      left: -0.85em;
-    }
+      Timestamper = (function() {
+        function Timestamper() {}
     
-    .typing-indicator-dot:after {
-      right: -0.85em;
-      -webkit-animation-delay: 0.6s;
-      animation-delay: 0.6s;
-    }
+        Timestamper.prototype.formatDateString = function(date) {
+          var adjHours, hours, mins, _ref;
+          date = new Date(date);
+          _ref = [date.getHours(), date.getMinutes()], hours = _ref[0], mins = _ref[1];
+          adjHours = hours % 12 !== 0 ? hours % 12 : 12;
+          return &quot;&quot; + adjHours + &quot;:&quot; + (mins &lt; 10 ? 0 : &quot;&quot;) + mins + &quot; &quot; + (hours &lt; 12 ? &quot;AM&quot; : &quot;PM&quot;);
+        };
+    
+        Timestamper.prototype.weekdayString = function(date) {
+          var today;
+          date = new Date(date);
+          today = new Date;
+          if (date.getYear() === today.getYear() &amp;&amp; date.getMonth() === today.getMonth() &amp;&amp; date.getDay() === today.getDay()) {
+            return &quot;Today&quot;;
+          }
+          switch (date.getDay()) {
+            case 0:
+              return &quot;Sunday&quot;;
+            case 1:
+              return &quot;Monday&quot;;
+            case 2:
+              return &quot;Tuesday&quot;;
+            case 3:
+              return &quot;Wednesday&quot;;
+            case 4:
+              return &quot;Thursday&quot;;
+            case 5:
+              return &quot;Friday&quot;;
+            default:
+              return &quot;Saturday&quot;;
+          }
+        };
+    
+        return Timestamper;
+    
+      })();
+    
+      window.MessageBubbleController = MessageBubbleController;
+    
+    }).call(this);
   </div>
 </div>
