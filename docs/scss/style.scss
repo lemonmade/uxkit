@@ -1,0 +1,27 @@
+@import "components.scss";
+
+%clearfix {
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+.component {
+    @extend %clearfix;
+
+    margin-top: 5em;
+}
+
+.source-code {
+    margin-top: 5em;
+
+    > div {
+        width: 33%;
+        float: left;
+        max-height: 15em;
+        overflow: scroll;
+        border: 1px solid black;
+    }
+}

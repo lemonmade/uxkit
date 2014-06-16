@@ -1,0 +1,844 @@
+// uxkit - v0.0.5 - 2014.06.16
+
+
+// example-device: container of all other pieces
+// example-device::before: iphone speaker
+// example-device-ratiometer: maintains the proper proportions for frame, frame color
+// example-device-ratiometer::before: camera
+// example-device-ratiometer::after: home button
+// example-device-content-wrapper: the background of the content
+// example-device-content: The container for the actual content
+
+$device-speaker-width: 2.6em;
+$device-speaker-height: 0.6em;
+$device-border-radius: 2em;
+$device-camera-size: 0.6em;
+$device-home-button-size: 2.4em;
+$device-content-background-color: white;
+
+$device-iphone-width: 15em;
+$device-iphone-side-frame-size: (2.75/55.76*100%);
+$device-iphone-top-frame-size: (15.25/123.83*100%);
+$device-iphone-height-to-width-ratio: (4.87/2.31);
+
+$device-ipad-width: 25em;
+$device-ipad-top-frame-size: 3em;
+$device-ipad-side-frame-size: 0.75em;
+$device-ipad-height-to-width-ratio: 1.33;
+
+$default-transition-length: 0.3s;
+$default-transition-easing: ease;
+
+$device-transition-cutoff-point: 30em;
+
+$device-iphone-class: device-iphone;
+$device-ipad-class: device-ipad;
+$device-both-class: device-transform;
+
+$device-flat-style-class: style-flat;
+$device-realistic-style-class: style-realistic;
+
+
+@mixin after($point) {
+    @media screen and (min-width: #{$point}) { @content; }
+}
+
+@mixin default-transition($properties...) {
+    @if length($properties) == 0 { $properties: all; }
+
+    transition-property: $properties;
+    transition-duration: $default-transition-length;
+    transition-timing-function: $default-transition-easing;
+}
+
+@mixin ipad-version($same-level: false) {
+    @if $same-level == true {
+        &.#{$device-both-class} {
+            @include after($device-transition-cutoff-point) {
+                @content;
+            }
+        }
+
+        &.#{$device-ipad-class} { @content; }
+    }
+
+    @else {
+        .#{$device-both-class} & {
+            @include after($device-transition-cutoff-point) {
+                @content;
+            }
+        }
+
+        .#{$device-ipad-class} & { @content; }
+    }
+}
+
+%centered-pseudo-content {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+}
+
+
+
+
+// Container
+.example-device {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: $device-iphone-width;
+    @include default-transition(max-width);
+
+    @include ipad-version(true) { max-width: $device-ipad-width; }
+
+
+
+
+
+
+    // Speaker
+    &:before {
+        @extend %centered-pseudo-content;
+        width: $device-speaker-width;
+        height: $device-speaker-height;
+        border-radius: (0.5*$device-speaker-height);
+        margin-left: (-0.5*$device-speaker-width);
+        @include default-transition(opacity);
+    }
+
+    @include ipad-version(true) {
+        &:before { opacity: 0; }
+    }
+
+    // &:before {
+    //     background-color: rgba(black, 0.2);
+    //     border-radius: 0.3em;
+    //     top: 2.5em;
+    //     z-index: 10;
+    // }
+
+
+
+
+
+
+    * { box-sizing: border-box; }
+}
+
+
+
+// Frame
+.example-device-ratiometer {
+    width: 100%;
+    border-radius: $device-border-radius;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: ($device-iphone-height-to-width-ratio*100%);
+    @include default-transition(padding-bottom);
+
+    @include ipad-version {
+        padding-bottom: ($device-ipad-height-to-width-ratio*100%);
+    }
+
+    &:before,
+    &:after {
+        @extend %centered-pseudo-content;
+        border-radius: 100%;
+    }
+
+    &:before {
+        height: $device-camera-size;
+        width: $device-camera-size;
+        margin-left: (-0.5*$device-camera-size);
+    }
+
+    &:after {
+        height: $device-home-button-size;
+        width: $device-home-button-size;
+        margin-left: (-0.5*$device-home-button-size);
+    }
+
+    // .example-device-ratiometer {
+    //     background-color: rgb(60, 60, 60);
+    //     z-index: 5;
+
+    //     &:before, &:after {
+    //         background-color: rgba(black, 0.2);
+    //     }
+
+    //     &:before {
+    //         top: 1.25em;
+    //     }
+
+    //     &:after {
+    //         bottom: 1.7em;
+
+    //         @include default-transition(all);
+
+    //         @include after($max-page-menu-width) {
+    //             height: 1.7em;
+    //             width: 1.7em;
+    //             bottom: 1.25em;
+    //             margin: 0 0 -0.85em -0.85em;
+    //         }
+    //     }
+    // }
+}
+
+
+
+// Content background
+.example-device-content-wrapper {
+    position: absolute;
+    top: $device-iphone-top-frame-size;
+    bottom: $device-iphone-top-frame-size;
+    left: $device-iphone-side-frame-size;
+    right: $device-iphone-side-frame-size;
+    padding: 0;
+    background-color: $device-content-background-color;
+
+    @include ipad-version {
+        top: $device-ipad-top-frame-size;
+        bottom: $device-ipad-top-frame-size;
+        left: $device-ipad-side-frame-size;
+        right: $device-ipad-side-frame-size;
+    }
+}
+
+
+
+// Content
+.example-device-content {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+
+
+.example-device.#{$device-flat-style-class} {
+    .example-device-ratiometer {
+        background-color: rgb(60, 60, 60);
+    }
+}
+
+
+// -----
+
+
+//                    ___          ___          ___
+//        ___        /  /\        /  /\        /  /\
+//       /__/\      /  /::\      /  /::\      /  /:/_
+//       \  \:\    /  /:/\:\    /  /:/\:\    /  /:/ /\
+//        \  \:\  /  /:/~/::\  /  /:/~/:/   /  /:/ /::\
+//    ___  \__\:\/__/:/ /:/\:\/__/:/ /:/___/__/:/ /:/\:\
+//   /__/\ |  |:|\  \:\/:/__\/\  \:\/:::::/\  \:\/:/~/:/
+//   \  \:\|  |:| \  \::/      \  \::/~~~~  \  \::/ /:/
+//    \  \:\__|:|  \  \:\       \  \:\       \__\/ /:/
+//     \__\::::/    \  \:\       \  \:\        /__/:/
+//         ~~~~      \__\/        \__\/        \__\/
+
+$message-bubble-background-color: rgb(25, 131, 250);
+$message-bubble-green-background-color: rgb(81, 198, 38);
+$message-bubble-text-color: rgb(255, 255, 255);
+$message-bubble-reply-background-color: rgb(229, 229, 234);
+$message-bubble-reply-text-color: rgb(2, 2, 2);
+
+$message-bubble-max-width: 18em;
+$message-bubble-width: 80%;
+$message-bubble-padding: 0.5em 0.75em;
+$message-bubble-margin-top: 0.5em;
+
+$message-bubble-extra-info-color: rgb(190, 190, 190);
+$message-bubble-extra-info-font-size: 0.8em;
+$message-bubble-timestamp-width: 7em;
+
+// Total size with fully rounded corners appears to be
+// roughly 34 px, so 1/2 (15px) on each border
+$message-bubble-border-radius: #{(17/16)}em;
+$message-bubble-tail-width: 0.06*$message-bubble-max-width;
+
+// Tail .svg size-related variables
+$message-bubble-tail-default-width: 116.42;
+$message-bubble-tail-default-height: 97.35;
+$message-bubble-tail-aspect-ratio: ($message-bubble-tail-default-width/$message-bubble-tail-default-height);
+$message-bubble-tail-start-point-x: 0.52;
+$message-bubble-tail-horizontal-offset: (-$message-bubble-tail-width*$message-bubble-tail-start-point-x);
+
+
+//        ___                    ___                     ___          ___
+//       /__/\       ___        /__/|       ___         /__/\        /  /\
+//      |  |::\     /  /\      |  |:|      /  /\        \  \:\      /  /:/_
+//      |  |:|:\   /  /:/      |  |:|     /  /:/         \  \:\    /  /:/ /\
+//    __|__|:|\:\ /__/::\    __|__|:|    /__/::\     _____\__\:\  /  /:/ /::\
+//   /__/::::| \:\\__\/\:\__/__/::::\____\__\/\:\__ /__/::::::::\/__/:/ /:/\:\
+//   \  \:\~~\__\/   \  \:\/\  ~\~~\::::/   \  \:\/\\  \:\~~\~~\/\  \:\/:/~/:/
+//    \  \:\          \__\::/   |~~|:|~~     \__\::/ \  \:\  ~~~  \  \::/ /:/
+//     \  \:\         /__/:/    |  |:|       /__/:/   \  \:\       \__\/ /:/
+//      \  \:\        \__\/     |  |:|       \__\/     \  \:\        /__/:/
+//       \__\/                  |__|/                   \__\/        \__\/
+
+// MIXIN
+// color-message-bubble()
+// -----------------------------------------------------------------------------------------
+
+// SUMMARY
+// -----------------------------------------------------------------------------------------
+// Does the required declarations to change the color of message bubbles.
+
+// PARAMETERS
+// -----------------------------------------------------------------------------------------
+// $color:       The background color you'd like for the message bubble.
+// $parent:      A parent element that must be present for the message bubble to take on
+//               this background color (optional).
+
+@mixin color-message-bubble($color, $parent: NULL) {
+    $selector: ".message-bubble";
+    @if $parent != NULL {
+        $selector: "#{unquote($parent)} .message-bubble";
+    }
+
+    #{unquote($selector)} {
+        background-color: $color;
+
+        .message-bubble-whale-tail path {
+            fill: $color;
+        }
+    }
+}
+
+$basic-spring-x1:       0.370; // first point, x-coordinate
+$basic-spring-y1:       1.650; // first point, y-coordinate
+$basic-spring-x2:       0.305; // second point, x-coordinate
+$basic-spring-y2:       0.855; // second point, y-coordinate
+
+// Construction of the actual cubic-bezier function. Use this to define the
+// transition-timing-function property in your Sass code.
+
+$basic-spring:          cubic-bezier(#{$basic-spring-x1},
+                                     #{$basic-spring-y1},
+                                     #{$basic-spring-x2},
+                                     #{$basic-spring-y2});
+
+
+// Clearfix
+%clearfix {
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+
+//        ___          ___          ___                   ___                     ___
+//       /  /\        /  /\        /__/\         ___     /  /\       ___         /__/\
+//      /  /:/       /  /::\       \  \:\       /  /\   /  /::\     /  /\        \  \:\
+//     /  /:/       /  /:/\:\       \  \:\     /  /:/  /  /:/\:\   /  /:/         \  \:\
+//    /  /:/  ___  /  /:/  \:\  _____\__\:\   /  /:/  /  /:/~/::\ /__/::\     _____\__\:\
+//   /__/:/  /  /\/__/:/ \__\:\/__/::::::::\ /  /::\ /__/:/ /:/\:\\__\/\:\__ /__/::::::::\
+//   \  \:\ /  /:/\  \:\ /  /:/\  \:\~~\~~\//__/:/\:\\  \:\/:/__\/   \  \:\/\\  \:\~~\~~\/
+//    \  \:\  /:/  \  \:\  /:/  \  \:\  ~~~ \__\/  \:\\  \::/         \__\::/ \  \:\  ~~~
+//     \  \:\/:/    \  \:\/:/    \  \:\          \  \:\\  \:\         /__/:/   \  \:\
+//      \  \::/      \  \::/      \  \:\          \__\/ \  \:\        \__\/     \  \:\
+//       \__\/        \__\/        \__\/                 \__\/                   \__\/
+
+.message-bubble-container {
+    border: 1px solid black;
+    padding: 1em;
+    overflow: hidden;
+
+    @extend %clearfix;
+}
+
+.message-bubble-date-section {
+    @extend %clearfix;
+}
+
+
+
+//                     ___                                                 ___
+//       _____        /__/\        _____        _____                     /  /\
+//      /  /::\       \  \:\      /  /::\      /  /::\                   /  /:/_
+//     /  /:/\:\       \  \:\    /  /:/\:\    /  /:/\:\   ___     ___   /  /:/ /\
+//    /  /:/~/::\  ___  \  \:\  /  /:/~/::\  /  /:/~/::\ /__/\   /  /\ /  /:/ /:/_
+//   /__/:/ /:/\:|/__/\  \__\:\/__/:/ /:/\:|/__/:/ /:/\:|\  \:\ /  /://__/:/ /:/ /\
+//   \  \:\/:/~/:/\  \:\ /  /:/\  \:\/:/~/:/\  \:\/:/~/:/ \  \:\  /:/ \  \:\/:/ /:/
+//    \  \::/ /:/  \  \:\  /:/  \  \::/ /:/  \  \::/ /:/   \  \:\/:/   \  \::/ /:/
+//     \  \:\/:/    \  \:\/:/    \  \:\/:/    \  \:\/:/     \  \::/     \  \:\/:/
+//      \  \::/      \  \::/      \  \::/      \  \::/       \__\/       \  \::/
+//       \__\/        \__\/        \__\/        \__\/                     \__\/
+
+// Generic shape that can apply to the bubbles
+// and typing indicators
+%bubble-shape {
+    // POSITION
+    position: relative;
+    float: right;
+    clear: both;
+
+    // DISPLAY AND SIZING
+    margin-top: $message-bubble-margin-top;
+
+    // BACKDROP
+    border-radius: $message-bubble-border-radius;
+
+    // TEXT
+    line-height: 1.3;
+    font-family: Helvetica;
+}
+
+// Generic styles for a replying bubble
+%reply-style-bubble {
+    background-color: $message-bubble-reply-background-color;
+    color: $message-bubble-reply-text-color;
+    float: left;
+}
+
+.message-bubble {
+    @extend %bubble-shape;
+
+    padding: $message-bubble-padding;
+    max-width: calc(100% - #{$message-bubble-timestamp-width});
+    background-color: $message-bubble-background-color;
+    color: $message-bubble-text-color;
+
+    // ADJUSTMENTS
+
+    &.reply {
+        @extend %reply-style-bubble;
+
+        .message-bubble-whale-tail {
+            right: auto;
+            left: -#{$message-bubble-tail-width + $message-bubble-tail-horizontal-offset};
+            transform: scaleX(-1); // flip horizontally
+
+            path { fill: $message-bubble-reply-background-color; }
+        }
+    }
+
+    &.no-tail .message-bubble-whale-tail { display: none; }
+
+    // Select replies directly following other replies
+    &.reply + .message-bubble.reply {
+        margin-top: ($message-bubble-margin-top/2);
+    }
+
+    // Select non-replies directly following other non-replies
+    &:not(.reply) + .message-bubble:not(.reply) {
+        margin-top: ($message-bubble-margin-top/2);
+    }
+
+    // For post-drag transitions
+    &.return {
+        transition: transform 0.4s ease;
+
+        .message-bubble-timestamp { transition: opacity 0.4s ease, transform 0.4s ease; }
+    }
+
+    &.temp-hide {
+        visibility: hidden;
+        transition: none;
+    }
+
+
+
+    .message-bubble-inner {
+        // Constrain the message bubble to a reasonable size
+        max-width: $message-bubble-max-width;
+    }
+
+    p {
+        // Prevent extra top/ bottom padding within bubble
+        &:first-of-type { margin-top: 0; }
+        &:last-of-type { margin-bottom: 0; }
+    }
+
+    // The little tail indicating directionality of the bubble
+    .message-bubble-whale-tail {
+        // POSITION
+        position: absolute;
+        right: $message-bubble-tail-horizontal-offset;
+        bottom: 0;
+
+        // DISPLAY AND SIZING
+        width: $message-bubble-tail-width;
+        height: $message-bubble-tail-width / $message-bubble-tail-aspect-ratio;
+
+        path { fill: $message-bubble-background-color; }
+    }
+
+    // The time at which the message was sent/ received
+    .message-bubble-timestamp {
+        // POSITION
+        position: absolute;
+        left: 100%; top: 50%;
+        transform: translateY(-50%);
+
+        // DISPLAN AND SIZING
+        display: block;
+        width: $message-bubble-timestamp-width;
+
+        // BACKDROP
+        opacity: 0;
+
+        // TEXT
+        color: $message-bubble-extra-info-color;
+        font-size: $message-bubble-extra-info-font-size;
+        text-align: center;
+    }
+}
+
+
+
+//        ___          ___          ___         _____                    ___          ___
+//       /__/\        /  /\        /  /\       /  /::\      ___         /__/\        /  /\
+//       \  \:\      /  /:/_      /  /::\     /  /:/\:\    /  /\        \  \:\      /  /:/_
+//        \__\:\    /  /:/ /\    /  /:/\:\   /  /:/  \:\  /  /:/         \  \:\    /  /:/ /\
+//    ___ /  /::\  /  /:/ /:/_  /  /:/~/::\ /__/:/ \__\:|/__/::\     _____\__\:\  /  /:/_/::\
+//   /__/\  /:/\:\/__/:/ /:/ /\/__/:/ /:/\:\\  \:\ /  /:/\__\/\:\__ /__/::::::::\/__/:/__\/\:\
+//   \  \:\/:/__\/\  \:\/:/ /:/\  \:\/:/__\/ \  \:\  /:/    \  \:\/\\  \:\~~\~~\/\  \:\ /~~/:/
+//    \  \::/      \  \::/ /:/  \  \::/       \  \:\/:/      \__\::/ \  \:\  ~~~  \  \:\  /:/
+//     \  \:\       \  \:\/:/    \  \:\        \  \::/       /__/:/   \  \:\       \  \:\/:/
+//      \  \:\       \  \::/      \  \:\        \__\/        \__\/     \  \:\       \  \::/
+//       \__\/        \__\/        \__\/                                \__\/        \__\/
+
+.message-bubble-heading {
+    // DISPLAY AND SIZING
+    padding: 2em 0 0;
+    margin: 0;
+    clear: both;
+
+    // TEXT
+    font-family: Helvetica;
+    text-align: center;
+    font-size: $message-bubble-extra-info-font-size;
+    color: $message-bubble-extra-info-color;
+    font-weight: normal;
+
+    .message-bubble-date {
+        font-weight: bold;
+        color: darken($message-bubble-extra-info-color, 10%);
+    }
+}
+
+
+
+
+.typing-indicator {
+    @extend %bubble-shape;
+    @extend %reply-style-bubble;
+
+    padding: 0.8em 1.6em;
+
+    &:before,
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 0.8em;
+        width: 0.8em;
+        border-radius: 0.8em;
+        left: -0.15em;
+        bottom: -0.15em;
+        background-color: $message-bubble-reply-background-color;
+    }
+
+    &:after {
+        height: 0.45em;
+        width: 0.45em;
+        left: -0.5em;
+        bottom: -0.5em;
+    }
+}
+
+$typing-indicator-dot-size: 0.55em;
+$typing-indicator-dot-start-color: rgba(black, 0.1);
+$typing-indicator-dot-end-color: rgba(black, 0.3);
+$typing-indicator-dot-inner-spacing: 0.3em;
+$typing-indicator-dot-animation: typing-indicator-dot 1.8s ease infinite;
+$typing-indicator-dot-animation-delay-interval: 0.3s;
+
+@keyframes typing-indicator-dot {
+    0% { background-color: $typing-indicator-dot-start-color; }
+    35% { background-color: $typing-indicator-dot-end-color; }
+    70% { background-color: $typing-indicator-dot-start-color; }
+}
+
+.typing-indicator-dot {
+    display: block;
+    position: relative;
+    height: $typing-indicator-dot-size;
+    width: $typing-indicator-dot-size;
+    border-radius: $typing-indicator-dot-size;
+    background-color: $typing-indicator-dot-start-color;
+
+    animation: $typing-indicator-dot-animation;
+    animation-delay: $typing-indicator-dot-animation-delay-interval;
+
+    &:before,
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: $typing-indicator-dot-size;
+        width: $typing-indicator-dot-size;
+        border-radius: $typing-indicator-dot-size;
+        background-color: $typing-indicator-dot-start-color;
+        top: 0;
+        animation: $typing-indicator-dot-animation;
+    }
+
+    &:before {
+        left: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
+    }
+
+    &:after {
+        right: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
+        animation-delay: (2*$typing-indicator-dot-animation-delay-interval);
+    }
+}
+
+
+// -----
+
+
+
+
+
+// -----
+
+
+
+
+
+// -----
+
+
+$segmented-control-main-color: rgb(11, 97, 255);
+$segmented-control-secondary-color: white;
+$segmented-control-option-target-width: 8em;
+$segmented-control-option-vertical-padding: 0.5em;
+$segmented-control-option-horizontal-padding: 0.3em;
+$segmented-control-option-border-radius: 0.35em;
+$segmented-control-font-size: 0.8em;
+
+.segmented-control {
+    border-radius: $segmented-control-option-border-radius;
+    text-align: center;
+}
+
+.segmented-option {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    display: inline-block;
+    position: relative;
+    border: 1px solid $segmented-control-main-color;
+    color: $segmented-control-main-color;
+    width: $segmented-control-option-target-width;
+    max-width: 33%;
+    font-size: $segmented-control-font-size;
+    overflow: hidden;
+
+    &:not(:first-of-type) {
+        margin-left: -5px;
+    }
+
+    &:first-of-type {
+        border-radius: $segmented-control-option-border-radius 0 0 $segmented-control-option-border-radius;
+    }
+
+    &:last-of-type {
+        border-radius: 0 $segmented-control-option-border-radius $segmented-control-option-border-radius 0;
+    }
+
+    label {
+        display: block;
+        text-align: center;
+        padding: $segmented-control-option-vertical-padding $segmented-control-option-horizontal-padding;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background-color: $segmented-control-secondary-color;
+    }
+
+    input {
+        height: 0;
+        width: 0;
+        opacity: 0;
+        position: absolute;
+        top: 0; left: 0;
+
+        &:checked {
+            & + label {
+                background-color: $segmented-control-main-color;
+                color: $segmented-control-secondary-color;
+            }
+        }
+    }
+}
+
+
+// -----
+
+
+
+
+
+// -----
+
+
+
+
+
+// -----
+
+
+//                    ___          ___          ___
+//        ___        /  /\        /  /\        /  /\
+//       /__/\      /  /::\      /  /::\      /  /:/_
+//       \  \:\    /  /:/\:\    /  /:/\:\    /  /:/ /\
+//        \  \:\  /  /:/~/::\  /  /:/~/:/   /  /:/ /::\
+//    ___  \__\:\/__/:/ /:/\:\/__/:/ /:/___/__/:/ /:/\:\
+//   /__/\ |  |:|\  \:\/:/__\/\  \:\/:::::/\  \:\/:/~/:/
+//   \  \:\|  |:| \  \::/      \  \::/~~~~  \  \::/ /:/
+//    \  \:\__|:|  \  \:\       \  \:\       \__\/ /:/
+//     \__\::::/    \  \:\       \  \:\        /__/:/
+//         ~~~~      \__\/        \__\/        \__\/
+
+$toggle-switch-height: 2em;
+$toggle-switch-width: 3.5em;
+$toggle-switch-inactive-border-color: rgba(black, 0.1);
+$toggle-switch-inactive-background-color: white;
+$toggle-switch-switch-color: white;
+$toggle-switch-active-color: rgb(19, 184, 0);
+$toggle-switch-color-transition-duration: 0.45s;
+$toggle-switch-shadow: -2px 2px 6px rgba(black, 0.45);
+$toggle-switch-focus-highlight: 0 0 3px 2px rgba(161, 205, 255, 1);
+
+
+//                 ___          ___          ___                       ___
+//        ___     /  /\        /  /\        /  /\                     /  /\
+//       /  /\   /  /::\      /  /:/_      /  /:/_                   /  /:/_
+//      /  /:/  /  /:/\:\    /  /:/ /\    /  /:/ /\   ___     ___   /  /:/ /\
+//     /  /:/  /  /:/  \:\  /  /:/_/::\  /  /:/_/::\ /__/\   /  /\ /  /:/ /:/_
+//    /  /::\ /__/:/ \__\:\/__/:/__\/\:\/__/:/__\/\:\\  \:\ /  /://__/:/ /:/ /\
+//   /__/:/\:\\  \:\ /  /:/\  \:\ /~~/:/\  \:\ /~~/:/ \  \:\  /:/ \  \:\/:/ /:/
+//   \__\/  \:\\  \:\  /:/  \  \:\  /:/  \  \:\  /:/   \  \:\/:/   \  \::/ /:/
+//        \  \:\\  \:\/:/    \  \:\/:/    \  \:\/:/     \  \::/     \  \:\/:/
+//         \__\/ \  \::/      \  \::/      \  \::/       \__\/       \  \::/
+//                \__\/        \__\/        \__\/                     \__\/
+
+.toggle-switch {
+    display: inline-block;
+    position: relative;
+    border-radius: $toggle-switch-height;
+
+    &:focus {
+        box-shadow: $toggle-switch-focus-highlight;
+        outline: none;
+    }
+
+    &:active { box-shadow: none; }
+
+
+    input {
+        // Kill the default styles
+        height: 0;
+        width: 0;
+        opacity: 0;
+        position: absolute;
+        top: 0; left: 0;
+        z-index: -1;
+
+        & + label {
+            // DISPLAY AND SIZING
+            display: block;
+            height: $toggle-switch-height;
+            width: $toggle-switch-width;
+            box-sizing: content-box;
+
+            // POSITIONING
+            position: relative;
+
+            // BACKDROP
+            border: 2px solid transparent; // allows bgc to seep through
+            border-radius: $toggle-switch-height;
+            background-color: $toggle-switch-inactive-border-color;
+
+            // TEXT
+            text-indent: -200em;
+
+            // TRANSITIONS AND ANIMATIONS
+            transition: background-color $toggle-switch-color-transition-duration ease,
+                        opacity $toggle-switch-color-transition-duration ease;
+
+            &:after,
+            &:before {
+                content: '';
+
+                // POSITIONING
+                position: absolute;
+                top: 0;
+                left: 0;
+
+                // DISPLAY AND SIZING
+                display: block;
+                height: $toggle-switch-height;
+                width: $toggle-switch-height;
+
+                // BACKDROP
+                background-color: $toggle-switch-inactive-background-color;
+                border-radius: $toggle-switch-height;
+
+                // TRANSITIONS AND ANIMATIONS
+                transition: transform (1.25*$toggle-switch-color-transition-duration) ease,
+                            opacity $toggle-switch-color-transition-duration ease;
+            }
+
+            &:before {
+                width: $toggle-switch-width;
+                transform: scale(1);
+                transition-delay: ($toggle-switch-color-transition-duration/4),
+                                  (2*$toggle-switch-color-transition-duration/4);
+            }
+
+            &:after {
+                background-color: $toggle-switch-switch-color;
+                box-shadow: $toggle-switch-shadow;
+                transition-timing-function: cubic-bezier(0.37, 1.65, 0.305, 0.855);
+            }
+        }
+
+
+        //        ___          ___          ___          ___          ___          ___         _____
+        //       /  /\        /__/\        /  /\        /  /\        /__/|        /  /\       /  /::\
+        //      /  /:/        \  \:\      /  /:/_      /  /:/       |  |:|       /  /:/_     /  /:/\:\
+        //     /  /:/          \__\:\    /  /:/ /\    /  /:/        |  |:|      /  /:/ /\   /  /:/  \:\
+        //    /  /:/  ___  ___ /  /::\  /  /:/ /:/_  /  /:/  ___  __|  |:|     /  /:/ /:/_ /__/:/ \__\:|
+        //   /__/:/  /  /\/__/\  /:/\:\/__/:/ /:/ /\/__/:/  /  /\/__/\_|:|____/__/:/ /:/ /\\  \:\ /  /:/
+        //   \  \:\ /  /:/\  \:\/:/__\/\  \:\/:/ /:/\  \:\ /  /:/\  \:\/:::::/\  \:\/:/ /:/ \  \:\  /:/
+        //    \  \:\  /:/  \  \::/      \  \::/ /:/  \  \:\  /:/  \  \::/~~~~  \  \::/ /:/   \  \:\/:/
+        //     \  \:\/:/    \  \:\       \  \:\/:/    \  \:\/:/    \  \:\       \  \:\/:/     \  \::/
+        //      \  \::/      \  \:\       \  \::/      \  \::/      \  \:\       \  \::/       \__\/
+        //       \__\/        \__\/        \__\/        \__\/        \__\/        \__\/
+
+        // When checkbox is active
+        &:checked {
+            & + label {
+                background-color: $toggle-switch-active-color;
+
+                &:after { transform: translateX(#{$toggle-switch-width - $toggle-switch-height}); }
+                &:before { transform: scale(0); }
+            }
+        }
+
+        &:disabled {
+            & + label {
+                opacity: 0.4;
+            }
+        }
+    }
+}
