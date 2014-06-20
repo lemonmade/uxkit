@@ -45,12 +45,13 @@
       }
       this._setSegmentMaxWidth(1, $option);
       if (position === 1) {
-        return $option.prependTo(this.segmentedControl);
+        $option.prependTo(this.segmentedControl);
       } else if (position > (numberOfOptions + 1)) {
-        return $option.appendTo(this.segmentedControl);
+        $option.appendTo(this.segmentedControl);
       } else {
-        return $option.insertAfter(this.segmentedControl.children(".segmented-option:nth-of-type(" + (position - 1) + ")"));
+        $option.insertAfter(this.segmentedControl.children(".segmented-option:nth-of-type(" + (position - 1) + ")"));
       }
+      return this;
     };
 
     SegmentedControl.prototype.removeOptions = function() {
@@ -72,6 +73,7 @@
       console.log(findSelector);
       this.segmentedControl.children(findSelector).remove();
       this._setSegmentMaxWidth();
+      return this;
     };
 
     return SegmentedControl;
