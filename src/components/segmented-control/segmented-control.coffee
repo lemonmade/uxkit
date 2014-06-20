@@ -37,6 +37,7 @@ class SegmentedControl
             $option.appendTo @segmentedControl
         else
             $option.insertAfter @segmentedControl.children(".segmented-option:nth-of-type(#{position - 1})")
+        return this
 
 
     removeOptions: (options...) ->
@@ -59,8 +60,7 @@ class SegmentedControl
         console.log findSelector
         @segmentedControl.children(findSelector).remove()
         @_setSegmentMaxWidth()
-        return
-
+        return this
 
 SegmentedControl.template = "<div class='segmented-control' data-control-name='NAME'></div>"
 
@@ -123,6 +123,8 @@ class SegmentedControlController
 
         $segmentedControl.appendTo options.container
 
+        segmentedControl
+
 
 
     setMainColor: (color) ->
@@ -132,11 +134,15 @@ class SegmentedControlController
 
         @_appendCustomStyle toggledRule, untoggledRule, "updatedMainColor"
 
+        this
+
     setSecondaryColor: (color) ->
         untoggledRule = ".segmented-option label { background-color: #{color}; }"
         toggledRule = ".segmented-option input:checked + label { color: #{color}; }"
 
         @_appendCustomStyle toggledRule, untoggledRule, "updatedSecondaryColor"
+
+        this
 
 
     _appendCustomStyle: (toggledRule, untoggledRule, type) ->
