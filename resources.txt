@@ -1,0 +1,43 @@
+# Component Bundling
+uikit: http://www.getuikit.com
+https://github.com/driftyco/ionic
+refills: https://github.com/thoughtbot/refills/tree/master/source
+
+# Similar Component Libraries
+http://goratchet.com/components/
+http://www.idangero.us/framework7/#.U5hB28zH2S1
+
+# Animations
+CSS cubic-bezier creator: http://matthewlein.com/ceaser/
+Morf, a JS library for creating advanced transition timings using keyframes: https://github.com/joelambert/morf/
+Dynamics: https://github.com/michaelvillar/dynamics.js/tree/master
+http://bouncejs.com
+
+# Toggle Switch
+http://www.jqueryscript.net/form/Creating-iOS-7-Style-Toggle-Switches-With-Switchery-js.html
+http://www.designcouch.com/home/why/2013/09/19/ios7-style-pure-css-toggle/
+
+# Slider Value Picker
+https://github.com/abpetkov/powerange
+
+# Snapping Menus
+https://github.com/jakiestfu/Snap.js/blob/develop/snap.js
+
+# Spinner
+http://fgnass.github.io/spin.js/
+
+# iPhone/ iPad container
+http://jaredsinclair.com/unread/iphonetest.html
+
+# Making web apps that look like iOS
+http://mir.aculo.us/2013/09/16/how-to-create-a-web-app-that-looks-like-a-ios7-native-app-part-1/
+
+# iOS Design Docs
+http://ivomynttinen.com/blog/the-ios-7-design-cheat-sheet/
+https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/UIKitUICatalog/UISegmentedControl.html#//apple_ref/doc/uid/TP40012857-UISegmentedControl-SW1
+
+# Other
+http://c2prods.com/2013/cloning-the-ui-of-ios-7-with-html-css-and-javascript/
+
+# Messages App
+http://scotthurff.com/posts/what-we-can-learn-from-apples-imessage-changes-in-ios-8
