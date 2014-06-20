@@ -6,7 +6,21 @@ see https://github.com/thoughtbot/shoulda-matchers/blob/master/CONTRIBUTING.md f
 
 
 ## Components
-Each component must include three files, plus an two optional files:
+### Existing Components
+When making changes to existing components, Unser that you continue to respect the three project philosophies noted in the following section. Please also adhere to the coding style that already exists in the files (four spaces for indentation, ASCII art headings for major sections, typically CAS/ JavaScript naming conventions, etc).
+
+If you are adding a new feature to a component, please add a test case for that feature in the relevant `spec/specs/component-name.spec` file. Regardless of what changes you make, please ensure that all tests continue to pass by running `grunt tests` before committing your changes.
+
+### New Components
+#### Philosophy
+Components should:
+
+- Be responsive: all instances where a component can, in some way, be sized relative to the viewport, they should be.
+- Be as semantic as possible and respect progressive enhancement: as many elements as are needed and no more. If only the HTML is loaded, is the semantic value of the component preserved?
+- Be functional without JavaScript: if possible, the core purpose of the component should be available without JavaScript intervention. For example, the toggle switch component uses a label and checkbox so that it can continue to be toggled when no JavaScript is included.
+
+#### Files
+Each component must include three files, plus two optional files:
 
 1. A `.haml` file containing the markup for the component (see the [Haml homepage](http://haml.info) or other comonents' `.haml` files if you are unfamiliar with the syntax) `src/components/your-component/your-component.haml`.
 
@@ -22,6 +36,6 @@ All component names should be in lowercase with hyphens (no underscores or camel
 
 If a `coffeescript` file is included as part of your component, the class names should be the camelcase version of your component name; if the component includes some sort of controller, the class name should be `ComponentNameController`. For example, the `toggle-switch` component has two `coffeescript` classes: `ToggleSwitch` (to represent a single component) and `ToggleSwitchController` (to represent the controller of all such components on a page). See below for more details on the expectations for `coffeescript` components.
 
-### CoffeeScript
+##### CoffeeScript
 TODO
 See the other `coffeescript` component files for more examples of how the components should be structured.
