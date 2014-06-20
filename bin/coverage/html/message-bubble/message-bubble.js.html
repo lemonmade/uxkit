@@ -1,0 +1,1549 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for message-bubble/message-bubble.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("http://yui.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header medium">
+    <h1>Code coverage report for <span class="entity">message-bubble/message-bubble.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">71.49% <small>(173 / 242)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">58.57% <small>(82 / 140)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">71.43% <small>(30 / 42)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">71.49% <small>(173 / 242)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">message-bubble/</a> &#187; message-bubble.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">43</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-yes">57</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">83</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">79</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52</span>
+<span class="cline-any cline-yes">52</span>
+<span class="cline-any cline-yes">52</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-yes">96</span>
+<span class="cline-any cline-yes">96</span>
+<span class="cline-any cline-yes">96</span>
+<span class="cline-any cline-yes">96</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-yes">101</span>
+<span class="cline-any cline-yes">101</span>
+<span class="cline-any cline-yes">101</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">89</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">98</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">93</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">83</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">93</span>
+<span class="cline-any cline-yes">85</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">177</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-yes">88</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function() {
+  var $w, DAYS_IN_MS, MessageBubble, MessageBubbleController, Timestamper;
+&nbsp;
+  DAYS_IN_MS = 86400000;
+&nbsp;
+  $w = $(window);
+&nbsp;
+  $.fn.transitionEnd = <span class="fstat-no" title="function not covered" >function(handler) {</span>
+<span class="cstat-no" title="statement not covered" >    return this.one("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", handler);</span>
+  };
+&nbsp;
+  $.fn.animationEnd = <span class="fstat-no" title="function not covered" >function(handler) {</span>
+<span class="cstat-no" title="statement not covered" >    return this.one("webkitAnimationEnd oanimationend msAnimationEnd animationend", handler);</span>
+  };
+&nbsp;
+  $.fn.verticalSpaceAvail = <span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >    return this.offset().top - $w.scrollTop();</span>
+  };
+&nbsp;
+  MessageBubble = (function() {
+<span class="fstat-no" title="function not covered" >    function MessageBubble() {</span>}
+&nbsp;
+    return MessageBubble;
+&nbsp;
+  })();
+&nbsp;
+  MessageBubble.template = "&lt;div class='message-bubble'&gt; &lt;div class='message-bubble-inner'&gt; MESSAGE &lt;svg class='message-bubble-whale-tail' width='116px' height='119px' viewBox='0 0 116 119' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' enable-background='new 0 0 116.42 97.35' xml:space='preserve'&gt; &lt;path fill='#A0A0A0' d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z'&gt;&lt;/path&gt; &lt;/svg&gt; &lt;/div&gt; &lt;/div&gt;";
+&nbsp;
+  MessageBubbleController = (function() {
+    function MessageBubbleController(settings) {
+      var $messageBubbleContainer;
+      if (settings == null) {
+        settings = {};
+      }
+      $messageBubbleContainer = $(".message-bubble-container");
+      if ($messageBubbleContainer.length &lt; 1) {
+        $messageBubbleContainer = $("body");
+      }
+      this.container = settings.container != null ? settings.container : $messageBubbleContainer;
+      this.messages = $(".message-bubble");
+      this._messageDateSectionHTML = "&lt;section class='message-bubble-date-section' /&gt;";
+      this._timestampKey = "message-timestamp";
+      this._timestamper = new Timestamper;
+      this.automateDateSections = settings.automateDateSections != null ? settings.automateDateSections : true;
+      this.dateSectionCutoff = settings.dateSectionCutoff != null ? <span class="branch-0 cbranch-no" title="branch not covered" >settings.dateSectionCutoff </span>: "unique-day";
+    }
+&nbsp;
+    MessageBubbleController.prototype.setBackgroundColor = function(color, sel) {
+      return this.getSubsetOfMessages(sel).each(function() {
+        var $this;
+        $this = $(this);
+        $this.css("background-color", color);
+        return $this.find(".message-bubble-whale-tail path").css("fill", color);
+      });
+    };
+&nbsp;
+    MessageBubbleController.prototype.setTextColor = function(color, sel) {
+      return this.getSubsetOfMessages(sel).each(function() {
+        return $(this).css("color", color);
+      });
+    };
+&nbsp;
+    MessageBubbleController.prototype.newMessageBubble = function(msg, options) {
+      var $afterElement, $beforeElement, $container, $insertionPoint, $lastDateSection, $lastMsg, $message, $relevantContainerChild, $replyMsg, curTSinDays, defaults, lastTSinDays, time;
+      if (options == null) {
+        options = {};
+      }
+      defaults = {
+        after: null,
+        append: true,
+        container: null,
+        artificialDate: null,
+        timestamp: true,
+        tail: true,
+        inReplyTo: null,
+        reply: false,
+        animate: null
+      };
+      options = $.extend(defaults, options);
+      $message = $(MessageBubble.template.replace("MESSAGE", msg)).addClass("temp-hide");
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (options.animate != null) {
+<span class="cstat-no" title="statement not covered" >        $message.css("visibility", "none");</span>
+      }
+      if (options.append instanceof jQuery || Object.prototype.toString.call(options.append) === "[object String]") {
+        options.container = $(options.append);
+        options.append = true;
+      }
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (options.timestamp) {
+        time = options.artificialDate != null ? new Date(options.artificialDate) : new Date;
+        $message.attr("data-" + this._timestampKey, time.getTime());
+        this.timestamp($message);
+      }
+      if (!options.tail) {
+        $message.addClass("no-tail");
+      }
+      if (options.reply) {
+        $message.addClass("reply");
+      }
+      if ((options.inReplyTo != null) &amp;&amp; ($replyMsg = $(options.inReplyTo)).length &gt; 0) {
+        $message[$replyMsg.hasClass("reply") ? "removeClass" : "addClass"]("reply");
+      }
+      if (options.after) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (($afterElement = $(options.after)).length &gt; 0) {
+          $message.insertAfter($afterElement);
+        }
+      } else if (options.before) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (($beforeElement = $(options.before)).length &gt; 0) {
+          $message.insertBefore($beforeElement);
+        }
+      } else if (this.automateDateSections &amp;&amp; (options.timestamp != null) &amp;&amp; this.messages.length &gt; 0) {
+        $lastMsg = this.messages.last();
+        curTSinDays = Math.floor(new Date($message.data(this._timestampKey)).getTime() / DAYS_IN_MS);
+        lastTSinDays = Math.floor(new Date($lastMsg.data(this._timestampKey)).getTime() / DAYS_IN_MS);
+        if (curTSinDays - lastTSinDays &gt;= 1) {
+          $insertionPoint = ($lastDateSection = $lastMsg.closest(".message-bubble-date-section")).length &gt; 0 ? $lastDateSection : $lastMsg;
+          this._makeQuickDateSection($message).insertAfter($insertionPoint);
+        } else {
+          $message.insertAfter($lastMsg);
+        }
+      } else {
+        $container = options.container != null ? $(options.container) : this.container;
+        $relevantContainerChild = $container.children(options.append ? ":last-child" : ":first-child");
+        <span class="missing-if-branch" title="if path not taken" >I</span>if ($relevantContainerChild.hasClass("message-bubble-date-section")) {
+<span class="cstat-no" title="statement not covered" >          $container = $relevantContainerChild;</span>
+        }
+        $message[options.append ? "appendTo" : "prependTo"]($container);
+      }
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (options.animate != null) {
+<span class="cstat-no" title="statement not covered" >        this._resolveAddAnimation($message, options.animate);</span>
+      } else {
+        $message.removeClass("temp-hide");
+      }
+      this._update();
+      return $message;
+    };
+&nbsp;
+    MessageBubbleController.prototype._resolveAddAnimation = <span class="fstat-no" title="function not covered" >function($msg, animate) {</span>
+<span class="cstat-no" title="statement not covered" >      var $container, defaults, endTransition, offset, options, startTranslate;</span>
+<span class="cstat-no" title="statement not covered" >      defaults = {</span>
+        props: null,
+        duration: 400,
+        delay: 0,
+        timingFunction: "ease",
+        from: "right",
+        callback: null
+      };
+<span class="cstat-no" title="statement not covered" >      options = $.extend(defaults, animate);</span>
+<span class="cstat-no" title="statement not covered" >      if (options.duration == null) {</span>
+<span class="cstat-no" title="statement not covered" >        return null;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (options.timingFunction === "spring") {</span>
+<span class="cstat-no" title="statement not covered" >        options.timingFunction = "cubic-bezier(0.37, 1.65, 0.305, 0.855)";</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (["right", "left", "top", "bottom"].indexOf(options.from) &gt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >        $container = $msg.parent();</span>
+<span class="cstat-no" title="statement not covered" >        endTransition = "transform " + options.duration + (options.duration &lt; 10 ? "s" : "ms") + " " + options.timingFunction;</span>
+<span class="cstat-no" title="statement not covered" >        startTranslate = (<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >          switch (options.from) {</span>
+            case "right":
+<span class="cstat-no" title="statement not covered" >              return $container.outerWidth() + $container.offset().left - $msg.offset().left;</span>
+            case "left":
+<span class="cstat-no" title="statement not covered" >              return -($msg.outerWidth() + $msg.offset().left - $container.offset().left);</span>
+            case "top":
+<span class="cstat-no" title="statement not covered" >              return -($msg.outerHeight() + $msg.offset().top - Math.max(window.scrollY, $container.offset().top));</span>
+            case "bottom":
+<span class="cstat-no" title="statement not covered" >              offset = $msg.offset();</span>
+<span class="cstat-no" title="statement not covered" >              return Math.min($w.height() - (offset.top - $w.scrollTop()), $msg.outerHeight() + $msg.offset().top - Math.max(window.scrollY, $container.offset().top));</span>
+          }
+        })();
+<span class="cstat-no" title="statement not covered" >        startTranslate = (<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >          switch (options.from) {</span>
+            case "right":
+            case "left":
+<span class="cstat-no" title="statement not covered" >              return "translate(" + startTranslate + "px, 0)";</span>
+            case "top":
+            case "bottom":
+<span class="cstat-no" title="statement not covered" >              return "translate(0, " + startTranslate + "px)";</span>
+          }
+        })();
+<span class="cstat-no" title="statement not covered" >        $msg.css("transform", startTranslate);</span>
+<span class="cstat-no" title="statement not covered" >        $msg.transitionEnd(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >          return $msg.css({</span>
+            "transition": "",
+            "-webkit-transition": "",
+            "transform": ""
+          });
+        });
+<span class="cstat-no" title="statement not covered" >        return setTimeout(<span class="fstat-no" title="function not covered" >function() {</span></span>
+<span class="cstat-no" title="statement not covered" >          return $msg.removeClass("temp-hide").css({</span>
+            "transition": endTransition,
+            "-webkit-transition": "-webkit-" + endTransition,
+            "transform": "translate(0, 0)"
+          });
+        }, 5);
+      }
+    };
+&nbsp;
+    MessageBubbleController.prototype.add = function(msg, options) {
+      return this.newMessageBubble(msg, options);
+    };
+&nbsp;
+    MessageBubbleController.prototype.makeDateSection = <span class="fstat-no" title="function not covered" >function(options) {</span>
+<span class="cstat-no" title="statement not covered" >      var $container, $messageSet, $messages, defaults, headingText, _ref;</span>
+<span class="cstat-no" title="statement not covered" >      if (options == null) {</span>
+<span class="cstat-no" title="statement not covered" >        options = {};</span>
+      }
+<span class="cstat-no" title="statement not covered" >      defaults = {</span>
+        startMessage: null,
+        endMessage: null,
+        messageCount: null,
+        sectionHeadingDate: null,
+        sectionHeadingTime: null
+      };
+<span class="cstat-no" title="statement not covered" >      options = $.extend(defaults, options);</span>
+<span class="cstat-no" title="statement not covered" >      $messages = this.messages;</span>
+<span class="cstat-no" title="statement not covered" >      options.startMessage = this._convertPossibleSelectorToIndexNumber(options.startMessage, $messages);</span>
+<span class="cstat-no" title="statement not covered" >      if (options.endMessage != null) {</span>
+<span class="cstat-no" title="statement not covered" >        options.endMessage = 1 + this._convertPossibleSelectorToIndexNumber(options.endMessage, $messages);</span>
+      } else <span class="cstat-no" title="statement not covered" >if (options.messageCount) {</span>
+<span class="cstat-no" title="statement not covered" >        options.endMessage = options.startMessage + options.messageCount + 1;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if ((options.endMessage == null) || (0 &gt; (_ref = options.endMessage) &amp;&amp; _ref &gt; $messages.length)) {</span>
+<span class="cstat-no" title="statement not covered" >        options.endMessage = $messages.length;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      $messageSet = $messages.slice(options.startMessage - 1, options.endMessage);</span>
+<span class="cstat-no" title="statement not covered" >      this._destroyOverlappingSections($messageSet);</span>
+<span class="cstat-no" title="statement not covered" >      $messageSet.wrapAll(this._messageDateSectionHTML);</span>
+<span class="cstat-no" title="statement not covered" >      $container = $messageSet.parent();</span>
+<span class="cstat-no" title="statement not covered" >      headingText = "&lt;h3 class='message-bubble-heading'&gt; &lt;span class='message-bubble-date'&gt; " + (options.sectionHeadingDate || this._weekdayString($messageSet.first().data(this._timestampKey))) + " &lt;/span&gt; " + (options.sectionHeadingTime ? options.sectionHeadingTime : options.sectionHeadingDate == null ? this._formatDateString($messageSet.first().data(this._timestampKey)) : void 0) + " &lt;/h3&gt;";</span>
+<span class="cstat-no" title="statement not covered" >      $(headingText).prependTo($container);</span>
+<span class="cstat-no" title="statement not covered" >      return $container;</span>
+    };
+&nbsp;
+    MessageBubbleController.prototype._makeQuickDateSection = function($messages) {
+      var $dateSection, date;
+      $dateSection = $(this._messageDateSectionHTML);
+      date = $messages.first().data(this._timestampKey);
+      this._destroyOverlappingSections($messages);
+      $messages.appendTo($dateSection);
+      $("&lt;h3 class='message-bubble-heading'&gt; &lt;span class='message-bubble-date'&gt; " + (this._weekdayString(date)) + " &lt;/span&gt; " + (this._formatDateString(date)) + " &lt;/h3&gt;").prependTo($dateSection);
+      return $dateSection;
+    };
+&nbsp;
+    MessageBubbleController.prototype._destroyOverlappingSections = function($messages) {
+      return $messages.each(function() {
+        var $parent, $this;
+        $this = $(this);
+        $parent = $this.parent();
+        <span class="missing-if-branch" title="if path not taken" >I</span>if ($parent.hasClass("message-bubble-date-section")) {
+<span class="cstat-no" title="statement not covered" >          $parent.children(".message-bubble-heading").remove();</span>
+<span class="cstat-no" title="statement not covered" >          return $this.unwrap();</span>
+        }
+      });
+    };
+&nbsp;
+    MessageBubbleController.prototype._convertPossibleSelectorToIndexNumber = <span class="fstat-no" title="function not covered" >function(shouldBeNum, $containingSet) {</span>
+<span class="cstat-no" title="statement not covered" >      if (shouldBeNum == null) {</span>
+<span class="cstat-no" title="statement not covered" >        return null;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (typeof shouldBeNum !== "number") {</span>
+<span class="cstat-no" title="statement not covered" >        shouldBeNum = $(shouldBeNum);</span>
+<span class="cstat-no" title="statement not covered" >        shouldBeNum = $containingSet.index(shouldBeNum);</span>
+<span class="cstat-no" title="statement not covered" >        if (shouldBeNum &lt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >          return null;</span>
+        }
+      }
+<span class="cstat-no" title="statement not covered" >      return shouldBeNum;</span>
+    };
+&nbsp;
+    MessageBubbleController.prototype.removeMessageBubbles = function(sel) {
+      var $removalsMade, that;
+      $removalsMade = $();
+      that = this;
+      this.getSubsetOfMessages(sel).each(function() {
+        var $this;
+        $this = $(this);
+        that._checkForSectionRemovalAndRemove($this);
+        return $removalsMade = $removalsMade.add($this);
+      });
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (!($removalsMade &gt; 0)) {
+        this.messages.each(function() {
+          var $this;
+          $this = $(this);
+          if ($this.text().match(sel)) {
+            that._checkForSectionRemovalAndRemove($this);
+            return $removalsMade = $removalsMade.add($this);
+          }
+        });
+      }
+      this._update();
+      return $removalsMade;
+    };
+&nbsp;
+    MessageBubbleController.prototype.remove = function(sel) {
+      return this.removeMessageBubbles(sel);
+    };
+&nbsp;
+    MessageBubbleController.prototype["delete"] = <span class="fstat-no" title="function not covered" >function(sel) {</span>
+<span class="cstat-no" title="statement not covered" >      return this.removeMessageBubbles(sel);</span>
+    };
+&nbsp;
+    MessageBubbleController.prototype._checkForSectionRemovalAndRemove = function($elem) {
+      if ($elem.closest(".message-bubble-date-section").length &gt; 0 &amp;&amp; $elem.siblings(".message-bubble").length &lt; 1) {
+        return $elem.parent().remove();
+      } else {
+        return $elem.remove();
+      }
+    };
+&nbsp;
+    MessageBubbleController.prototype.timestamp = function(sel) {
+      var $matching, that;
+      $matching = sel instanceof jQuery ? sel : <span class="branch-1 cbranch-no" title="branch not covered" >this.getSubsetOfMessages(sel);</span>
+      that = this;
+      return $matching.each(function() {
+        var $this, date, timestamp;
+        $this = $(this);
+        timestamp = $this.data(that._timestampKey);
+        date = new Date(timestamp);
+        if (timestamp &amp;&amp; (!(new Date(timestamp) + "").match(/Invalid/gi))) {
+          return $this.append("&lt;span class='message-bubble-timestamp'&gt;" + (that._formatDateString(timestamp)) + "&lt;/span&gt;");
+        }
+      });
+    };
+&nbsp;
+    MessageBubbleController.prototype._formatDateString = function(date) {
+      return this._timestamper.formatDateString(date);
+    };
+&nbsp;
+    MessageBubbleController.prototype._weekdayString = function(date) {
+      return this._timestamper.weekdayString(date);
+    };
+&nbsp;
+    MessageBubbleController.prototype.getSubsetOfMessages = function(sel) {
+      if (sel == null) {
+        return this.messages;
+      }
+      return this.messages.filter(function() {
+        return $(this).is(sel);
+      });
+    };
+&nbsp;
+    MessageBubbleController.prototype._update = function() {
+      return this.messages = $(".message-bubble");
+    };
+&nbsp;
+    MessageBubbleController.prototype.typing = function(state) {
+      var $typingIndicators;
+      if (state == null) {
+        state = true;
+      }
+      $typingIndicators = this.container.children(".typing-indicator");
+      if (state) {
+        if ($typingIndicators.length &lt; 1) {
+          return $("&lt;div class='typing-indicator'&gt;&lt;div class='typing-indicator-dot' /&gt;&lt;/div&gt;").appendTo(this.container);
+        } else {
+          return $typingIndicators;
+        }
+      } else {
+        return $typingIndicators.remove();
+      }
+    };
+&nbsp;
+    return MessageBubbleController;
+&nbsp;
+  })();
+&nbsp;
+  Timestamper = (function() {
+    function Timestamper() {}
+&nbsp;
+    Timestamper.prototype.formatDateString = function(date) {
+      var adjHours, hours, mins, _ref;
+      date = new Date(date);
+      _ref = [date.getHours(), date.getMinutes()], hours = _ref[0], mins = _ref[1];
+      adjHours = hours % 12 !== 0 ? hours % 12 : <span class="branch-1 cbranch-no" title="branch not covered" >12;</span>
+      return "" + adjHours + ":" + (mins &lt; 10 ? 0 : "") + mins + " " + (hours &lt; 12 ? "AM" : "PM");
+    };
+&nbsp;
+    Timestamper.prototype.weekdayString = function(date) {
+      var today;
+      date = new Date(date);
+      today = new Date;
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (date.getYear() === today.getYear() &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >date.getMonth() === today.getMonth() </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >date.getDay() === today.getDay())</span> {
+<span class="cstat-no" title="statement not covered" >        return "Today";</span>
+      }
+      switch (date.getDay()) {
+<span class="branch-0 cbranch-no" title="branch not covered" >        case 0:</span>
+<span class="cstat-no" title="statement not covered" >          return "Sunday";</span>
+<span class="branch-1 cbranch-no" title="branch not covered" >        case 1:</span>
+<span class="cstat-no" title="statement not covered" >          return "Monday";</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >        case 2:</span>
+<span class="cstat-no" title="statement not covered" >          return "Tuesday";</span>
+<span class="branch-3 cbranch-no" title="branch not covered" >        case 3:</span>
+<span class="cstat-no" title="statement not covered" >          return "Wednesday";</span>
+        case 4:
+          return "Thursday";
+        case 5:
+          return "Friday";
+<span class="branch-6 cbranch-no" title="branch not covered" >        default:</span>
+<span class="cstat-no" title="statement not covered" >          return "Saturday";</span>
+      }
+    };
+&nbsp;
+    return Timestamper;
+&nbsp;
+  })();
+&nbsp;
+  window.MessageBubbleController = MessageBubbleController;
+&nbsp;
+}).call(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jun 16 2014 17:25:11 GMT-0400 (EDT)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>

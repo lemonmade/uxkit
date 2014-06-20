@@ -19,6 +19,7 @@
     "grunt-contrib-coffee": "~0.10.1",
     "grunt-compare-size": "~0.4.0",
     "grunt-csscss": "~0.6.2",
-    "grunt-contrib-haml": "~0.2.0"
+    "grunt-contrib-haml": "~0.2.0",
+    "grunt-template-jasmine-istanbul": "~0.3.0"
   }
 }

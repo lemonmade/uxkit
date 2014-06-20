@@ -14,7 +14,30 @@ module.exports = function(grunt) {
                         "bower_components/jasmine-jquery/lib/jasmine-jquery.js"
                     ],
                     helpers: "spec/helpers-js/message-bubble-helpers.js",
-                    styles: "dist/components/message-bubble/message-bubble.css"
+                    styles: "dist/components/message-bubble/message-bubble.css",
+                    template: require("grunt-template-jasmine-istanbul"),
+                    templateOptions: {
+                        coverage: "bin/coverage/coverage.json",
+                        report: [
+                            {
+                                type: "html",
+                                options: {
+                                    dir: "bin/coverage/html"
+                                }
+                            },
+
+                            {
+                                type: 'cobertura',
+                                options: {
+                                    dir: "bin/coverage/cobertura"
+                                }
+                            },
+
+                            {
+                                type: "text-summary"
+                            }
+                        ]
+                    }
                 }
             },
 
@@ -27,7 +50,30 @@ module.exports = function(grunt) {
                         "bower_components/jasmine-jquery/lib/jasmine-jquery.js"
                     ],
                     helpers: "spec/helpers-js/toggle-switch-helpers.js",
-                    styles: "dist/components/toggle-switch/toggle-switch.css"
+                    styles: "dist/components/toggle-switch/toggle-switch.css",
+                    template: require("grunt-template-jasmine-istanbul"),
+                    templateOptions: {
+                        coverage: "bin/coverage/coverage.json",
+                        report: [
+                            {
+                                type: "html",
+                                options: {
+                                    dir: "bin/coverage/html"
+                                }
+                            },
+
+                            {
+                                type: 'cobertura',
+                                options: {
+                                    dir: "bin/coverage/cobertura"
+                                }
+                            },
+
+                            {
+                                type: "text-summary"
+                            }
+                        ]
+                    }
                 }
             },
 
@@ -72,6 +118,11 @@ module.exports = function(grunt) {
                     dest: "dist",
                     ext: ".js"
                 }]
+            },
+
+            docs: {
+                src: "docs/coffee/script.coffee",
+                dest: "docs/public/js/script.js"
             }
         },
 
@@ -208,16 +259,16 @@ module.exports = function(grunt) {
             docs: {
                 files: [{
                     expand: true,
-                    cwd: "docs/haml/pages",
+                    cwd: "docs/haml/components_standalone",
                     src: ["**/*.haml"],
-                    dest: "docs/pages",
+                    dest: "docs/pages/components",
                     ext: ".html"
                 }]
             },
 
             fullDocs: {
                 files: {
-                    "docs/pages/full.html": "docs/haml/site.haml"
+                    "docs/pages/site.html": "docs/haml/site.haml"
                 }
             }
         },
@@ -279,13 +330,25 @@ module.exports = function(grunt) {
 
             docsHaml: {
                 files: ["docs/haml/**/*.haml"],
-                tasks: ["haml:fullDocs"],
+                tasks: ["haml:docs", "haml:fullDocs"],
                 options: { spawn: false }
             },
 
             docsScss: {
                 files: ["docs/scss/**/*.scss"],
                 tasks: ["sass:docs", "autoprefixer:docs"],
+                options: { spawn: false }
+            },
+
+            api: {
+                files: ["docs/haml/api/**/*.yaml"],
+                tasks: ["haml:docs", "haml:fullDocs"],
+                options: { spawn: false }
+            },
+
+            docsCoffee: {
+                files: ["docs/coffee/**/*.coffee"],
+                tasks: ["coffee:docs"],
                 options: { spawn: false }
             }
         }
@@ -298,6 +361,6 @@ module.exports = function(grunt) {
     grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "haml", "shell"]);
     grunt.registerTask("tests", ["coffee:specHelpers", "coffee:specs", "jasmine"]);
     grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "slim", "shell"]);
-    grunt.registerTask("docs", ["haml:fullDocs", "sass:docs", "autoprefixer:docs"]);
+    grunt.registerTask("docs", ["haml:fullDocs", "haml:docs", "sass:docs", "autoprefixer:docs"]);
 
 }
