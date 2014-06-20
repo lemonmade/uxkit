@@ -138,21 +138,24 @@
       segmentedControl = new SegmentedControl($segmentedControl);
       segmentedControl._setSegmentMaxWidth();
       this.segmentedControls.push(segmentedControl);
-      return $segmentedControl.appendTo(options.container);
+      $segmentedControl.appendTo(options.container);
+      return segmentedControl;
     };
 
     SegmentedControlController.prototype.setMainColor = function(color) {
       var toggledRule, untoggledRule;
       untoggledRule = ".segmented-option label { color: " + color + "; }\n .segmented-option { border-color: " + color + "; }";
       toggledRule = ".segmented-option input:checked + label { background-color: " + color + "; }";
-      return this._appendCustomStyle(toggledRule, untoggledRule, "updatedMainColor");
+      this._appendCustomStyle(toggledRule, untoggledRule, "updatedMainColor");
+      return this;
     };
 
     SegmentedControlController.prototype.setSecondaryColor = function(color) {
       var toggledRule, untoggledRule;
       untoggledRule = ".segmented-option label { background-color: " + color + "; }";
       toggledRule = ".segmented-option input:checked + label { color: " + color + "; }";
-      return this._appendCustomStyle(toggledRule, untoggledRule, "updatedSecondaryColor");
+      this._appendCustomStyle(toggledRule, untoggledRule, "updatedSecondaryColor");
+      return this;
     };
 
     SegmentedControlController.prototype._appendCustomStyle = function(toggledRule, untoggledRule, type) {

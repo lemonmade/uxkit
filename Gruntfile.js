@@ -259,7 +259,7 @@ module.exports = function(grunt) {
             docs: {
                 files: [{
                     expand: true,
-                    cwd: "docs/haml/components_standalone",
+                    cwd: "docs/haml/components-standalone",
                     src: ["**/*.haml"],
                     dest: "docs/pages/components",
                     ext: ".html"

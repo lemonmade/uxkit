@@ -41,3 +41,15 @@ http://c2prods.com/2013/cloning-the-ui-of-ios-7-with-html-css-and-javascript/
 
 # Messages App
 http://scotthurff.com/posts/what-we-can-learn-from-apples-imessage-changes-in-ios-8
+
+
+
+# OTHER TODOs
+- date-picker
+- notification-mac
+- shrinking-header
+- side-menu
+- sticky-headers
+- table-cell
+- tabs
+- value-picker
