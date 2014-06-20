@@ -49,3 +49,16 @@ p code,
         }
     }
 }
+
+.api,
+.source-code {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+
+.component-actions {
+    margin-top: 5em;
+}

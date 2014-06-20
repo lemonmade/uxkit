@@ -19,8 +19,25 @@ end
 
 def render_javascript_api(component)
     component_file = component_filename component
-    api = YAML.load(File.read("docs/haml/api/#{component_file}.yaml"))
-    render_partial :javascript_api, api: api, component_file: component_file
+    yaml_file = "docs/haml/api/#{component_file}.yaml"
+
+    if File.file?(yaml_file)
+        api = YAML.load(File.read(yaml_file))
+        render_partial :javascript_api, api: api, component_file: component_file
+    else
+        ""
+    end
+end
+
+def render_example(component)
+    component_file = component_filename component
+    source_html = File.read("dist/components/#{component_file}/#{component_file}.html")
+
+    render_partial :example, html: source_html
+end
+
+def render_component_actions(component)
+    render_partial :component_actions, component: component
 end
 
 

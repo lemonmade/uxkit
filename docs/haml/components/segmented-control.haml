@@ -1,8 +1,12 @@
 - load "docs/haml/helpers.rb"
 - component = "Segmented Control"
 
-/ Start writting the documentation here
 %h2= component
 
+= render_example component
+
+/ Write all relevant documentation here.
+
+= render_component_actions component
 = render_source_code component
 = render_javascript_api component

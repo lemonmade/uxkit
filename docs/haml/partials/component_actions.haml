@@ -1,0 +1,3 @@
+%div.component-actions
+    - ["Source Code", "API"].each do |action|
+        %button.component-action{data: {"component-detail" => action.downcase.gsub(/\s+/, "-")}}= action
