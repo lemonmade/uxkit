@@ -1,0 +1,80 @@
+---
+component: segmented-control
+classes:
+      - class: SegmentedControlOption
+        description: "An object representing a single option in a segmented control."
+        api:
+          - method: constructor()
+            returnType: SegmentedControlOption
+            description: Constructs a new <code>SegmentedControlOption</code> with the details provided as arguments.
+            arguments:
+              - name: id
+                type: <code>String</code>
+                description: "The <code>id</code> attribute to use for this option. Should be unique, otherwise the control won't function correctly."
+              - name: label
+                type: <code>String</code>
+                description: The label to use for this segmented option.
+              - name: selected
+                type: <code>Boolean</code>
+                description: "Whether or not this option should be selected by default. If multiple options in a single control are specified as selected, the last such control option will actually be marked as selected."
+
+      - class: SegmentedControl
+        description: "An object representing a single segmented control UI component."
+        api:
+          - method: constructor()
+            returnType: SegmentedControl
+            description: Constructs a new <code>SegmentedControl</code> object.
+            arguments:
+                - name: $segmentedControl
+                  type: jQuery
+                  description: "The segmented control container element."
+
+          - method: addOption()
+            returnType: SegmentedControl
+            description: Adds a new option to a single segmented control.
+            arguments:
+                - name: option
+                  type: <code>Object</code> or <code>SegmentedControlOption</code>
+                  description: "The option that is to be added. This argument have the following three attributes: <code>id</code>, which is the <code>id</code> attribute for the new <code>input</code> element, <code>label</code>, which is the text for the new option, and (optionally) <code>selected</code>, which is a boolean specifying whether this option should be automatically selected."
+                - name: position
+                  type: <code>Number</code>
+                  description: The position at which to insert this new object in the segmented control. Inserting at the start of the control would require an option of 1 for this argument. If an argument is invalid it will be set as the last element in the control.
+
+          - method: removeOptions()
+            returnType: SegmentedControl
+            description: Removes one or more options from a segmented control.
+            arguments:
+                - name: options
+                  type: "any number of either <code>Object</code>, <code>SegmentedControlOption</code>, String, or <code>Number</code> arguments."
+                  description: "These specify which options to remove. If numbers are passed, controls at those indexes will be removed. If strings are passed, controls matching the selector designated by the string will be removed. If <code>Object</code> or <code>SegmentedControlOption</code> arguments are passed, the controls matching the <code>id</code> attribute of those objects will be removed."
+
+      - class: SegmentedControlController
+        description: "A control object used to manage all segmented controls on a single page."
+        api:
+          - method: constructor()
+            returnType: SegmentedControlController
+            description: Constructs a new <code>SegmentedControlController</code> object.
+          - method: newSegmentedControl()
+            returnType: SegmentedControl
+            description: Convenience method to construct a new segmented control.
+            arguments:
+              - name: segmentOptions
+                type: Any number of <code>Object</code> or <code>SegmentedControlOption</code> objects
+                description: "The set of options included in the segmented control. If vanilla objects are passed, they must contain at least an <code>id</code> property (for the <code>id</code> of the new option) and a <code>label</code> attribute. Optionally, they can also include a <code>selected</code> attribute to specify it as the default option for the segmented control."
+              - name: option
+                type: <code>Object</code>
+                description: "A set of options for the newly-contruscted segmented control. Currently, the only options are <code>name</code>, the name for the set of input labels that make up the segmented control, and <code>container</code>, a string selector for the container element of the newly-created segmented control."
+          - method: setMainColor()
+            returnType: SegmentedControlController
+            description: "Sets the main color (border and text color for inactive options, background color for active options) for all segmented controls."
+            arguments:
+              - name: color
+                type: <code>String</code>
+                description: "The color you would like to use as the main color for segmented controls."
+          - method: setSecondaryColor()
+            returnType: SegmentedControlController
+            description: "Sets the secondary color (background color for inactive options, text color for active options) for all segmented controls."
+            arguments:
+              - name: color
+                type: <code>String</code>
+                description: "The color you would like to use as the secondary color for segmented controls."

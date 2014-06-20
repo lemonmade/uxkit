@@ -1,0 +1,33 @@
+{
+  "name": "uxkit-site",
+  "main": [
+    "web.rb"
+  ],
+  "version": "0.0.1",
+  "authors": [
+    "Chris Sauve <chris@pxldot.com>"
+  ],
+  "description": "Site of documentation and code examples for uxkit.",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "ios",
+    "framework",
+    "dynamic",
+    "animations",
+    "transitions",
+    "components",
+    "modular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "Gruntfile.js"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.9.0",
+    "SyntaxHighlighter": "~3.0.83"
+  }
+}

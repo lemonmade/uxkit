@@ -1,18 +1,30 @@
-%div.example-component
-    = html
+- require "rouge"
+- formatter = Rouge::Formatters::HTML.new css_class: "highlight"
+- lexer_js = Rouge::Lexers::Javascript.new
+- lexer_html = Rouge::Lexers::HTML.new
+- lexer_css = Rouge::Lexers::CSS.new
+
+%div.example-components
+    %h3 Example
+    %div.example-component
+        = html
+    %h3 Fallback Without CSS
+    %div.example-component.no-css
+        = html
+
 %div.source-code
-    %div.source-html
-        %pre
-            %code
-                = preserve do
-                    &= html
-    %div.source-css
-        %pre
-            %code
-                = preserve do
-                    &= css
-    %div.source-js
-        %pre
-            %code
-                = preserve do
-                    &= js
+    %div.source-code-language
+        %h3 HTML
+        %div.source-code-html
+            = preserve do
+                = formatter.format(lexer_html.lex(html))
+    %div.source-code-language
+        %h3 CSS
+        %div.source-code-css
+            = preserve do
+                = formatter.format(lexer_css.lex(css))
+    %div.source-code-language
+        %h3 JavaScript
+        %div.source-code-js
+            = preserve do
+                = formatter.format(lexer_js.lex(js))

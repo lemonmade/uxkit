@@ -1,4 +1,4 @@
-// uxkit - v0.0.5 - 2014.06.16
+// uxkit - v0.0.5 - 2014.06.17
 
 
 // example-device: container of all other pieces
@@ -465,6 +465,7 @@ $basic-spring:          cubic-bezier(#{$basic-spring-x1},
         bottom: 0;
 
         // DISPLAY AND SIZING
+        display: block !important; // Important because set to display none by default for better fallback
         width: $message-bubble-tail-width;
         height: $message-bubble-tail-width / $message-bubble-tail-aspect-ratio;
 
@@ -562,45 +563,45 @@ $typing-indicator-dot-inner-spacing: 0.3em;
 $typing-indicator-dot-animation: typing-indicator-dot 1.8s ease infinite;
 $typing-indicator-dot-animation-delay-interval: 0.3s;
 
-@keyframes typing-indicator-dot {
-    0% { background-color: $typing-indicator-dot-start-color; }
-    35% { background-color: $typing-indicator-dot-end-color; }
-    70% { background-color: $typing-indicator-dot-start-color; }
-}
+// @keyframes typing-indicator-dot {
+//     0% { background-color: $typing-indicator-dot-start-color; }
+//     35% { background-color: $typing-indicator-dot-end-color; }
+//     70% { background-color: $typing-indicator-dot-start-color; }
+// }
 
-.typing-indicator-dot {
-    display: block;
-    position: relative;
-    height: $typing-indicator-dot-size;
-    width: $typing-indicator-dot-size;
-    border-radius: $typing-indicator-dot-size;
-    background-color: $typing-indicator-dot-start-color;
+// .typing-indicator-dot {
+//     display: block;
+//     position: relative;
+//     height: $typing-indicator-dot-size;
+//     width: $typing-indicator-dot-size;
+//     border-radius: $typing-indicator-dot-size;
+//     background-color: $typing-indicator-dot-start-color;
 
-    animation: $typing-indicator-dot-animation;
-    animation-delay: $typing-indicator-dot-animation-delay-interval;
+//     animation: $typing-indicator-dot-animation;
+//     animation-delay: $typing-indicator-dot-animation-delay-interval;
 
-    &:before,
-    &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        height: $typing-indicator-dot-size;
-        width: $typing-indicator-dot-size;
-        border-radius: $typing-indicator-dot-size;
-        background-color: $typing-indicator-dot-start-color;
-        top: 0;
-        animation: $typing-indicator-dot-animation;
-    }
+//     &:before,
+//     &:after {
+//         content: '';
+//         display: block;
+//         position: absolute;
+//         height: $typing-indicator-dot-size;
+//         width: $typing-indicator-dot-size;
+//         border-radius: $typing-indicator-dot-size;
+//         background-color: $typing-indicator-dot-start-color;
+//         top: 0;
+//         animation: $typing-indicator-dot-animation;
+//     }
 
-    &:before {
-        left: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
-    }
+//     &:before {
+//         left: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
+//     }
 
-    &:after {
-        right: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
-        animation-delay: (2*$typing-indicator-dot-animation-delay-interval);
-    }
-}
+//     &:after {
+//         right: -#{$typing-indicator-dot-inner-spacing + $typing-indicator-dot-size};
+//         animation-delay: (2*$typing-indicator-dot-animation-delay-interval);
+//     }
+// }
 
 
 // -----

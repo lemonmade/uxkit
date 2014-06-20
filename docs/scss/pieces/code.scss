@@ -1,0 +1,51 @@
+.source-code {
+    margin-top: 5em;
+
+    .source-code-html,
+    .source-code-css,
+    .source-code-js {
+        height: 15em;
+        overflow: scroll;
+        border: 1px solid black;
+    }
+
+    .source-code-language {
+        @include after(40em) {
+            float: left;
+            width: 33%;
+        }
+    }
+}
+
+
+p code,
+*:not(pre) > code {
+    display: inline-block;
+    border-radius: 0.25em;
+    color: rgb(120, 120, 120);
+    border: 1px solid;
+    padding: 0.15em 0.25em;
+}
+
+.api-class {
+    margin-top: 6em;
+}
+
+.api-method {
+    margin-top: 4em;
+}
+
+.api-method-argument {
+    margin-top: 2em;
+
+    > div {
+        display: inline-block;
+        vertical-align: middle;
+        width: 40%;
+        margin-bottom: 1em;
+
+        &:last-of-type {
+            width: 100%;
+        }
+    }
+}

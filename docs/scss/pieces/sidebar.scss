@@ -1,0 +1,23 @@
+.sidebar {
+    position: fixed;
+    width: $sidebar-width;
+    top: 0; left: 0;
+    height: 100%;
+    background-color: rgb(239, 239, 239);
+    padding: 1em;
+
+    ul {
+        padding: 0;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    > ul > li:not(.main-page-nav-item) {
+        font-weight: bold;
+        margin-top: 1em;
+
+        ul { font-weight: normal; }
+    }
+}

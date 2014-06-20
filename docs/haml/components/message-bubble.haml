@@ -1,0 +1,8 @@
+- load "docs/haml/helpers.rb"
+- component = "Message Bubble"
+- component_file = component.downcase.gsub /\s+/, "-"
+
+/ Start writting the documentation here
+%h2= component
+
+= render_source_code component

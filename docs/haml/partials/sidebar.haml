@@ -1,0 +1,39 @@
+- components = Dir["docs/haml/components/*.haml"]
+- behaviors = Dir["docs/haml/behaviors/*.haml"]
+- full_page = true if full_page == nil
+- current_component ||= false
+- current_behaviour ||= false
+
+%nav.sidebar
+    %ul
+        - unless full_page
+            %li.main-page-nav-item
+                %a{href: "/"} Home
+        %li
+            Components
+            %ul.component-sidebar
+                - components.each do |component|
+                    - component_file = component.split("/").last.split(".").first
+                    - component_name = component_name(component_file)
+                    %li
+                        - if current_component and component_file == current_component
+                            = component_name
+                        - else
+                            - if full_page
+                                %a{href: "##{component_file}-component"}= component_name
+                            - else
+                                %a{href: "/#{component_file}"}= component_name
+        %li
+            Behaviors
+            %ul.behavior-sidebar
+                - behaviors.each do |behavior|
+                    - behavior_file = component.split("/").last.split(".").first
+                    - behavior_name = component_name(component_file)
+                    %li
+                        - if current_behavior and behavior_file == current_behavior
+                            = behavior_name
+                        - else
+                            - if full_page
+                                %a{href: "##{behavior_file}-behavior"}= behavior_name
+                            - else
+                                %a{href: "/#{behavior_file}"}= behavior_name

@@ -1,0 +1,11 @@
+- load "docs/haml/helpers.rb"
+- component_file = "message-bubble"
+
+%html
+    = render_partial :head, title: "#{component_name component_file} - uxkit"
+
+    %body
+        = render_partial :page_header
+        = render_partial :sidebar, full_page: false, current_component: component_file
+        %div.components
+            = render "docs/haml/components/#{component_file}.haml"

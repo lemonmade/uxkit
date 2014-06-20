@@ -3,7 +3,13 @@
 %html
     = render_partial :head
 
-    - component_files = Dir["docs/haml/pages/*.haml"]
-    - component_files.each do |component_file|
-        %div.component
-            = render component_file
+    %body
+        = render_partial :page_header
+        = render_partial :sidebar
+
+        %section.components
+            - component_files = Dir["docs/haml/components/*.haml"]
+            - component_files.each do |component_file|
+                - component_name = component_file.split("/").last.split(".").first
+                %section.component{id: "#{component_name}-component"}
+                    = render component_file

@@ -1,0 +1,20 @@
+%div.api
+    - api["classes"].each do |c|
+        %div.api-class{id: "#{component_file}-#{c["class"]}"}
+            %h3
+                %code= c["class"]
+            %p= c["description"]
+            - unless c["api"].nil?
+                - c["api"].each do |method|
+                    %div.api-method{id: "#{component_file}-#{c["class"]}-#{method["method"]}"}
+                        %h4
+                            %code #{method["method"]} => #{method["returnType"]}
+                        %p= method["description"]
+                        %div.api-method-arguments
+                            - unless method["arguments"].nil?
+                                - method["arguments"].each do |arg|
+                                    %div.api-method-argument
+                                        %div
+                                            %code= arg["name"]
+                                        %div= arg["type"]
+                                        %div= arg["description"]

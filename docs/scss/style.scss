@@ -1,27 +1,13 @@
-@import "components.scss";
+@import "globals/_variables.scss";
+@import "globals/_mixins.scss";
+@import "globals/_foundation.scss";
+@import "globals/_layout.scss";
 
-%clearfix {
-    &:after {
-        content: '';
-        display: block;
-        clear: both;
-    }
-}
+@import "pieces/sidebar.scss";
+@import "pieces/header.scss";
+@import "pieces/code.scss";
 
-.component {
-    @extend %clearfix;
 
-    margin-top: 5em;
-}
-
-.source-code {
-    margin-top: 5em;
-
-    > div {
-        width: 33%;
-        float: left;
-        max-height: 15em;
-        overflow: scroll;
-        border: 1px solid black;
-    }
+.example-component:not(.no-css) {
+    @import "components.scss";
 }

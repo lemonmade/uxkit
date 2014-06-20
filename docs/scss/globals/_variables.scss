@@ -1,0 +1,9 @@
+$sidebar-width: 20%;
+
+%clearfix {
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}

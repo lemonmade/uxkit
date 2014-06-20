@@ -1,0 +1,11 @@
+.component {
+    @extend %clearfix;
+
+    margin-top: 5em;
+}
+
+.components {
+    width: (100% - $sidebar-width);
+    margin-left: $sidebar-width;
+    padding: 1em;
+}

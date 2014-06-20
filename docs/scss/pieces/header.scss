@@ -1,0 +1,9 @@
+.page-header {
+    width: (100% - $sidebar-width);
+    margin: 0 0 0 $sidebar-width;
+    padding: 10em 4em 3em;
+    background-color: rgb(107, 164, 255);
+    color: white;
+
+    h1 { font-weight: 200; margin: 0; font-size: 3em; }
+}
