@@ -301,7 +301,14 @@ module.exports = function(grunt) {
                     // "cp src/springs.scss dist/springs.scss",
                     "cp src/behaviors/drag.js dist/behaviors/drag.js",
                     "cp src/components/*/*.scss docs/scss/components",
+                    "cp dist/components/toggle-switch/toggle-switch.js docs/public/js/toggle-switch.js",
                     "rsync -av src/components/ dist/components/"
+                ].join("&&")
+            },
+
+            copyBehaviors: {
+                command: [
+                    "cp dist/components/notification-ios/notification-ios-drag.js docs/public/js/notification-ios-drag.js"
                 ].join("&&")
             }
         },
