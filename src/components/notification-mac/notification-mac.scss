@@ -1,0 +1,88 @@
+$notification-mac-action-text-color: rgba(black, 0.45);
+$notification-mac-border: 1px solid lighten($notification-mac-action-text-color, 70%);
+
+.notification-device {
+    background-image: url(http://www.macitynet.it/wp-content/uploads/2014/06/Schermata-2014-06-03-alle-11.47.39.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.notification-mac {
+    font-family: "Helvetica Neue";
+    background-color: rgba(white, 0.92);
+    border-radius: 0.5em;
+    width: 90%;
+    margin: 1em auto;
+    box-shadow: 0 0 10px rgba(black, 0.4);
+    max-width: 25em;
+
+    .notification-wrapper {
+        width: 100%;
+        display: flex;
+    }
+
+    .notification-icon {
+        height: 2em;
+        width: 2em;
+        background-image: url(http://icons.iconarchive.com/icons/wineass/ios7-redesign/512/Messages-icon.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-right: 0.75em;
+        align-self: center;
+    }
+
+    .notification-content {
+        padding: 0.75em;
+        flex: 1;
+        display: flex;
+    }
+
+    .notification-text {
+        flex: 1;
+
+        * {
+            margin: 0;
+        }
+    }
+
+    .notification-actions {
+        flex-grow: 0;
+        border-left: $notification-mac-border;
+        display: flex;
+        flex-direction: column;
+
+        .notification-action {
+            display: inline-flex;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .notification-action:not(:last-of-type) {
+            border-bottom: $notification-mac-border;
+        }
+
+        button {
+            outline: none;
+            background: none;
+            color: $notification-mac-action-text-color;
+            // background: rgb(124, 124, 124);
+            border: none;
+            border-radius: 0.25em;
+            text-align: center;
+            font-size: 1em;
+            width: 100%;
+            cursor: pointer;
+            padding: 0.6em 1em;
+            line-height: 1;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            font-size: 0.9em;
+            // opacity: 0;
+
+            &:hover,
+            &:active {
+                // background: rgb(150, 150, 150);
+            }
+        }
+    }
+}
