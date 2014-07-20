@@ -329,7 +329,7 @@ module.exports = function(grunt) {
 
             coffeeSpecs: {
                 files: "spec/**/*.coffee",
-                tasks: ["coffee:tests"],
+                tasks: ["coffee:specs"],
                 options: { spawn: false }
             },
 
