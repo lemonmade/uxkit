@@ -1,9 +1,114 @@
+$header-hamburger-slice-height: 0.15em;
+$header-hamburger-border-radius: 0.15em;
+$header-hamburger-width: 2em;
+$header-hamburger-height: 1.4em;
+
 .page-header {
-    width: (100% - $sidebar-width);
-    margin: 0 0 0 $sidebar-width;
-    padding: 10em 4em 3em;
-    background-color: rgb(107, 164, 255);
+    padding: 10em 1em 2em;
+    background: linear-gradient(30deg, rgb(107, 164, 255), rgb(42, 87, 199));
     color: white;
+    transition: all 0.3s ease;
+    width: 100%;
+    position: relative;
+
+    &.small {
+        position: fixed;
+        top: 0; left: 0;
+        z-index: 15;
+        display: flex;
+        padding: 1em 1em 1.2em;
+        transform: translateY(-100%);
+
+        &.active {
+            transform: translateY(0);
+        }
+
+        > * {
+            position: relative;
+            top: 0; left: 0;
+            flex-grow: 0;
+        }
+
+        h1 {
+            flex: 1;
+            font-size: 2em;
+            line-height: 0.7;
+            margin: 0;
+            margin-left: 1rem;
+        }
+
+        .page-icon {
+            display: none;
+        }
+    }
 
     h1 { font-weight: 200; margin: 0; font-size: 3em; }
+
+    nav {
+        position: absolute;
+        top: 1em; left: 1em;
+
+        ul { list-style: none; padding: 0; margin: 0; }
+
+        a {
+            display: block;
+            height: $header-hamburger-height;
+            width: $header-hamburger-width;
+            color: transparent;
+            position: relative;
+            text-indent: -5000px;
+        }
+
+        span {
+            background-color: white;
+            display: block;
+            height: $header-hamburger-slice-height; width: 100%;
+            position: absolute;
+            top: 50%; left: 0;
+            margin-top: (-0.5*$header-hamburger-slice-height);
+            border-radius: $header-hamburger-border-radius;
+
+            &:after,
+            &:before {
+                content: '';
+                display: block;
+                width: 100%;
+                height: $header-hamburger-slice-height;
+                position: absolute;
+                left: 0;
+                background-color: white;
+                border-radius: $header-hamburger-border-radius;
+            }
+
+            &:after {
+                bottom: (-1*($header-hamburger-height*0.5 - $header-hamburger-slice-height*0.5));
+            }
+
+            &:before {
+                top: (-1*($header-hamburger-height*0.5 - $header-hamburger-slice-height*0.5));
+            }
+        }
+    }
+}
+
+.page-icon {
+    // background-color: rgb(55, 96, 223);
+    position: absolute;
+    bottom: -1em; right: -1.5em;
+    height: 8em; width: 8em;
+    border-radius: 4em;
+    background: linear-gradient(30deg, rgb(107, 164, 255), rgb(42, 87, 199));
+    box-shadow: -2px 2px 8px rgba(black, 0.15);
+    border: 2px solid white;
+
+    div {
+        position: absolute;
+        height: 80%; width: 80%;
+        top: 10%; left: 10%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .toggle-switch-icon { background-image: url(../img/toggle-switch-light.png); }
+    .notification-ios-icon { background-image: url(../img/notification-light.png); }
 }

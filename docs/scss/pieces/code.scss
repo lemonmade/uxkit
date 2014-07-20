@@ -1,64 +1,260 @@
+$api-gray: rgb(247, 247, 247);
+$api-gray-border: rgba(black, 0.07);
+
+p code {
+    background-color: rgb(190, 190, 190);
+    border-radius: 1.25em;
+    color: white;
+    padding: 0 0.5em 0.1em;
+    margin-top: -0.1em;
+    font-size: 1.05em;
+}
+
+.requirements {
+    display: none;
+
+    &.active { display: block; }
+}
+
+.component-actions {
+    text-align: center;
+    // background-color: $api-gray;
+    border-top: 1px solid $api-gray-border;
+    border-bottom: 1px solid $api-gray-border;
+
+    &.fixed {
+        border-bottom: 2px solid rgb(87, 140, 255);
+        position: fixed;
+        top: 0; right: 0;
+        z-index: 10;
+        background-color: white;
+        box-shadow: 0 0 8px rgba(black, 0.5);
+        width: 100%;
+    }
+
+    button {
+        padding: 1em 1em;
+        width: 8em;
+        background: none;
+        border: none;
+        font-size: 0.8em;
+        color: gray;
+        display: inline-block;
+
+        &:active,
+        &:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        &:active,
+        &.active {
+            color: rgb(87, 140, 255);
+        }
+    }
+}
+
+.component-action-icon {
+    width: 100%;
+    padding-bottom: 100%;
+    margin-bottom: 0.5em;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .source & { background-image: url(../img/source-code.png); }
+    .api & { background-image: url(../img/api.png); }
+    .requires & { background-image: url(../img/requires.png); }
+    .download & { background-image: url(../img/download.png); }
+
+    button:active.source &,
+    .active.source & { background-image: url(../img/source-code-selected.png); }
+
+    button:active.api &,
+    .active.api & { background-image: url(../img/api-selected.png); }
+
+    button:active.requires &,
+    .active.requires & { background-image: url(../img/requires-selected.png); }
+
+    button:active.download &,
+    .active.download & { background-image: url(../img/download-dark.png); }
+
+}
+
 .source-code {
-    margin-top: 5em;
+    // background-color: $api-gray;
+    // padding-bottom: 3em;
+
+    .source-code-language {
+        padding-top: 3em;
+
+        // &:first-of-type { margin-top: 0; }
+    }
 
     .source-code-html,
     .source-code-css,
     .source-code-js {
-        height: 15em;
+        max-height: 15em;
         overflow: scroll;
-        border: 1px solid black;
+        // border-top: 1px solid $api-gray-border;
+        border-bottom: 1px solid $api-gray-border;
+        padding: 1em;
+        background-color: $api-gray;
     }
 
-    .source-code-language {
-        @include after(40em) {
-            float: left;
-            width: 33%;
-        }
+    h3 {
+        margin: 0;
+        padding: 1rem;
+        font-weight: 300;
+        font-size: 2em;
+        // margin-bottom: -0.25rem;
+        // line-height: 1;
+        // color: rgba(black, 0.15);
     }
+
+    pre { margin: 0; font-size: 1.1em; }
+
+    // .source-code-language {
+    //     @include after(40em) {
+    //         float: left;
+    //         width: 33%;
+    //     }
+    // }
 }
 
 
-p code,
-*:not(pre) > code {
-    display: inline-block;
-    border-radius: 0.25em;
-    color: rgb(120, 120, 120);
-    border: 1px solid;
-    padding: 0.15em 0.25em;
+// p code,
+// *:not(pre) > code {
+//     display: inline-block;
+//     border-radius: 0.25em;
+//     color: rgb(120, 120, 120);
+//     border: 1px solid;
+//     padding: 0.15em 0.25em;
+// }
+
+.api {
+    h3, h4, h5 {
+        position: relative;
+    }
+
+    .api-class {
+        &.hidden {
+            h3 .section-hide { opacity: 1; }
+        }
+    }
+
+    .api-method {
+        border-bottom: 1px solid $api-gray-border;
+        padding-bottom: 1em;
+
+        &:first-of-type { border-top: 1px solid $api-gray-border; }
+
+        &.hidden {
+            padding-bottom: 0;
+            > *:not(h4):not(h5) { display: none; }
+            + .api-method {
+                margin-top: 0;
+
+                h5 {
+                    border-top: none;
+                }
+            }
+
+            .section-hide { opacity: 1; }
+
+            h5 {
+                border: none;
+            }
+        }
+
+        .description {
+            &:last-child { margin-bottom: 0; }
+        }
+
+        &.alias {
+            h5 {
+                background-color: lighten($api-gray, 2%);
+
+                .section-hide {
+                    background-color: lighten($api-gray, 2%);
+                }
+            }
+        }
+
+        h5 {
+            background-color: $api-gray;
+            padding: 0.5em 1rem;
+            position: relative;
+            border-bottom: 1px solid $api-gray-border;
+            border-top: 1px solid $api-gray-border;
+
+            .section-hide { background-color: rgba($api-gray, 0.8); }
+
+            .return-type {
+                color: rgba(black, 0.25);
+            }
+        }
+    }
+
+    .api-method-argument {
+
+        .argument-key-details {
+            border-top: 1px solid $api-gray;
+            border-bottom: 1px solid $api-gray;
+            padding: 0.5em 1rem;
+            margin: 2em 0 1em;
+        }
+
+        .argument-name,
+        .argument-type {
+            display: inline-block;
+            vertical-align: middle;
+            width: 40%;
+        }
+    }
+
+    .section-hide {
+        position: absolute;
+        top: 0; right: 0; bottom: 0;
+        background: white;
+        border: none;
+        padding: 0 0.5em 0 1em;
+        font-size: 0.75em;
+        color: rgba(black, 0.15);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+
+        &:focus,
+        &:hover,
+        &:active { outline: none; opacity: 1; }
+    }
+
+    .description {
+        padding: 0 1rem;
+    }
 }
 
 .api-class {
-    margin-top: 6em;
+    margin-top: 3em;
+
+    &:first-of-type { margin-top: 0; }
 }
 
 .api-method {
-    margin-top: 4em;
+    margin-top: 1em;
+
+    &:first-of-type { margin-top: 0; }
 }
 
-.api-method-argument {
-    margin-top: 2em;
+// .source-code {
+//     display: none;
+// }
 
-    > div {
-        display: inline-block;
-        vertical-align: middle;
-        width: 40%;
-        margin-bottom: 1em;
-
-        &:last-of-type {
-            width: 100%;
-        }
-    }
-}
-
-.api,
-.source-code {
+.api:not(button),
+.source-code:not(button) {
     display: none;
 
     &.active {
         display: block;
     }
-}
-
-.component-actions {
-    margin-top: 5em;
 }

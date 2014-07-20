@@ -1,4 +1,6 @@
-$sidebar-width: 20%;
+$sidebar-width: 25%;
+$sidebar-min-width: 12em;
+$sidebar-switcher: ($sidebar-min-width*100%/$sidebar-width);
 
 %clearfix {
     &:after {

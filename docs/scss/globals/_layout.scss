@@ -5,7 +5,46 @@
 }
 
 .components {
-    width: (100% - $sidebar-width);
-    margin-left: $sidebar-width;
-    padding: 1em;
+    width: 100%;
+    background-color: white;
+    padding: 1em 0 0;
+
+    &:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
 }
+
+.main-content {
+    // border-left: 1px solid rgba(black, 0.07);
+    // transition: all 0.3s ease;
+
+    @include after($sidebar-switcher) {
+        width: (100% - $sidebar-width);
+        margin-left: $sidebar-width;
+    }
+}
+
+.sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 100%;
+}
+
+// body {
+//     display: flex;
+//     align-items: stretch;
+// }
+
+// .main-content {
+//     flex: 1;
+//     // margin-left: 1em;
+//     // background-color: rgb(247, 247, 247);
+//     order: 2;
+// }
+
+// .sidebar {
+//     flex: 0;
+//     order: 1;
+// }

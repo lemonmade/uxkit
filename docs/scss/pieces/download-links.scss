@@ -1,0 +1,46 @@
+.download-links {
+    display: flex;
+    align-items: stretch;
+    padding: 1em 1em 0;
+
+    > *:not(:first-child) {
+        margin-left: 0.5em;
+    }
+}
+
+.download-image {
+    width: 15%;
+    padding-bottom: 15%;
+    flex-shrink: 0;
+    background-image: url(/img/download.png);
+    background-size: cover;
+    opacity: 0.3;
+    height: 0;
+    align-self: center;
+}
+
+.download-link {
+    border: 1px solid rgb(220, 220, 220);
+    text-decoration: none;
+    flex: 1;
+    text-align: center;
+    vertical-align: center;
+    padding: 0.5em;
+    border-radius: 0.25em;
+    font-size: 0.9em;
+    color: gray;
+    display: flex;
+    align-items: center;
+
+    span { flex-grow: 1; }
+
+    // transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:focus,
+    &:active,
+    &:hover {
+        background-color: rgb(87, 140, 255);
+        color: white;
+        border-color: rgb(87, 140, 255);
+    }
+}

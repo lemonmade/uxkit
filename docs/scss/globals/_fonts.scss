@@ -1,0 +1,88 @@
+.code-information,
+.summary,
+.example-components > {
+    h3 {
+        margin: 0;
+        padding: 1rem;
+        margin-top: 3rem;
+        font-weight: 300;
+        font-size: 2em;
+        color: rgb(87, 140, 255);
+        line-height: 1;
+        border-bottom: 2px solid;
+    }
+}
+
+.code-information,
+.summary,
+.playground {
+    h4 {
+        font-weight: 300;
+        margin: 1em 0 0.5em;
+        color: rgba(black, 0.3);
+        font-size: 1em;
+
+        .api & { padding: 1rem 1rem 0; }
+    }
+}
+
+.code-information,
+.summary {
+    p {
+        font-weight: 300;
+        line-height: 1.4;
+        color: rgb(60, 60, 60);
+
+        code {
+            display: inline-block;
+        }
+    }
+
+    h4 {
+        font-weight: 300;
+        margin: 1em 0 0.5em;
+        color: rgba(black, 0.3);
+        font-size: 1em;
+
+        .api & { padding: 1rem 1rem 0; }
+    }
+
+    h5 {
+        font-weight: 600;
+        color: rgba(black, 0.8);
+        font-size: 1.2em;
+        margin: 0;
+        padding: 0 1rem;
+
+        .alias & {
+            font-style: italic;
+            color: rgba(black, 0.25);
+
+            .return-type {
+                color: rgba(black, 0.15);
+            }
+        }
+
+        .return-type {
+            color: rgba(black, 0.25);
+            display: inline-block;
+            font-weight: 400;
+        }
+    }
+}
+
+.api {
+    .api-method,
+    .api-attribute {
+        .description {
+            font-size: 0.9em;
+            color: rgba(black, 0.8);
+        }
+    }
+
+    .api-method-argument {
+        font-size: 0.9em;
+
+        .description { color: rgba(black, 0.4); }
+    }
+}
