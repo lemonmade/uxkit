@@ -1,3 +1,5 @@
+.DS_STORE
+.sizecache.json
 *.rar
 *.zip
 tests/
@@ -7,7 +9,7 @@ Makefile
 links/
 examples/
 .sass-cache
-new.sh
 site/
 spec/specs-js/
 spec/helpers-js/
+**/.*
