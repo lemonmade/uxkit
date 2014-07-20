@@ -273,6 +273,19 @@ module.exports = function(grunt) {
             }
         },
 
+        imagemin: {
+            all: {
+                options: { optimizationLevel: 1 },
+
+                files: [{
+                    expand: true,
+                    cwd: "docs/img/",
+                    src: ["**/*.{png,jpg,jpeg,gif}"],
+                    dest: "docs/public/img/"
+                }]
+            }
+        },
+
         shell: {
             copyMain: {
                 command: [
