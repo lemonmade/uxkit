@@ -1,0 +1,168 @@
+$notification-ios-max-vertical-overflow: 4em;
+
+.notification-device {
+    height: 20em;
+    width: 100%;
+    position: relative;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.notification-ios {
+    font-family: "Helvetica Neue";
+    background-color: rgba(black, 0.8);
+    color: white;
+    position: absolute;
+    width: 100%;
+    top: (-1*$notification-ios-max-vertical-overflow); left: 0;
+    padding-top: $notification-ios-max-vertical-overflow;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+
+    &.active {
+        transform: translateY(0);
+    }
+
+    &.dragging {
+        transition: none;
+
+        .notification-wrapper,
+        .notification-handle,
+        .notification-actions {
+            transition: none;
+        }
+    }
+
+    .notification-content {
+        padding: 0.5em;
+
+        * {
+            margin: 0;
+        }
+    }
+
+    .notification-message {
+        max-height: 3em;
+        overflow: scroll;
+    }
+
+    .notification-wrapper {
+        position: relative;
+        padding-bottom: 1.85em;
+        transition: padding-bottom 0.3s ease;
+    }
+
+    .notification-handle {
+        position: absolute;
+        bottom: 0.3em;
+        height: 0.4em;
+        width: 3.2em;
+        margin-left: -1.6em;
+        left: 50%;
+        background-color: rgba(white, 0.5);
+        border-radius: 0.2em;
+        transition: opacity 0.3s ease;
+    }
+
+    .notification-icon {
+        height: 1.5em;
+        width: 1.5em;
+        float: left;
+        margin-bottom: 3em;
+        background-image: url(http://icons.iconarchive.com/icons/wineass/ios7-redesign/512/Messages-icon.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 0.5em;
+    }
+
+    .notification-actions {
+        border-top: 1px solid rgba(white, 0.2);
+        padding: 0.75em 0.5em;
+        position: absolute;
+        width: 100%;
+        bottom: 0; left: 0;
+        display: flex;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+
+        &.switching-out {
+            transition: opacity 0.3s ease;
+            opacity: 0 !important;
+        }
+
+        &.switching-in {
+            transition: opacity 0.3s 0.2s ease;
+            opacity: 1;
+        }
+
+        .notification-action {
+            display: inline-flex;
+            flex: 1 1 1em;
+
+            &:not(:first-of-type) {
+                margin-left: 0.5em;
+            }
+        }
+
+        button,
+        input {
+            border: none;
+            border-radius: 0.25em;
+            color: white;
+            font-size: 1em;
+            padding: 0.5em;
+            width: 100%;
+            display: inline-block;
+        }
+
+        button {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button,
+        .submit {
+            * {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .button {
+            button {
+                background-color: rgba(white, 0.45);
+
+                &:hover,
+                &:active,
+                &:focus {
+                    outline: none;
+                    box-shadow: none;
+                    background-color: rgba(white, 0.25);
+                }
+            }
+        }
+
+        .submit {
+            flex: 0 0 auto;
+            margin-left: 0 !important;
+
+            input {
+                background-color: transparent;
+                width: auto;
+                font-weight: bold;
+                padding-right: 0;
+            }
+        }
+
+        input[type=text] {
+            background-color: rgba(white, 0.2);
+
+            &:focus,
+            &:active {
+                outline: none;
+                box-shadow: none;
+            }
+        }
+    }
+}
