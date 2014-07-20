@@ -322,6 +322,12 @@ module.exports = function(grunt) {
                 options: { spawn: false }
             },
 
+            drag: {
+                files: ["src/behaviors/drag.js"],
+                tasks: ["shell:copyMain", "concat", "shell:copyBehaviors"],
+                options: { spawn: false }
+            },
+
             coffee: {
                 files: ["src/**/*.coffee"],
                 tasks: ["coffee:components", "coffee:build"]
