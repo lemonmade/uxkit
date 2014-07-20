@@ -12,8 +12,6 @@ no_docs = !(args =~ /no\-docs/).nil?
 
 src_dir = "src/components/#{component_file}"
 
-puts src_dir
-
 # Shell commands
 `mkdir #{src_dir}`
 
@@ -38,7 +36,7 @@ unless no_docs
 
 = render_component_actions component
 = render_source_code component
-= render_javascript_api component"
+= render_javascript_api component
         EOS
     end
 
