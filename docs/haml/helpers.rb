@@ -40,6 +40,18 @@ def render_component_actions(component)
     render_partial :component_actions, component: component
 end
 
+def render_requirements(component, requirements)
+    render_partial :requirements, component: component, requirements: requirements
+end
+
+def render_playground(statements, comments, example_commands)
+    render_partial :playground, statements: statements, comments: comments, example_commands: example_commands
+end
+
+def render_download_links(component)
+    render_partial :download_links, component: component
+end
+
 
 
 
@@ -49,4 +61,11 @@ end
 
 def component_name(component_file)
     component_file.split("-").map(&:capitalize).join " "
+end
+
+
+
+def requirement_link(requirement)
+    component_file = component_filename requirement[0]
+    "<a href='/#{component_file}' class='requirement-link'>#{component_file} #{requirement[1].to_s}</a>#{if requirement[2] then ", " + requirement[2] else "" end}"
 end
