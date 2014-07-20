@@ -86,8 +86,8 @@ module.exports = function(grunt) {
 
         coffee: {
             build: {
-                src: "src/springs.coffee",
-                dest: "dist/springs.js"
+                src: "src/behaviors/springs.coffee",
+                dest: "dist/behaviors/springs.js"
             },
 
             specs: {
@@ -128,8 +128,8 @@ module.exports = function(grunt) {
 
         uglify: {
             build: {
-                src: "dist/springs.js",
-                dest: "dist/springs.min.js"
+                src: "dist/behaviors/springs.js",
+                dest: "dist/behaviors/springs.min.js"
             },
 
             components: {
@@ -158,10 +158,10 @@ module.exports = function(grunt) {
 
             springs: {
                 src: [
-                    "src/helpers.scss",
-                    "src/springs.scss"
+                    "src/behaviors/helpers.scss",
+                    "src/behaviors/springs.scss"
                 ],
-                dest: "dist/springs.scss"
+                dest: "dist/behaviors/springs.scss"
             },
 
             components: {
@@ -278,6 +278,7 @@ module.exports = function(grunt) {
                 command: [
                     // "cp src/springs.js dist/springs.js",
                     // "cp src/springs.scss dist/springs.scss",
+                    "cp src/behaviors/drag.js dist/behaviors/drag.js",
                     "cp src/components/*/*.scss docs/scss/components",
                     "rsync -av src/components/ dist/components/"
                 ].join("&&")
