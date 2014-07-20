@@ -156,6 +156,14 @@ module.exports = function(grunt) {
             //     dest: "dist/springs.js"
             // },
 
+            drag: {
+                src: [
+                    "dist/behaviors/drag.js",
+                    "dist/components/notification-ios/notification-ios.js"
+                ],
+                dest: "dist/components/notification-ios/notification-ios-drag.js"
+            },
+
             springs: {
                 src: [
                     "src/behaviors/helpers.scss",
