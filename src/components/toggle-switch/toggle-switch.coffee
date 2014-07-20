@@ -254,7 +254,7 @@ class ToggleSwitch
 			@_input.prop property
 
 ToggleSwitch.template = "<div class='toggle-switch' tabindex='0'>
-            							<input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'>
+            							<input class='toggle-switch__input' type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'>
             							<label for='TOGGLE_ID' class='toggle-switch__container'>
             								<div class='toggle-switch__accent'></div>
             								<div class='toggle-switch__thumb'></div>
