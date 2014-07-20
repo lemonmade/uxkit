@@ -255,9 +255,9 @@ class ToggleSwitch
 
 ToggleSwitch.template = "<div class='toggle-switch' tabindex='0'>
             							<input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'>
-            							<label for='TOGGLE_ID'>
-            								<div class='toggle-switch-accent'></div>
-            								<div class='toggle-switch-thumb'></div>
+            							<label for='TOGGLE_ID' class='toggle-switch__container'>
+            								<div class='toggle-switch__accent'></div>
+            								<div class='toggle-switch__thumb'></div>
             							</label>
             						</div>"
 
