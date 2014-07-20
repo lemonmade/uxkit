@@ -39,3 +39,6 @@ If a `coffeescript` file is included as part of your component, the class names 
 ##### CoffeeScript
 TODO
 See the other `coffeescript` component files for more examples of how the components should be structured.
+
+##### Sass
+If a visual property can be set in a stylesheet and in JavaScript, please use the stylesheet. This includes even complex properties like layout, transitions, width, height, offsets, etc. JavaScript should be used as a last resort for setting visual styles.

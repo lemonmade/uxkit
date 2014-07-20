@@ -37,13 +37,34 @@
   border-radius: 2em;
   background-color: rgba(0, 0, 0, 0.1);
   text-indent: -200em;
-  -webkit-transition: background-color 0.45s ease, opacity 0.45s ease;
-  transition: background-color 0.45s ease, opacity 0.45s ease;
+  -webkit-transition: background-color 0.45s ease;
+  transition: background-color 0.45s ease;
 }
 
-.toggle-switch input + label:after,
-.toggle-switch input + label:before {
-  content: '';
+.toggle-switch input:checked + label {
+  background-color: #4cd65d;
+}
+
+.toggle-switch input:checked + label .toggle-switch-thumb {
+  -webkit-transition-delay: 0.12s;
+  transition-delay: 0.12s;
+  -webkit-transform: translateX(1.5em);
+  -ms-transform: translateX(1.5em);
+  transform: translateX(1.5em);
+}
+
+.toggle-switch input:checked + label .toggle-switch-accent {
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+}
+
+.toggle-switch input:disabled + label {
+  opacity: 0.4;
+}
+
+.toggle-switch .toggle-switch-accent,
+.toggle-switch .toggle-switch-thumb {
   position: absolute;
   top: 0;
   left: 0;
@@ -52,43 +73,24 @@
   width: 2em;
   background-color: white;
   border-radius: 2em;
-  -webkit-transition: -webkit-transform 0.5625s ease, opacity 0.45s ease;
-  transition: transform 0.5625s ease, opacity 0.45s ease;
+  -webkit-transition: -webkit-transform 0.45s ease;
+  transition: transform 0.45s ease;
 }
 
-.toggle-switch input + label:before {
+.toggle-switch .toggle-switch-accent {
   width: 3.5em;
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
-  -webkit-transition-delay: 0.1125s, 0.225s;
-  transition-delay: 0.1125s, 0.225s;
+  -webkit-transform-origin: 60% 50%;
+  -ms-transform-origin: 60% 50%;
+  transform-origin: 60% 50%;
 }
 
-.toggle-switch input + label:after {
+.toggle-switch .toggle-switch-thumb {
   background-color: white;
-  -webkit-box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.45);
-  box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.45);
+  -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
   -webkit-transition-timing-function: cubic-bezier(0.37, 1.65, 0.305, 0.855);
   transition-timing-function: cubic-bezier(0.37, 1.65, 0.305, 0.855);
-}
-
-.toggle-switch input:checked + label {
-  background-color: #13b800;
-}
-
-.toggle-switch input:checked + label:after {
-  -webkit-transform: translateX(1.5em);
-  -ms-transform: translateX(1.5em);
-  transform: translateX(1.5em);
-}
-
-.toggle-switch input:checked + label:before {
-  -webkit-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
-}
-
-.toggle-switch input:disabled + label {
-  opacity: 0.4;
 }

@@ -2,55 +2,77 @@
   var ToggleSwitch, ToggleSwitchController;
 
   ToggleSwitch = (function() {
-    function ToggleSwitch($toggle) {
-      var $input, $label, toggle;
-      $input = $toggle.children("input");
-      $label = $toggle.children("label");
-      $toggle.attr({
-        "role": "checkbox",
-        "aria-checked": $input.prop("checked")
-      });
-      this[0] = $toggle;
-      this._input = $input;
-      this._label = $label;
-      toggle = this;
-      $input.on("change", function() {
-        return toggle.attr("aria-checked", toggle.checked());
-      });
-      $toggle.on("keypress", function(event) {
-        if (event.charCode === 32) {
-          event.preventDefault();
-          return toggle.toggle();
+    function ToggleSwitch(details) {
+      var $container, $input, $label, defaults, newToggle, options, toggle, toggleHTML, toggleID;
+      if (details instanceof jQuery || toString.call(details) === "[object String]") {
+        details = $(details);
+        $input = details.children("input");
+        $label = details.children("label");
+        details.attr({
+          "role": "checkbox",
+          "aria-checked": $input.prop("checked")
+        });
+        this[0] = details;
+        this._input = $input;
+        this._label = $label;
+        toggle = this;
+        $input.on("change", function() {
+          return toggle.attr("aria-checked", toggle.checked());
+        });
+        details.on("keypress", function(event) {
+          if (event.charCode === 32) {
+            event.preventDefault();
+            return toggle.toggle();
+          }
+        });
+      } else {
+        defaults = {
+          active: false,
+          on: false,
+          checked: false,
+          toggled: false,
+          toggle: false,
+          container: void 0,
+          disabled: false,
+          id: void 0,
+          label: "",
+          name: "toggle"
+        };
+        options = $.extend(defaults, details);
+        toggleID = options.id != null ? options.id : "toggle-switch-" + (ToggleSwitchController._uniqueID());
+        toggleHTML = ToggleSwitch.template.replace(/(TOGGLE_ID|LABEL|NAME)/g, function(match) {
+          switch (match) {
+            case "TOGGLE_ID":
+              return toggleID;
+            case "LABEL":
+              return options.label;
+            case "NAME":
+              return options.name;
+          }
+        });
+        newToggle = new ToggleSwitch($(toggleHTML));
+        if (options.disabled) {
+          newToggle.disable();
         }
-      });
+        if (options.active || options.on || options.checked || options.toggled || options.toggle) {
+          newToggle.toggle();
+        }
+        $container = void 0;
+        if (options.container != null) {
+          $container = options.container instanceof jQuery ? options.container : $(options.container);
+          if ($container.length < 1) {
+            $container = "body";
+          }
+        } else {
+          $container = "body";
+        }
+        newToggle[0].appendTo($container);
+        return newToggle;
+      }
     }
 
     ToggleSwitch.prototype.remove = function() {
       return this[0].remove();
-    };
-
-    ToggleSwitch.prototype.color = function() {
-      return this.css("background-color");
-    };
-
-    ToggleSwitch.prototype.setToggleColor = function(color) {
-      var copy, untoggledColor;
-      untoggledColor = void 0;
-      if (!this.checked()) {
-        untoggledColor = this.color();
-      } else {
-        copy = new ToggleSwitch(this[0].clone(true, true).css("transition", "none"));
-        copy.toggle();
-        untoggledColor = copy.color();
-        this.css("background-color", color);
-      }
-      this.off("change.toggleColor");
-      return this.on("change.toggleColor", function() {
-        var $label, $this;
-        $this = $(this);
-        $label = $this.siblings("label");
-        return $label.css("background-color", ($this.prop("checked") ? color : untoggledColor));
-      });
     };
 
     ToggleSwitch.prototype.toggle = function() {
@@ -249,7 +271,7 @@
 
   })();
 
-  ToggleSwitch.template = "<div class='toggle-switch' tabindex='0'> <input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'> <label for='TOGGLE_ID'>LABEL</label> </div>";
+  ToggleSwitch.template = "<div class='toggle-switch' tabindex='0'> <input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'> <label for='TOGGLE_ID'> <div class='toggle-switch-accent'></div> <div class='toggle-switch-thumb'></div> </label> </div>";
 
   ToggleSwitchController = (function() {
     function ToggleSwitchController() {
@@ -263,60 +285,12 @@
     }
 
     ToggleSwitchController.prototype.newToggleSwitch = function(options) {
-      var $container, defaults, newToggle, toggleHTML, toggleID;
+      var newToggle;
       if (options == null) {
         options = {};
       }
-      defaults = {
-        active: false,
-        on: false,
-        checked: false,
-        toggled: false,
-        toggle: false,
-        addToDOM: true,
-        container: void 0,
-        disabled: false,
-        id: void 0,
-        label: "",
-        name: "toggle",
-        toggleColor: void 0
-      };
-      options = $.extend(defaults, options);
-      toggleID = options.id != null ? options.id : "toggle-switch-" + (this._uniqueID());
-      toggleHTML = ToggleSwitch.template.replace(/(TOGGLE_ID|LABEL|NAME)/g, function(match) {
-        switch (match) {
-          case "TOGGLE_ID":
-            return toggleID;
-          case "LABEL":
-            return options.label;
-          case "NAME":
-            return options.name;
-        }
-      });
-      newToggle = new ToggleSwitch($(toggleHTML));
-      if (options.disabled) {
-        newToggle.disable();
-      }
-      if (options.active || options.on || options.checked || options.toggled || options.toggle) {
-        newToggle.toggle();
-      }
-      if (options.toggleColor != null) {
-        newToggle.setToggleColor(options.toggleColor);
-      }
+      newToggle = new ToggleSwitch(options);
       this.toggleSwitches.push(newToggle);
-      if (!options.addToDOM) {
-        return newToggle;
-      }
-      $container = void 0;
-      if (options.container != null) {
-        $container = options.container instanceof jQuery ? options.container : $(options.container);
-        if ($container.length < 1) {
-          $container = "body";
-        }
-      } else {
-        $container = "body";
-      }
-      newToggle[0].appendTo($container);
       return newToggle;
     };
 
@@ -400,6 +374,12 @@
     return ToggleSwitchController;
 
   })();
+
+  ToggleSwitchController._toggleSwitchCount = 0;
+
+  ToggleSwitchController._uniqueID = function() {
+    return ToggleSwitchController._toggleSwitchCount++;
+  };
 
   window.ToggleSwitchController = ToggleSwitchController;
 

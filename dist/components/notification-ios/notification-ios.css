@@ -1,0 +1,190 @@
+.notification-device {
+  height: 20em;
+  width: 100%;
+  position: relative;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+.notification-ios {
+  font-family: "Helvetica Neue";
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  position: absolute;
+  width: 100%;
+  top: -4em;
+  left: 0;
+  padding-top: 4em;
+  -webkit-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  transform: translateY(-100%);
+  -webkit-transition: -webkit-transform 0.3s ease;
+  transition: transform 0.3s ease;
+}
+
+.notification-ios.active {
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.notification-ios.dragging {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.notification-ios.dragging .notification-wrapper,
+.notification-ios.dragging .notification-handle,
+.notification-ios.dragging .notification-actions {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.notification-ios .notification-content {
+  padding: 0.5em;
+}
+
+.notification-ios .notification-content * {
+  margin: 0;
+}
+
+.notification-ios .notification-message {
+  max-height: 3em;
+  overflow: scroll;
+}
+
+.notification-ios .notification-wrapper {
+  position: relative;
+  padding-bottom: 1.85em;
+  -webkit-transition: padding-bottom 0.3s ease;
+  transition: padding-bottom 0.3s ease;
+}
+
+.notification-ios .notification-handle {
+  position: absolute;
+  bottom: 0.3em;
+  height: 0.4em;
+  width: 3.2em;
+  margin-left: -1.6em;
+  left: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.2em;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.notification-ios .notification-icon {
+  height: 1.5em;
+  width: 1.5em;
+  float: left;
+  margin-bottom: 3em;
+  background-image: url(http://icons.iconarchive.com/icons/wineass/ios7-redesign/512/Messages-icon.png);
+  -webkit-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 0.5em;
+}
+
+.notification-ios .notification-actions {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75em 0.5em;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+
+.notification-ios .notification-actions.switching-out {
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  opacity: 0 !important;
+}
+
+.notification-ios .notification-actions.switching-in {
+  -webkit-transition: opacity 0.3s 0.2s ease;
+  transition: opacity 0.3s 0.2s ease;
+  opacity: 1;
+}
+
+.notification-ios .notification-actions .notification-action {
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 1em;
+  -ms-flex: 1 1 1em;
+  flex: 1 1 1em;
+}
+
+.notification-ios .notification-actions .notification-action:not(:first-of-type) {
+  margin-left: 0.5em;
+}
+
+.notification-ios .notification-actions button,
+.notification-ios .notification-actions input {
+  border: none;
+  border-radius: 0.25em;
+  color: white;
+  font-size: 1em;
+  padding: 0.5em;
+  width: 100%;
+  display: inline-block;
+}
+
+.notification-ios .notification-actions button {
+  text-align: center;
+  cursor: pointer;
+}
+
+.notification-ios .notification-actions .button *,
+.notification-ios .notification-actions .submit * {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.notification-ios .notification-actions .button button {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+.notification-ios .notification-actions .button button:hover,
+.notification-ios .notification-actions .button button:active,
+.notification-ios .notification-actions .button button:focus {
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.notification-ios .notification-actions .submit {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  margin-left: 0 !important;
+}
+
+.notification-ios .notification-actions .submit input {
+  background-color: transparent;
+  width: auto;
+  font-weight: bold;
+  padding-right: 0;
+}
+
+.notification-ios .notification-actions input[type=text] {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-ios .notification-actions input[type=text]:focus,
+.notification-ios .notification-actions input[type=text]:active {
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}

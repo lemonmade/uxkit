@@ -1,0 +1,255 @@
+// uxkit - v0.0.5 - 2014.07.09
+
+
+//        ___       ___          ___          ___                             ___          ___          ___
+//       /  /\     /__/\        /__/\        /  /\         ___   ___         /  /\        /__/\        /  /\
+//      /  /:/_    \  \:\       \  \:\      /  /:/        /  /\ /  /\       /  /::\       \  \:\      /  /:/_
+//     /  /:/ /\    \  \:\       \  \:\    /  /:/        /  /://  /:/      /  /:/\:\       \  \:\    /  /:/ /\
+//    /  /:/ /:/___  \  \:\  _____\__\:\  /  /:/  ___   /  /://__/::\     /  /:/  \:\  _____\__\:\  /  /:/ /::\
+//   /__/:/ /://__/\  \__\:\/__/::::::::\/__/:/  /  /\ /  /::\\__\/\:\__ /__/:/ \__\:\/__/::::::::\/__/:/ /:/\:\
+//   \  \:\/:/ \  \:\ /  /:/\  \:\~~\~~\/\  \:\ /  /://__/:/\:\  \  \:\/\\  \:\ /  /:/\  \:\~~\~~\/\  \:\/:/~/:/
+//    \  \::/   \  \:\  /:/  \  \:\  ~~~  \  \:\  /:/ \__\/  \:\  \__\::/ \  \:\  /:/  \  \:\  ~~~  \  \::/ /:/
+//     \  \:\    \  \:\/:/    \  \:\       \  \:\/:/       \  \:\ /__/:/   \  \:\/:/    \  \:\       \__\/ /:/
+//      \  \:\    \  \::/      \  \:\       \  \::/         \__\/ \__\/     \  \::/      \  \:\        /__/:/
+//       \__\/     \__\/        \__\/        \__\/                           \__\/        \__\/        \__\/
+
+// @FUNCTION
+// ensure-type()
+// -----------------------------------------------------------------------------------------
+
+// @SUMMARY
+// -----------------------------------------------------------------------------------------
+// Checks that the supplied value is of the desired type and, if not, throws a warning
+// and sets it to the default value (if provided).
+
+// @PARAMETERS
+// -----------------------------------------------------------------------------------------
+// $value:       The value to check.
+// $type:        The type that the value should be (as a string).
+// $name:        The name of the variable (to be used in the warning message). Optional.
+// $default:     The default value to be assigned in the case of the type check failing. Optional.
+
+@function ensure-type($value,
+                      $type,
+                      $name: NULL,
+                      $default: NULL) {
+
+    @if type-of($value) != $type {
+        $message: " must be a " + $type + ".";
+        @if $name != NULL {
+            $message: "The variable '" + $name + "'" + $message;
+        } @else {
+            $message: "One of the provided variables" + $message;
+        }
+
+        @if $default != NULL { $message: $message + " A default value of '" + $default + "' has been used in place of the supplied value."; }
+
+        @warn $message;
+        @return $default;
+    }
+
+    @return $value;
+
+}
+
+
+// -----
+
+
+//                    ___          ___                     ___                                    ___          ___
+//        ___        /  /\        /  /\       ___         /  /\        _____                     /  /\        /  /\
+//       /__/\      /  /::\      /  /::\     /  /\       /  /::\      /  /::\                   /  /:/_      /  /:/_
+//       \  \:\    /  /:/\:\    /  /:/\:\   /  /:/      /  /:/\:\    /  /:/\:\   ___     ___   /  /:/ /\    /  /:/ /\
+//        \  \:\  /  /:/~/::\  /  /:/~/:/  /__/::\     /  /:/~/::\  /  /:/~/::\ /__/\   /  /\ /  /:/ /:/_  /  /:/ /::\
+//    ___  \__\:\/__/:/ /:/\:\/__/:/ /:/___\__\/\:\__ /__/:/ /:/\:\/__/:/ /:/\:|\  \:\ /  /://__/:/ /:/ /\/__/:/ /:/\:\
+//   /__/\ |  |:|\  \:\/:/__\/\  \:\/:::::/   \  \:\/\\  \:\/:/__\/\  \:\/:/~/:/ \  \:\  /:/ \  \:\/:/ /:/\  \:\/:/~/:/
+//   \  \:\|  |:| \  \::/      \  \::/~~~~     \__\::/ \  \::/      \  \::/ /:/   \  \:\/:/   \  \::/ /:/  \  \::/ /:/
+//    \  \:\__|:|  \  \:\       \  \:\         /__/:/   \  \:\       \  \:\/:/     \  \::/     \  \:\/:/    \__\/ /:/
+//     \__\::::/    \  \:\       \  \:\        \__\/     \  \:\       \  \::/       \__\/       \  \::/       /__/:/
+//         ~~~~      \__\/        \__\/                   \__\/        \__\/                     \__\/        \__\/
+
+// Basic spring variables. Creates a nice, soft spring effect with a single small bounceback.
+// cubic-bezier curves are constructed from four points: (0,0), (1,1), and two user-defined
+// points that determine the actual curve shape.
+
+// These variables are also the basis of the spring-transition() function.
+
+$basic-spring-x1:       0.370; // first point, x-coordinate
+$basic-spring-y1:       1.650; // first point, y-coordinate
+$basic-spring-x2:       0.305; // second point, x-coordinate
+$basic-spring-y2:       0.855; // second point, y-coordinate
+
+// Construction of the actual cubic-bezier function. Use this to define the
+// transition-timing-function property in your Sass code.
+
+$basic-spring:          cubic-bezier(#{$basic-spring-x1},
+                                     #{$basic-spring-y1},
+                                     #{$basic-spring-x2},
+                                     #{$basic-spring-y2});
+
+
+
+//        ___                    ___                     ___          ___
+//       /__/\       ___        /__/|       ___         /__/\        /  /\
+//      |  |::\     /  /\      |  |:|      /  /\        \  \:\      /  /:/_
+//      |  |:|:\   /  /:/      |  |:|     /  /:/         \  \:\    /  /:/ /\
+//    __|__|:|\:\ /__/::\    __|__|:|    /__/::\     _____\__\:\  /  /:/ /::\
+//   /__/::::| \:\\__\/\:\__/__/::::\____\__\/\:\__ /__/::::::::\/__/:/ /:/\:\
+//   \  \:\~~\__\/   \  \:\/\  ~\~~\::::/   \  \:\/\\  \:\~~\~~\/\  \:\/:/~/:/
+//    \  \:\          \__\::/   |~~|:|~~     \__\::/ \  \:\  ~~~  \  \::/ /:/
+//     \  \:\         /__/:/    |  |:|       /__/:/   \  \:\       \__\/ /:/
+//      \  \:\        \__\/     |  |:|       \__\/     \  \:\        /__/:/
+//       \__\/                  |__|/                   \__\/        \__\/
+
+// @MIXIN
+// spring-transition()
+// -----------------------------------------------------------------------------------------
+
+// @SUMMARY
+// -----------------------------------------------------------------------------------------
+// Creates the spring cubic-bezier transition-timing-function declarations.
+
+// @PARAMETERS
+// -----------------------------------------------------------------------------------------
+// $springiness: The intensity of the spring effect. Defaults to 1.
+// $backloading: The amount by which the transition is at the back of transition
+//               duration -- higher values will create a more abrupt bounce. Defaults to 1.
+// $property:    The CSS properties to transition (can provide a single property or a list).
+// $duration:    The length of the transition.
+// $delay:       The delay before starting the transition.
+
+// @DETAILS
+// -----------------------------------------------------------------------------------------
+// The three above properties are all totally optional; if they aren't provided, just the
+// transition-timing-function property will be defined.
+
+@mixin spring-transition($springiness:  1,
+                         $backloading:  1,
+                         $property:     NULL,
+                         $duration:     NULL,
+                         $delay:        NULL) {
+
+    // Error checking on $springiness variable
+    @if type-of($springiness) != "number" {
+        @warn "The $springiness variable must be a number. A default value of 1 has been used in place of the supplied value.";
+        $springiness:   1;
+    }
+
+    $springiness: ensure-type($springiness, "number", "$springiness", 1);
+    $backloading: ensure-type($backloading, "number", "$backloading", 1);
+
+    // Generate the curve based on the provided parameters
+    $bezier-spring:     create-cubic-bezier-curve($springiness, $backloading);
+
+    // User provided all transition details
+    @if $property != NULL and
+        $duration != NULL and
+        $delay    != NULL {
+
+        // If more than a single transition property was defined,
+        // break it into its component pieces
+        @if length($property) > 1 {
+            transition-property:        #{$property};
+            transition-duration:        #{$duration};
+            transition-delay:           #{$delay};
+            transition-timing-function: #{$bezier-spring};
+        } @else {
+            transition: #{$property} #{$duration} #{$delay} #{$bezier-spring};
+        }
+    }
+
+    // User provided all details except the delay
+    @elseif $property != NULL and
+            $duration != NULL {
+
+        // If more than a single transition property was defined,
+        // break it into its component pieces
+        @if length($property) > 1 {
+            transition-property:            #{$property};
+            transition-duration:            #{$duration};
+            transition-timing-function:     #{$bezier-spring};
+        } @else {
+            transition: #{$property} #{$duration} #{$bezier-spring};
+        }
+    }
+
+    // Minimum requirements to create a transition are the property and duration.
+    // If they provide a property but no duration, just warn and don't create the transition.
+    @elseif $property != NULL {
+        @warn "If you provide a property/ properties, you must also provide (at least) a transition duration. No springified transition has been created.";
+    }
+
+    // If they didn't ask for anything, just define the timing function.
+    @else {
+        transition-timing-function: #{$bezier-spring};
+    }
+
+}
+
+
+
+//        ___       ___          ___          ___                             ___          ___          ___
+//       /  /\     /__/\        /__/\        /  /\         ___   ___         /  /\        /__/\        /  /\
+//      /  /:/_    \  \:\       \  \:\      /  /:/        /  /\ /  /\       /  /::\       \  \:\      /  /:/_
+//     /  /:/ /\    \  \:\       \  \:\    /  /:/        /  /://  /:/      /  /:/\:\       \  \:\    /  /:/ /\
+//    /  /:/ /:/___  \  \:\  _____\__\:\  /  /:/  ___   /  /://__/::\     /  /:/  \:\  _____\__\:\  /  /:/ /::\
+//   /__/:/ /://__/\  \__\:\/__/::::::::\/__/:/  /  /\ /  /::\\__\/\:\__ /__/:/ \__\:\/__/::::::::\/__/:/ /:/\:\
+//   \  \:\/:/ \  \:\ /  /:/\  \:\~~\~~\/\  \:\ /  /://__/:/\:\  \  \:\/\\  \:\ /  /:/\  \:\~~\~~\/\  \:\/:/~/:/
+//    \  \::/   \  \:\  /:/  \  \:\  ~~~  \  \:\  /:/ \__\/  \:\  \__\::/ \  \:\  /:/  \  \:\  ~~~  \  \::/ /:/
+//     \  \:\    \  \:\/:/    \  \:\       \  \:\/:/       \  \:\ /__/:/   \  \:\/:/    \  \:\       \__\/ /:/
+//      \  \:\    \  \::/      \  \:\       \  \::/         \__\/ \__\/     \  \::/      \  \:\        /__/:/
+//       \__\/     \__\/        \__\/        \__\/                           \__\/        \__\/        \__\/
+
+// @FUNCTION
+// create-cubic-bexier-curve()
+// -----------------------------------------------------------------------------------------
+
+// @SUMMARY
+// -----------------------------------------------------------------------------------------
+// Returns a springy cubic-bezier function for use in transition timings.
+
+// @PARAMETERS
+// -----------------------------------------------------------------------------------------
+// $springiness: The intensity of the spring effect. Defaults to 1.
+// $backloading: The amount by which the transition is at the back of transition
+//               duration -- higher values will create a more abrupt bounce. Defaults to 1.
+
+@function create-cubic-bezier-curve($springiness: 1,
+                                    $backloading: 1) {
+
+    $bezier-spring-y1:  $basic-spring-y1 * $springiness;
+    $bezier-spring-y2:  $basic-spring-y2 / $springiness;
+    $bezier-spring-x1:  $basic-spring-x1 * $backloading;
+    $bezier-spring-x2:  $basic-spring-x2 * $backloading;
+
+    @return             cubic-bezier(#{$bezier-spring-x1},
+                                     #{$bezier-spring-y1},
+                                     #{$bezier-spring-x2},
+                                     #{$bezier-spring-y2});
+
+}
+
+
+// @FUNCTION
+// create-cubic-bexier-curve-with-points()
+// -----------------------------------------------------------------------------------------
+
+// @SUMMARY
+// -----------------------------------------------------------------------------------------
+// Creates a cubic bezier function based on two sets of x,y coordinates.
+
+// @PARAMETERS
+// -----------------------------------------------------------------------------------------
+// $x1: x-coordinate of the first point. Defaults to 0.5.
+// $y1: y-coordinate of the first point. Defaults to 0.5.
+// $x2: x-coordinate of the second point. Defaults to 0.5.
+// $y2: y-coordinate of the second point. Defaults to 0.5.
+
+@function create-cubic-bezier-curve-with-points($x1: 0.5,
+                                                $y1: 0.5,
+                                                $x2: 0.5,
+                                                $y2: 0.5) {
+
+    @return cubic-bezier(#{$x1}, #{$y1}, #{$x2}, #{$y2});
+
+}
