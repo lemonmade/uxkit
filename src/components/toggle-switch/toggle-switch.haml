@@ -1,14 +1,5 @@
 %div.toggle-switch{:"tab-index" => "0"}
     %input#toggle-switch{:type => "checkbox", :name => "toggle-switch", :tabindex => "-1"}
-    %label{:for => "toggle-switch"}
-
-
-/ var tsc, $ts;
-
-/ $(document).ready(function() {
-/     tsc = new ToggleSwitchController();
-/     for(var i = 1; i <= 1; i++) {
-/         var color = "rgb(" + Math.ceil(255*Math.random()) + ", " + Math.ceil(255*Math.random()) + ", " + Math.ceil(255*Math.random()) + ")";
-/         $ts = tsc.add();
-/     }
-/ });
+    %label.toggle-switch-main{:for => "toggle-switch"}
+        %div.toggle-switch-accent
+        %div.toggle-switch-thumb

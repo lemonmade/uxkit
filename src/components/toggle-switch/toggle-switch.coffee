@@ -24,96 +24,85 @@ class ToggleSwitch
     #       \__\/                 \__\/        \__\/
 
     # Must be initialized with a toggle element
-    constructor: ($toggle) ->
-        $input = $toggle.children "input"
-        $label = $toggle.children "label"
+    constructor: (details) ->
+        # Accept a pre-made jQuery object
+        if details instanceof jQuery or toString.call(details) is "[object String]"
+            details = $(details)
+            $input = details.children "input"
+            $label = details.children "label"
 
-        $toggle.attr
-            "role": "checkbox"
-            "aria-checked": $input.prop("checked")
+            details.attr
+                "role": "checkbox"
+                "aria-checked": $input.prop("checked")
 
-        this[0] = $toggle
-        @_input = $input
-        @_label = $label
+            this[0] = details
+            @_input = $input
+            @_label = $label
 
-        # Bind the keypress event to manipulate the toggle
-        # and the change event to update the aria-role
-        toggle = this
-        $input.on "change", ->
-            toggle.attr "aria-checked", toggle.checked()
+            # Bind the keypress event to manipulate the toggle
+            # and the change event to update the aria-role
+            toggle = this
+            $input.on "change", ->
+                toggle.attr "aria-checked", toggle.checked()
 
-        $toggle.on "keypress", (event) ->
-            if event.charCode is 32
-                event.preventDefault()
-                toggle.toggle()
+            details.on "keypress", (event) ->
+                if event.charCode is 32
+                    event.preventDefault()
+                    toggle.toggle()
+
+        # Create a brand new instance
+        else
+            defaults =
+                # Whether the new toggle should be toggled on or not
+                # These five are all aliases for one another
+                active: false
+                on: false
+                checked: false
+                toggled: false
+                toggle: false
+
+                container: undefined
+                disabled: false         # Whether the toggle should be disabled
+                id: undefined           # Custom ID to use for the input/ label
+                label: ""               # Label to use for the toggle (hidden in default CSS)
+                name: "toggle"          # Name attribute to use for the input
+
+            options = $.extend defaults, details
+
+            # Create the toggle ID
+            toggleID = if options.id? then options.id else "toggle-switch-#{ToggleSwitchController._uniqueID()}"
+
+            # Replace HTML template items with relevant strings
+            toggleHTML = ToggleSwitch.template.replace /(TOGGLE_ID|LABEL|NAME)/g, (match) ->
+                switch match
+                    when "TOGGLE_ID" then toggleID
+                    when "LABEL" then options.label
+                    when "NAME" then options.name
+
+            newToggle = new ToggleSwitch $(toggleHTML)
+
+            # Respect the disable, toggled, and toggleColor options
+            newToggle.disable() if options.disabled
+            newToggle.toggle() if (options.active or options.on or options.checked or options.toggled or options.toggle)
+
+            # Find the appropriate container
+            $container = undefined
+            if options.container?
+                $container = if options.container instanceof jQuery then options.container else $(options.container)
+                # If specified container doesn't exist, go to body
+                $container = "body" if $container.length < 1
+            else
+                $container = "body"
+
+            newToggle[0].appendTo $container
+
+            return newToggle
 
 
     # Remove the HTML element
     remove: -> this[0].remove()
 
 
-
-    #        ___          ___                       ___          ___
-    #       /  /\        /  /\                     /  /\        /  /\
-    #      /  /:/       /  /::\                   /  /::\      /  /::\
-    #     /  /:/       /  /:/\:\   ___     ___   /  /:/\:\    /  /:/\:\
-    #    /  /:/  ___  /  /:/  \:\ /__/\   /  /\ /  /:/  \:\  /  /:/~/:/
-    #   /__/:/  /  /\/__/:/ \__\:\\  \:\ /  /://__/:/ \__\:\/__/:/ /:/___
-    #   \  \:\ /  /:/\  \:\ /  /:/ \  \:\  /:/ \  \:\ /  /:/\  \:\/:::::/
-    #    \  \:\  /:/  \  \:\  /:/   \  \:\/:/   \  \:\  /:/  \  \::/~~~~
-    #     \  \:\/:/    \  \:\/:/     \  \::/     \  \:\/:/    \  \:\
-    #      \  \::/      \  \::/       \__\/       \  \::/      \  \:\
-    #       \__\/        \__\/                     \__\/        \__\/
-
-    # color
-    # -----------------------------------------------------------------------------------------
-
-    # SUMMARY
-    # -----------------------------------------------------------------------------------------
-    # Gets the current color of the toggle switch. If the switch is active, this is the background
-    # color. Otherwise, this is the border color.
-
-    color: -> @css "background-color"
-
-
-    # setToggleColor
-    # -----------------------------------------------------------------------------------------
-
-    # SUMMARY
-    # -----------------------------------------------------------------------------------------
-    # Sets the background color for the toggled switch
-
-    # PARAMETERS
-    # -----------------------------------------------------------------------------------------
-    # color:        The background color you'd like for the toggled switch.
-
-    setToggleColor: (color) ->
-        # Find the untoggled color
-        untoggledColor = undefined
-        unless @checked()
-            untoggledColor = @color()
-        else
-            # If necessary, clone the toggle and uncheck it to get color
-            # The copy gets cloned with true, true to force event handlers to
-            # also be copied
-            copy = new ToggleSwitch(this[0].clone(true, true).css("transition", "none"))
-            # Kill transitions so we get color immediately
-            copy.toggle()
-            untoggledColor = copy.color()
-            # copy.remove()
-
-            # Also, set current color to desired color
-            @css "background-color", color
-
-        # Remove previous handler
-        @off "change.toggleColor"
-
-        # Set up new handler
-        @on "change.toggleColor", ->
-            $this = $(this)
-            $label = $this.siblings "label"
-            # Set bgc to toggled/ untoggled color
-            $label.css "background-color", (if $this.prop("checked") then color else untoggledColor)
 
 
 
@@ -263,7 +252,10 @@ class ToggleSwitch
 
 ToggleSwitch.template = "<div class='toggle-switch' tabindex='0'>
                             <input type='checkbox' name='NAME' id='TOGGLE_ID' tabindex='-1'>
-                            <label for='TOGGLE_ID'>LABEL</label>
+                            <label for='TOGGLE_ID'>
+                                <div class='toggle-switch-accent'></div>
+                                <div class='toggle-switch-thumb'></div>
+                            </label>
                         </div>"
 
 
@@ -325,64 +317,14 @@ class ToggleSwitchController
 
     # PARAMETERS
     # -----------------------------------------------------------------------------------------
-    # options:      Hash of options to use for the newly created toggle (see below)
-    # sel:          The selector that must be matched by the colored message.
+    # options:      Hash of options to use for the newly created toggle (see details in
+    # ToggleSwitch constructor)
 
     newToggleSwitch: (options = {}) ->
-        defaults =
-            # Whether the new toggle should be toggled on or not
-            # These five are all aliases for one another
-            active: false
-            on: false
-            checked: false
-            toggled: false
-            toggle: false
-
-            addToDOM: true          # Whether to actually add the new toggle to the DOM
-            container: undefined    # Container in which to place the new toggle
-            disabled: false         # Whether the toggle should be disabled
-            id: undefined           # Custom ID to use for the input/ label
-            label: ""               # Label to use for the toggle (hidden in default CSS)
-            name: "toggle"          # Name attribute to use for the input
-            toggleColor: undefined  # Custom color for when the toggle is active
-
-        options = $.extend defaults, options
-
-        # Create the toggle ID
-        toggleID = if options.id? then options.id else "toggle-switch-#{@_uniqueID()}"
-
-        # Replace HTML template items with relevant strings
-        toggleHTML = ToggleSwitch.template.replace /(TOGGLE_ID|LABEL|NAME)/g, (match) ->
-            switch match
-                when "TOGGLE_ID" then toggleID
-                when "LABEL" then options.label
-                when "NAME" then options.name
-
-        # Create the new toggle
-        newToggle = new ToggleSwitch $(toggleHTML)
-
-        # Respect the disable, toggled, and toggleColor options
-        newToggle.disable() if options.disabled
-        newToggle.toggle() if (options.active or options.on or options.checked or options.toggled or options.toggle)
-        newToggle.setToggleColor(options.toggleColor) if options.toggleColor?
+        newToggle = new ToggleSwitch options
 
         # Add the new toggle to the internal array
         @toggleSwitches.push newToggle
-
-        # If not adding to the DOM, return the new toggle now
-        return newToggle unless options.addToDOM
-
-        # Find the appropriate container
-        $container = undefined
-        if options.container?
-            $container = if options.container instanceof jQuery then options.container else $(options.container)
-            # If specified container doesn't exist, go to body
-            $container = "body" if $container.length < 1
-        else
-            $container = "body"
-
-        # Add to container
-        newToggle[0].appendTo $container
 
         # Return the new toggle
         newToggle
@@ -606,6 +548,9 @@ class ToggleSwitchController
     _uniqueID: ->
         return @_toggleSwitchCount++
 
+ToggleSwitchController._toggleSwitchCount = 0
+ToggleSwitchController._uniqueID = () ->
+    ToggleSwitchController._toggleSwitchCount++
 
 
 
