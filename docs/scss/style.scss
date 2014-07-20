@@ -2,11 +2,15 @@
 @import "globals/_mixins.scss";
 @import "globals/_foundation.scss";
 @import "globals/_layout.scss";
+@import "globals/_fonts.scss";
 
 @import "pieces/sidebar.scss";
 @import "pieces/header.scss";
 @import "pieces/code.scss";
-
+@import "pieces/example.scss";
+@import "pieces/playground.scss";
+@import "pieces/footer.scss";
+@import "pieces/download-links.scss";
 
 .example-component:not(.no-css) {
     @import "components.scss";
