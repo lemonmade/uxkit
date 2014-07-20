@@ -10,15 +10,15 @@
 //     \__\::::/    \  \:\       \  \:\        /__/:/
 //         ~~~~      \__\/        \__\/        \__\/
 
-$toggle-switch-height: 2em;
-$toggle-switch-width: 3.5em;
-$toggle-switch-inactive-border-color: rgba(black, 0.1);
-$toggle-switch-inactive-background-color: white;
-$toggle-switch-switch-color: white;
-$toggle-switch-active-color: rgb(76, 214, 93);
-$toggle-switch-color-transition-duration: 0.45s;
-$toggle-switch-shadow: 0px 1px 5px rgba(black, 0.25);
-$toggle-switch-focus-highlight: 0 0 3px 2px rgba(161, 205, 255, 1);
+$toggle-switch-height                     : 2em;
+$toggle-switch-width                      : 3.5em;
+$toggle-switch-inactive-border-color      : rgba(black, 0.1);
+$toggle-switch-inactive-background-color  : white;
+$toggle-switch-switch-color               : white;
+$toggle-switch-active-color               : rgb(76, 214, 93);
+$toggle-switch-color-transition-duration  : 0.45s;
+$toggle-switch-shadow                     : 0px 1px 5px rgba(black, 0.25);
+$toggle-switch-focus-highlight            : 0 0 3px 2px rgba(161, 205, 255, 1);
 
 
 //                 ___          ___          ___                       ___
@@ -34,110 +34,127 @@ $toggle-switch-focus-highlight: 0 0 3px 2px rgba(161, 205, 255, 1);
 //                \__\/        \__\/        \__\/                     \__\/
 
 .toggle-switch {
-    display: inline-block;
-    position: relative;
-    border-radius: $toggle-switch-height;
+  display: inline-block;
+  position: relative;
+  border-radius: $toggle-switch-height;
 
-    &:focus {
-        box-shadow: $toggle-switch-focus-highlight;
-        outline: none;
-    }
+  &:focus {
+    box-shadow: $toggle-switch-focus-highlight;
+    outline: none;
+  }
 
-    &:active { box-shadow: none; }
+  &:active {
+    box-shadow: none;
+  }
 
 
-    input {
-        // Kill the default styles
-        height: 0;
-        width: 0;
-        opacity: 0;
-        position: absolute;
-        top: 0; left: 0;
-        z-index: -1;
+  input {
+    // Kill the default styles
+    height: 0;
+    width: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: -1;
 
-        & + label {
-            // DISPLAY AND SIZING
-            display: block;
-            height: $toggle-switch-height;
-            width: $toggle-switch-width;
-            box-sizing: content-box;
 
-            // POSITIONING
-            position: relative;
+    //        ___          ___          ___          ___          ___          ___         _____
+    //       /  /\        /__/\        /  /\        /  /\        /__/|        /  /\       /  /::\
+    //      /  /:/        \  \:\      /  /:/_      /  /:/       |  |:|       /  /:/_     /  /:/\:\
+    //     /  /:/          \__\:\    /  /:/ /\    /  /:/        |  |:|      /  /:/ /\   /  /:/  \:\
+    //    /  /:/  ___  ___ /  /::\  /  /:/ /:/_  /  /:/  ___  __|  |:|     /  /:/ /:/_ /__/:/ \__\:|
+    //   /__/:/  /  /\/__/\  /:/\:\/__/:/ /:/ /\/__/:/  /  /\/__/\_|:|____/__/:/ /:/ /\\  \:\ /  /:/
+    //   \  \:\ /  /:/\  \:\/:/__\/\  \:\/:/ /:/\  \:\ /  /:/\  \:\/:::::/\  \:\/:/ /:/ \  \:\  /:/
+    //    \  \:\  /:/  \  \::/      \  \::/ /:/  \  \:\  /:/  \  \::/~~~~  \  \::/ /:/   \  \:\/:/
+    //     \  \:\/:/    \  \:\       \  \:\/:/    \  \:\/:/    \  \:\       \  \:\/:/     \  \::/
+    //      \  \::/      \  \:\       \  \::/      \  \::/      \  \:\       \  \::/       \__\/
+    //       \__\/        \__\/        \__\/        \__\/        \__\/        \__\/
 
-            // BACKDROP
-            border: 2px solid transparent; // allows bgc to seep through
-            border-radius: $toggle-switch-height;
-            background-color: $toggle-switch-inactive-border-color;
+    // When checkbox is active
+    &:checked {
+      + .toggle-switch__container {
+        background-color: $toggle-switch-active-color;
 
-            // TEXT
-            text-indent: -200em;
-
-            // TRANSITIONS AND ANIMATIONS
-            transition: background-color $toggle-switch-color-transition-duration ease;
+        .toggle-switch__thumb {
+          transition-delay: 0.12s;
+          transform: translateX(#{$toggle-switch-width - $toggle-switch-height});
         }
 
-
-        //        ___          ___          ___          ___          ___          ___         _____
-        //       /  /\        /__/\        /  /\        /  /\        /__/|        /  /\       /  /::\
-        //      /  /:/        \  \:\      /  /:/_      /  /:/       |  |:|       /  /:/_     /  /:/\:\
-        //     /  /:/          \__\:\    /  /:/ /\    /  /:/        |  |:|      /  /:/ /\   /  /:/  \:\
-        //    /  /:/  ___  ___ /  /::\  /  /:/ /:/_  /  /:/  ___  __|  |:|     /  /:/ /:/_ /__/:/ \__\:|
-        //   /__/:/  /  /\/__/\  /:/\:\/__/:/ /:/ /\/__/:/  /  /\/__/\_|:|____/__/:/ /:/ /\\  \:\ /  /:/
-        //   \  \:\ /  /:/\  \:\/:/__\/\  \:\/:/ /:/\  \:\ /  /:/\  \:\/:::::/\  \:\/:/ /:/ \  \:\  /:/
-        //    \  \:\  /:/  \  \::/      \  \::/ /:/  \  \:\  /:/  \  \::/~~~~  \  \::/ /:/   \  \:\/:/
-        //     \  \:\/:/    \  \:\       \  \:\/:/    \  \:\/:/    \  \:\       \  \:\/:/     \  \::/
-        //      \  \::/      \  \:\       \  \::/      \  \::/      \  \:\       \  \::/       \__\/
-        //       \__\/        \__\/        \__\/        \__\/        \__\/        \__\/
-
-        // When checkbox is active
-        &:checked {
-            & + label {
-                background-color: $toggle-switch-active-color;
-
-                .toggle-switch-thumb {
-                    transition-delay: 0.12s;
-                    transform: translateX(#{$toggle-switch-width - $toggle-switch-height});
-                }
-
-                .toggle-switch-accent { transform: scale(0); }
-            }
+        .toggle-switch__accent {
+          transform: scale(0);
         }
-
-        &:disabled {
-            & + label { opacity: 0.4; }
-        }
+      }
     }
 
-    .toggle-switch-accent,
-    .toggle-switch-thumb {
-        // POSITIONING
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        // DISPLAY AND SIZING
-        display: block;
-        height: $toggle-switch-height;
-        width: $toggle-switch-height;
-
-        // BACKDROP
-        background-color: $toggle-switch-inactive-background-color;
-        border-radius: $toggle-switch-height;
-
-        // TRANSITIONS AND ANIMATIONS
-        transition: transform $toggle-switch-color-transition-duration ease;
+    // When the checkbox is disabled
+    &:disabled {
+      + .toggle-switch__container {
+        opacity: 0.4;
+      }
     }
+  }
+}
 
-    .toggle-switch-accent {
-        width: $toggle-switch-width;
-        transform: scale(1);
-        transform-origin: 60% 50%;
-    }
 
-    .toggle-switch-thumb {
-        background-color: $toggle-switch-switch-color;
-        box-shadow: $toggle-switch-shadow;
-        transition-timing-function: cubic-bezier(0.37, 1.65, 0.305, 0.855);
-    }
+
+.toggle-switch__container {
+  // DISPLAY AND SIZING
+  display: block;
+  height: $toggle-switch-height;
+  width: $toggle-switch-width;
+  box-sizing: content-box;
+
+  // POSITIONING
+  position: relative;
+
+  // BACKDROP
+  // allows background-color to seep through
+  border: 2px solid transparent;
+  border-radius: $toggle-switch-height;
+  background-color: $toggle-switch-inactive-border-color;
+
+  // TEXT
+  text-indent: -200em;
+
+  // TRANSITIONS AND ANIMATIONS
+  transition: background-color $toggle-switch-color-transition-duration ease;
+}
+
+
+
+.toggle-switch__accent,
+.toggle-switch__thumb {
+  // POSITIONING
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  // DISPLAY AND SIZING
+  display: block;
+  height: $toggle-switch-height;
+  width: $toggle-switch-height;
+
+  // BACKDROP
+  background-color: $toggle-switch-inactive-background-color;
+  border-radius: $toggle-switch-height;
+
+  // TRANSITIONS AND ANIMATIONS
+  transition: transform $toggle-switch-color-transition-duration ease;
+}
+
+
+
+
+.toggle-switch__thumb {
+  background-color: $toggle-switch-switch-color;
+  box-shadow: $toggle-switch-shadow;
+  transition-timing-function: cubic-bezier(0.37, 1.65, 0.305, 0.855);
+}
+
+
+
+.toggle-switch__accent {
+  width: $toggle-switch-width;
+  transform: scale(1);
+  transform-origin: 60% 50%;
 }
