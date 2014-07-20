@@ -375,6 +375,12 @@ module.exports = function(grunt) {
                 options: { spawn: false }
             },
 
+            img: {
+                files: ["docs/img/**/*.{png,gif,jpg,jpeg}"],
+                tasks: ["imagemin"],
+                options: { spawn: false }
+            },
+
             api: {
                 files: ["docs/haml/api/**/*.yaml"],
                 tasks: ["haml:docs", "haml:fullDocs"],
