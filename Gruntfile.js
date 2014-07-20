@@ -387,9 +387,9 @@ module.exports = function(grunt) {
     require("load-grunt-tasks")(grunt);
 
     // 3. PERFORM
-    grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "haml", "shell"]);
+    grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "haml", "shell", "imagemin"]);
     grunt.registerTask("tests", ["coffee:specHelpers", "coffee:specs", "jasmine"]);
-    grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "slim", "shell"]);
-    grunt.registerTask("docs", ["haml:fullDocs", "haml:docs", "sass:docs", "autoprefixer:docs"]);
+    grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "slim", "shell", "imagemin"]);
+    grunt.registerTask("docs", ["haml:fullDocs", "haml:docs", "sass:docs", "autoprefixer:docs", "imagemin"]);
 
 }
