@@ -1,0 +1,25 @@
+%div.api-method.hidden{id: "#{component_file}-#{klass}-#{method["method"]}"}
+    %h5
+        %code
+            #{method["method"]}
+            %span.return-type= " => #{method["returnType"]}"
+        %button.section-hide Show
+    %p.description= method["description"]
+    - unless method["arguments"].nil?
+        %div.api-method-arguments
+            - method["arguments"].each do |arg|
+                %div.api-method-argument
+                    %div.argument-key-details
+                        %div.argument-name
+                            %code= arg["name"]
+                        %div.argument-type= arg["type"]
+                    %div.description= arg["description"]
+- unless method["aliases"].nil?
+    - method["aliases"].each do |a|
+        %div.api-method.hidden.alias{id: "#{component_file}-#{klass}-#{a}"}
+            %h5
+                %code
+                    #{a}
+                    %span.return-type= " => #{method["returnType"]}"
+                %button.section-hide Show
+            %p.description= "An alias for <code>#{klass}\##{method["method"]}</code>."

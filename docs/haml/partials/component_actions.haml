@@ -1,3 +1,5 @@
 %div.component-actions
-    - ["Source Code", "API"].each do |action|
-        %button.component-action{data: {"component-detail" => action.downcase.gsub(/\s+/, "-")}}= action
+    - ["Requires", "Source", "API"].each do |action|
+        %button.component-action{:class => action.downcase.gsub(" ", "-"), :data => {"component-detail" => action.downcase.gsub(/\s+/, "-")}}
+            %div.component-action-icon
+            %div.component-action-label= action

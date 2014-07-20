@@ -1,4 +1,17 @@
+- title ||= "uxkit"
+- icon_class = "#{title.downcase.gsub /\s+/, "-"}-icon"
+
 %header.page-header
-    %h1
-        %span.logo.ux ux
-        %span.logo.kit> kit
+    %nav
+        %ul
+            %li
+                %a.sidebar-toggle{:href => "#"}
+                    Menu
+                    %span
+            / %li
+            /     %a{:href => "#"} Hiya
+            / %li
+            /     %a{:href => "#"} Nice
+    %h1= title
+    %div.page-icon
+        %div{"class" => icon_class}

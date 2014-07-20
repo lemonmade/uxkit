@@ -1,20 +1,28 @@
+- load "docs/haml/helpers.rb"
+
 %div.api
-    - api["classes"].each do |c|
-        %div.api-class{id: "#{component_file}-#{c["class"]}"}
-            %h3
-                %code= c["class"]
-            %p= c["description"]
-            - unless c["api"].nil?
-                - c["api"].each do |method|
-                    %div.api-method{id: "#{component_file}-#{c["class"]}-#{method["method"]}"}
-                        %h4
-                            %code #{method["method"]} => #{method["returnType"]}
-                        %p= method["description"]
-                        %div.api-method-arguments
-                            - unless method["arguments"].nil?
-                                - method["arguments"].each do |arg|
-                                    %div.api-method-argument
-                                        %div
-                                            %code= arg["name"]
-                                        %div= arg["type"]
-                                        %div= arg["description"]
+    - unless api["classes"].nil?
+        - api["classes"].each do |c|
+            %div.api-class.hidden{id: "#{component_file}-#{c["class"]}"}
+                %h3
+                    #{c["class"]}
+                    %button.section-hide Show
+                %p.description= c["description"]
+                - unless c["api"].nil?
+                    - attributes = c["api"]["attributes"]
+                    - methods = c["api"]["methods"]
+                    - both_sections = attributes && attributes.count > 0 && methods && methods.count > 0
+
+                    - unless attributes.nil?
+                        %div.api-attributes
+                            - if both_sections
+                                %h4 Attributes
+                            - attributes.each do |attribute|
+                                = render_partial :javascript_api_detail, method: attribute, klass: c["class"], component_file: component_file
+
+                    - unless methods.nil?
+                        %div.api-methods
+                            - if both_sections
+                                %h4 Methods
+                            - methods.each do |method|
+                                = render_partial :javascript_api_detail, method: method, klass: c["class"], component_file: component_file
