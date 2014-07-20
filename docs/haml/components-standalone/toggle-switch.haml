@@ -1,11 +1,14 @@
 - load "docs/haml/helpers.rb"
 - component_file = "toggle-switch"
+- component_name = component_name component_file
 
 %html
-    = render_partial :head, title: "#{component_name component_file} - uxkit"
+    = render_partial :head, title: "#{component_name} - uxkit"
 
     %body
-        = render_partial :page_header
+        %div.main-content
+            = render_partial :page_header, title: component_name
+            %div.components
+                = render "docs/haml/components/#{component_file}.haml"
+            = render_partial :footer
         = render_partial :sidebar, full_page: false, current_component: component_file
-        %div.components
-            = render "docs/haml/components/#{component_file}.haml"

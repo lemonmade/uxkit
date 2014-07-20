@@ -1,0 +1,22 @@
+- load "docs/haml/helpers.rb"
+- component = "Notification iOS"
+
+%div.summary
+    %p The iOS-style Notification presents a small amount of text to the user and, optionally, a selection of action buttons .
+
+= render_example component
+
+- statements = ['var n = new Notification(".notification-ios:first");']
+- comments = ["use variable n to access the existing Notification"]
+- example_commands = []
+
+= render_playground statements, comments, example_commands
+
+/ Write all relevant documentation here.
+
+= render_component_actions component
+%div.code-information
+    = render_source_code component
+    = render_javascript_api component
+
+%script{type: "text/javascript", src: "js/notification-ios-drag.js"}

@@ -1,12 +1,26 @@
 - load "docs/haml/helpers.rb"
 - component = "Toggle Switch"
 
-%h2= component
+= render_download_links component
+
+%div.summary
+    %p Toggle Switches are simple interface elements that allow a user to select between two mutually-exclusive options, most often the selection between an "on" and "off" state.
+    %p The toggle switch is constructed from a simple <code>checkbox</code>-style <code>input</code>, so it provides a perfect fallback when CSS isn't loaded. There is no requirement to use the included JavaScript component, either &mdash; the toggle is fully accessible with no strings attached. The extra JavaScript provides convenience methods to enable, disable, and toggle the switch, as well as maintainingthe ARIA state of the checkbox.
 
 = render_example component
+
+- statements = ['var ts = new ToggleSwitch(".example-component .toggle-switch:first");', 'var tsc = new ToggleSwitchController({container: ".example-component"});']
+- comments = ["use variable tsc to access the ToggleSwitchController", "use variable ts to access the existing ToggleSwitch"]
+- example_commands = [["Create 20 switches", "for (var i = 1; i <= 20; i++) { tsc.add({container: '.example-component'}); }"], ["Toggle every third switch", "tsc.toggle(':nth-child(3n+1)')"], ["Toggle switches randomly every 2 seconds", "function toggle() { tsc.toggle(':nth-child(' + Math.ceil(Math.random()*5) + 'n)'); } setInterval(toggle, 2000);"], ["Toggle the first switch's disabled state", "ts.setDisabled(!ts.disabled())"]]
+
+= render_playground statements, comments, example_commands
+
+/ = render_usage_requirements component, ["drag", :behavior, "required in order to create the dragging effect."], ["segmented-control", :component, "the element on which this component is based."]
 
 / Write all relevant documentation here.
 
 = render_component_actions component
-= render_source_code component
-= render_javascript_api component
+%div.code-information
+    = render_requirements component, nil
+    = render_source_code component
+    = render_javascript_api component
