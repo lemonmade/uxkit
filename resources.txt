@@ -1,7 +1,11 @@
+# Apple Interface Guidelines
+https://developer.apple.com/library/ios/documentation/userexperience/conceptual/UIKitUICatalog/UISwitch.html
+
 # Component Bundling
 uikit: http://www.getuikit.com
 https://github.com/driftyco/ionic
 refills: https://github.com/thoughtbot/refills/tree/master/source
+framer: http://framerjs.com/
 
 # Similar Component Libraries
 http://goratchet.com/components/
@@ -41,6 +45,18 @@ http://c2prods.com/2013/cloning-the-ui-of-ios-7-with-html-css-and-javascript/
 
 # Messages App
 http://scotthurff.com/posts/what-we-can-learn-from-apples-imessage-changes-in-ios-8
+
+# Expanding Textbox
+https://github.com/ultimatedelman/autogrow
+
+# Heading that appears when you scroll up
+http://wicky.nillia.ms/headroom.js/
+
+# Drag
+https://github.com/skidding/dragdealer
+
+# Tap
+http://filamentgroup.com/lab/tappy.html
 
 
 
