@@ -1,0 +1,124 @@
+---
+component: toggle-switch
+classes:
+  - class: ToggleSwitch
+    description: "An object representing a single toggle switch on the page."
+    api:
+      attributes:
+        - method: 0
+          returnType: jQuery
+          description: "The jQuery object underlying the toggle switch. It is best not to access and manipulate this element directly. Instead, <code>ToggleSwitch</code> objects forward many common jQuery methods to the appropriate element within the toggle switch markup. These include <code>addClass()</code>, <code>removeClass()</code>, <code>toggleClass()</code>, <code>hasClass()</code>, <code>find()</code>, <code>closest()</code>, <code>parent()</code>, <code>trigger()</code>, <code>on()</code>, <code>off()</code>, <code>css()</code>, <code>is()</code>, <code>attr()</code>, <code>name()</code>, <code>data()</code>, and <code>prop()</code>."
+      methods:
+        - method: constructor()
+          returnType: ToggleSwitch
+          description: "Constructs a new <code>ToggleSwitch</code>. Additionally, the constructor will set up the required event handlers to maintain the toggle's <code>aria</code> properties and to allow for keyboard manipulation of the toggle."
+          arguments:
+            - name: details
+              type: <code>Object</code> or <code>jQuery</code>
+              description: "The details required to create a new toggle switch. If you already have a jQuery element for the toggle switch markup, then simply pass this to the constructor. If you would like to create a new toggle from scratch, pass an object with options. The key options are: <code>active</code>, which specifies whether or not the toggle should be acted in an active state, <code>disabled</code>, which specifies whether or not the the toggle should be disabled, <code>id</code>, the <code>id</code> attribute for the toggle (should be unique, otherwise the toggle won't work correctly), <code>label</code>, the (hidden, by default) label for the toggle (should be included for assistive devices), <code>name</code>, the <code>name</code> attribute for the toggle (important if this toggle is part of a form submission), and <code>container</code>, a selector describing the element to which the toggle should be appended."
+        - method: toggle()
+          returnType: Boolean
+          description: Switches the state of the toggle switch. Returns the new state.
+          aliases:
+            - check()
+        - method: state()
+          returnType: Boolean
+          description: Returns the current toggled state of the switch.
+          aliases:
+            - checked()
+        - method: setState()
+          returnType: Boolean
+          description: Sets the toggled state of the toggle switch to the passed state.
+          aliases:
+            - setChecked()
+          arguments:
+            - name: state
+              type: <code>Boolean</code>
+              description: Whether the toggle switch should be toggled on (<code>true</code>) or off (<code>false</code>).
+        - method: enabled()
+          returnType: Boolean
+          description: Returns a boolean indicating whether or not the toggle is enabled.
+        - method: disabled()
+          returnType: Boolean
+          description: Returns a boolean indicating whether or not the toggle is disabled.
+        - method: setDisabled()
+          returnType: Boolean
+          description: Sets the disabled property of the toggle to the passed state.
+          arguments:
+            - name: disabled
+              type: <code>Boolean</code>
+              description: Whether the toggle switch should be disabled (<code>true</code>) or enabled (<code>false</code>).
+        - method: enable()
+          returnType: Boolean
+          description: Sets the disabled property of the toggle to <code>true</code>. Returns <code>true</code> if successful.
+        - method: disable()
+          returnType: Boolean
+          description: Sets the disabled property of the toggle to <code>false</code>. Returns <code>true</code> if successful.
+
+  - class: ToggleSwitchController
+    description: "A controller for managing all toggle switches on a given page."
+    api:
+      attributes:
+        - method: toggleSwitches
+          returnType: Array
+          description: An array of all <code>ToggleSwitch</code>es being managed by this controller.
+      methods:
+        - method: constructor()
+          returnType: ToggleSwitchController
+          description: Constructs a new <code>ToggleSwitchController</code>.
+        - method: newToggleSwitch()
+          returnType: ToggleSwitch
+          description: Constructs a new <code>ToggleSwitch</code> with the passed options.
+          arguments:
+            - name: options
+              type: <code>Object</code>
+              description: "The options for the newly-created toggle. See the <code>ToggleSwitch</code> constructor for details on the nature of the available options."
+        - method: add()
+          alias: true
+          returnType: ToggleSwitch
+          description: An alias for <code>ToggleSwitchController#newToggleSwitch()</code>.
+        - method: removeToggleSwitches()
+          returnType: undefined
+          description: Deletes the toggle switches matching the passed selector.
+          aliases:
+            - remove()
+            - delete()
+          arguments:
+            - name: sel
+              type: <code>String</code>
+              description: A CSS selector describing the toggle switch(es) to be removed.
+        - method: toggle()
+          returnType: undefined
+          description: Toggles all toggle switches matching the passed selector.
+          aliases:
+            - check()
+          arguments:
+            - name: sel
+              type: <code>String</code>
+              description: A CSS selector describing the toggle switch(es) to be toggled.
+        - method: setState()
+          returnType: undefined
+          description: Sets the toggled state of all toggle switches matching the passed selector to the passed state.
+          aliases:
+            - setChecked()
+          arguments:
+            - name: state
+              type: <code>Boolean</code>
+              description: Whether the toggle switch should be toggled on (<code>true</code>) or off (<code>false</code>).
+            - name: sel
+              type: <code>String</code>
+              description: A CSS selector describing the toggle switch(es) to potentially be toggled.
+        - method: enable()
+          returnType: undefined
+          description: Enables the toggle switches matching the passed selector.
+          arguments:
+            - name: sel
+              type: <code>String</code>
+              description: A CSS selector describing the toggle switch(es) to be enabled.
+        - method: disable()
+          returnType: undefined
+          description: Disables the toggle switches matching the passed selector.
+          arguments:
+            - name: sel
+              type: <code>String</code>
+              description: A CSS selector describing the toggle switch(es) to be disabled.
