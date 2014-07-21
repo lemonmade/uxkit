@@ -3,10 +3,10 @@
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
     <meta content='width=device-width, initial-scale=1.0' name='viewport'>
     <link href='css/style.css' rel='stylesheet'>
-    <script src='js/jquery.js' type='text/javascript'></script>
-    <script src='js/script.js' type='text/javascript'></script>
-    <script src='js/toggle-switch.js' type='text/javascript'></script>
-    <title>Toggle Switch - uxkit</title>
+    <script src='/js/jquery.js' type='text/javascript'></script>
+    <script src='/js/script.js' type='text/javascript'></script>
+    <script src='/js/toggle-switch.js' type='text/javascript'></script>
+    <title>Toggle Switch</title>
   </head>
   <body>
     <div class='main-content'>
@@ -19,10 +19,6 @@
                 <span></span>
               </a>
             </li>
-            <!-- %li -->
-            <!-- %a{:href => "#"} Hiya -->
-            <!-- %li -->
-            <!-- %a{:href => "#"} Nice -->
           </ul>
         </nav>
         <h1>Toggle Switch</h1>
@@ -41,8 +37,7 @@
           </a>
         </div>
         <div class='summary'>
-          <p>Toggle Switches are simple interface elements that allow a user to select between two mutually-exclusive options, most often the selection between an "on" and "off" state.</p>
-          <p>The toggle switch is constructed from a simple <code>checkbox</code>-style <code>input</code>, so it provides a perfect fallback when CSS isn't loaded. There is no requirement to use the included JavaScript component, either &mdash; the toggle is fully accessible with no strings attached. The extra JavaScript provides convenience methods to enable, disable, and toggle the switch, as well as maintainingthe ARIA state of the checkbox.</p>
+          <p>Here is the summary.</p>
         </div>
         <div class='example-components'>
           <h3>
@@ -58,8 +53,8 @@
           </div></div>
         </div>
         <script type='text/javascript'>
-          var ts = new ToggleSwitch(".example-component .toggle-switch:first");
-          var tsc = new ToggleSwitchController({container: ".example-component"});
+          var ts = new ToggleSwitch('.example-component .toggle-switch:first');
+          var tsc = new ToggleSwitchController({container: '.example-component'});
         </script>
         <div class='playground'>
           <div class='playground-output'>
@@ -76,25 +71,20 @@
             </div>
           </div>
         </div>
-        <!-- = render_usage_requirements component, ["drag", :behavior, "required in order to create the dragging effect."], ["segmented-control", :component, "the element on which this component is based."] -->
-        <!-- Write all relevant documentation here. -->
-        <div class='component-actions'>
-          <button class='component-action requires' data-component-detail='requires'>
-            <div class='component-action-icon'></div>
-            <div class='component-action-label'>Requires</div>
-          </button>
-          <button class='component-action source' data-component-detail='source'>
-            <div class='component-action-icon'></div>
-            <div class='component-action-label'>Source</div>
-          </button>
-          <button class='api component-action' data-component-detail='api'>
-            <div class='component-action-icon'></div>
-            <div class='component-action-label'>API</div>
-          </button>
-        </div>
         <div class='code-information'>
-          <div class='requirements'>
-            <h3>Mandatory</h3>
+          <div class='component-actions'>
+            <button class='component-action requires' data-component-detail='requires'>
+              <div class='component-action-icon'></div>
+              <div class='component-action-label'>Requires</div>
+            </button>
+            <button class='component-action source' data-component-detail='source'>
+              <div class='component-action-icon'></div>
+              <div class='component-action-label'>Source</div>
+            </button>
+            <button class='api component-action' data-component-detail='api'>
+              <div class='component-action-icon'></div>
+              <div class='component-action-label'>API</div>
+            </button>
           </div>
           <div class='source-code'>
             <div class='source-code-language'>
@@ -440,12 +430,11 @@
         <p>Built by Chris Sauv&eacute; of <a href="http://www.lemondesign.co">Lemon Design</a>.</p>
       </footer>
     </div>
+    <!-- - behaviors = Dir["docs/pages/components/*.haml"] -->
+    <!-- - utilities = Dir["docs/haml/utilities/*.haml"] -->
+    <!-- - current_behaviour ||= false -->
     <nav class='sidebar'>
       <h1>uxkit</h1>
-      <!-- - unless full_page -->
-      <!-- %div.sidebar-section -->
-      <!-- %h3.main-page-nav-item -->
-      <!-- %a{href: "/"} Home -->
       <div class='sidebar-section'>
         <h3>Components</h3>
         <ul class='component-sidebar'>
@@ -453,10 +442,7 @@
             <a href='/message-bubble'>Message Bubble</a>
           </li>
           <li>
-            <a href='/notification-ios'>Notification Ios</a>
-          </li>
-          <li>
-            <a href='/notification-mac'>Notification Mac</a>
+            <a href='/notification-ios'>Notification - iOS</a>
           </li>
           <li>
             <a href='/segmented-control'>Segmented Control</a>
@@ -466,12 +452,36 @@
           </li>
         </ul>
       </div>
-      <div class='sidebar-section'>
-        <h3>Behaviors</h3>
-      </div>
-      <div class='sidebar-section'>
-        <h3>Utilities</h3>
-      </div>
+      <!-- %div.sidebar-section -->
+      <!-- %h3 Behaviors -->
+      <!-- - unless behaviors.count == 0 -->
+      <!-- %ul.behavior-sidebar -->
+      <!-- - behaviors.each do |behavior| -->
+      <!-- - behavior_file = component.split("/").last.split(".").first -->
+      <!-- - behavior_name = titleize(component_file) -->
+      <!-- %li -->
+      <!-- - if current_behavior and behavior_file == current_behavior -->
+      <!-- %span.current-page= behavior_name -->
+      <!-- - else -->
+      <!-- - if full_page -->
+      <!-- %a{href: "##{behavior_file}-behavior"}= behavior_name -->
+      <!-- - else -->
+      <!-- %a{href: "/#{behavior_file}"}= behavior_name -->
+      <!-- %div.sidebar-section -->
+      <!-- %h3 Utilities -->
+      <!-- - unless utilities.count == 0 -->
+      <!-- %ul.behavior-sidebar -->
+      <!-- - utilities.each do |utility| -->
+      <!-- - utility_file = component.split("/").last.split(".").first -->
+      <!-- - utility_name = titleize(component_file) -->
+      <!-- %li -->
+      <!-- - if current_utility and utility_file == current_utility -->
+      <!-- %span.current-page= utility_name -->
+      <!-- - else -->
+      <!-- - if full_page -->
+      <!-- %a{href: "##{utility_file}-utility"}= utility_name -->
+      <!-- - else -->
+      <!-- %a{href: "/#{utility_file}"}= utility_name -->
     </nav>
   </body>
 </html>
