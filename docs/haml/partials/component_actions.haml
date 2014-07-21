@@ -1,5 +1,6 @@
 %div.component-actions
-    - ["Requires", "Source", "API"].each do |action|
-        %button.component-action{:class => action.downcase.gsub(" ", "-"), :data => {"component-detail" => action.downcase.gsub(/\s+/, "-")}}
-            %div.component-action-icon
-            %div.component-action-label= action
+  - ["Requires", "Source", "API"].each do |action|
+    - action_class = action.downcase.gsub(/\s+/, "-")
+    %button.component-action{ :class => action_class, :"data-component-detail" => action_class }
+      %div.component-action-icon
+      %div.component-action-label= action
