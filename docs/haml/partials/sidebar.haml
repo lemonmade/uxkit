@@ -1,23 +1,19 @@
-- components = Dir["docs/haml/components/*.haml"]
-- behaviors = Dir["docs/haml/behaviors/*.haml"]
-- utilities = Dir["docs/haml/utilities/*.haml"]
+- components = Dir["docs/pages/components/*.html"]
+/ - behaviors = Dir["docs/pages/components/*.haml"]
+/ - utilities = Dir["docs/haml/utilities/*.haml"]
 - full_page = true if full_page == nil
 - current_component ||= false
-- current_behaviour ||= false
+/ - current_behaviour ||= false
 
 %nav.sidebar
     %h1 uxkit
-    / - unless full_page
-    /     %div.sidebar-section
-    /         %h3.main-page-nav-item
-    /             %a{href: "/"} Home
     %div.sidebar-section
         %h3 Components
         - unless components.nil?
             %ul.component-sidebar
                 - components.each do |component|
                     - component_file = component.split("/").last.split(".").first
-                    - component_name = component_name(component_file)
+                    - component_name = titleize(component_file)
                     %li
                         - if current_component and component_file == current_component
                             %span.current-page= component_name
@@ -26,34 +22,34 @@
                                 %a{href: "##{component_file}-component"}= component_name
                             - else
                                 %a{href: "/#{component_file}"}= component_name
-    %div.sidebar-section
-        %h3 Behaviors
-        - unless behaviors.count == 0
-            %ul.behavior-sidebar
-                - behaviors.each do |behavior|
-                    - behavior_file = component.split("/").last.split(".").first
-                    - behavior_name = component_name(component_file)
-                    %li
-                        - if current_behavior and behavior_file == current_behavior
-                            %span.current-page= behavior_name
-                        - else
-                            - if full_page
-                                %a{href: "##{behavior_file}-behavior"}= behavior_name
-                            - else
-                                %a{href: "/#{behavior_file}"}= behavior_name
+    / %div.sidebar-section
+    /     %h3 Behaviors
+    /     - unless behaviors.count == 0
+    /         %ul.behavior-sidebar
+    /             - behaviors.each do |behavior|
+    /                 - behavior_file = component.split("/").last.split(".").first
+    /                 - behavior_name = titleize(component_file)
+    /                 %li
+    /                     - if current_behavior and behavior_file == current_behavior
+    /                         %span.current-page= behavior_name
+    /                     - else
+    /                         - if full_page
+    /                             %a{href: "##{behavior_file}-behavior"}= behavior_name
+    /                         - else
+    /                             %a{href: "/#{behavior_file}"}= behavior_name
 
-    %div.sidebar-section
-        %h3 Utilities
-        - unless utilities.count == 0
-            %ul.behavior-sidebar
-                - utilities.each do |utility|
-                    - utility_file = component.split("/").last.split(".").first
-                    - utility_name = component_name(component_file)
-                    %li
-                        - if current_utility and utility_file == current_utility
-                            %span.current-page= utility_name
-                        - else
-                            - if full_page
-                                %a{href: "##{utility_file}-utility"}= utility_name
-                            - else
-                                %a{href: "/#{utility_file}"}= utility_name
+    / %div.sidebar-section
+    /     %h3 Utilities
+    /     - unless utilities.count == 0
+    /         %ul.behavior-sidebar
+    /             - utilities.each do |utility|
+    /                 - utility_file = component.split("/").last.split(".").first
+    /                 - utility_name = titleize(component_file)
+    /                 %li
+    /                     - if current_utility and utility_file == current_utility
+    /                         %span.current-page= utility_name
+    /                     - else
+    /                         - if full_page
+    /                             %a{href: "##{utility_file}-utility"}= utility_name
+    /                         - else
+    /                             %a{href: "/#{utility_file}"}= utility_name
