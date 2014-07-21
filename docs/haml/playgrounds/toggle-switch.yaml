@@ -1,0 +1,16 @@
+---
+statements:
+  - "var ts = new ToggleSwitch('.example-component .toggle-switch:first');"
+  - "var tsc = new ToggleSwitchController({container: '.example-component'});"
+comments:
+  - "use variable tsc to access the ToggleSwitchController"
+  - "use variable ts to access the existing ToggleSwitch"
+example_commands:
+  - label: "Create 20 switches"
+    command: "for (var i = 1; i <= 20; i++) { tsc.add({container: '.example-component'}); }"
+  - label: "Toggle every third switch"
+    command: "tsc.toggle(':nth-child(3n+1)')"
+  - label: "Toggle switches randomly every 2 seconds"
+    command: "function toggle() { tsc.toggle(':nth-child(' + Math.ceil(Math.random()*5) + 'n)'); } setInterval(toggle, 2000);"
+  - label: "Toggle the first switch's disabled state"
+    command: "ts.setDisabled(!ts.disabled())"
