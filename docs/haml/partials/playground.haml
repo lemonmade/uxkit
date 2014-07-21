@@ -1,23 +1,24 @@
-- statements ||= []
-- comments ||= []
-- example_commands ||= []
+- playground_details ||= {}
 
-%script{type: "text/javascript"}
-    - statements.each do |statement|
-        #{statement}
+- unless playground_details["statements"].nil?
+  %script{type: "text/javascript"}
+    - playground_details["statements"].each do |statement|
+      #{statement}
 
 %div.playground
-    %div.playground-output
-        %pre
-            %code
-                = preserve do
-                    %div.initial-variables<
-                        - comments.each do |comment|
-                            %div> // #{comment}
+  %div.playground-output
+    %pre
+      %code
+        = preserve do
+          %div.initial-variables<
+            - unless playground_details["comments"].nil?
+              - playground_details["comments"].each do |comment|
+                %div> // #{comment}
 
-    %input.playground-input{type: "text", placeholder: "Try out commands here", spellcheck: "false"}
-    %div.example-commands
-        %h4 Example Commands
-        %div.example-command-buttons
-            - example_commands.each do |command|
-                %button.example-command{"data-command" => command[1]}= command[0]
+  %input.playground-input{type: "text", placeholder: "Try out commands here", spellcheck: "false"}
+  %div.example-commands
+    - unless playground_details["example_commands"].nil?
+      %h4 Example Commands
+      %div.example-command-buttons
+        - playground_details["example_commands"].each do |command|
+          %button.example-command{"data-command" => command["command"]}= command["label"]
