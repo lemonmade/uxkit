@@ -1,0 +1,25 @@
+%html
+  = partial :head, title: doc[:name]
+
+  %body
+    %div.main-content
+      = partial :page_header, title: doc[:name]
+      %div.components
+        = partial :download_links, component: doc[:name]
+
+        %div.summary
+          %p Here is the summary.
+
+        = partial :example, html: File.read(doc[:html])
+        - if File.file?(doc[:playground])
+          = partial :playground, playground_details: YAML.load(File.read(doc[:playground]))
+
+        %div.code-information
+          = partial :component_actions
+          = partial :source_code, html: File.read(doc[:html]), js: File.read(doc[:js]), css: File.read(doc[:css])
+          - if File.file?(doc[:api])
+            = partial :javascript_api, api: YAML.load(File.read(doc[:api])), component_file: doc[:short_name]
+
+      = partial :footer
+
+    = partial :sidebar, full_page: false, current_component: doc[:short_name]
