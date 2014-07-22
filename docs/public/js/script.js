@@ -5,7 +5,7 @@
     var header, playgroundCommand, playgroundCommands;
     header = new PageHeader;
     $(".component-actions button").on("click", function(event) {
-      var $allActions, $codeInformation, $this, target, text;
+      var $this, target, text;
       event.preventDefault();
       $this = $(this);
       text = $this.find(".component-action-label").text().toLowerCase();
@@ -21,26 +21,7 @@
       })());
       console.log($(target));
       $this.addClass("active").siblings().removeClass("active");
-      $allActions = $this.parent().addClass("active");
-      $codeInformation = $(".code-information");
-      if (!$allActions.hasClass("fixed")) {
-        $(target).addClass("active").siblings().removeClass("active");
-        $("html, body").animate({
-          scrollTop: $allActions.offset().top
-        }, 400);
-        return setTimeout(function() {
-          $(target).addClass("active").siblings().removeClass("active");
-          $codeInformation.css("padding-top", $allActions.outerHeight());
-          return $allActions.addClass("fixed");
-        }, 425);
-      } else {
-        $("html, body").animate({
-          scrollTop: $codeInformation.offset().top
-        }, 400);
-        return setTimeout(function() {
-          return $(target).addClass("active").siblings().removeClass("active");
-        }, 425);
-      }
+      return $(target).addClass("active").siblings().removeClass("active");
     });
     $(".sidebar-toggle").on("click", function(event) {
       var $mainContent, sidebarSize, translation;

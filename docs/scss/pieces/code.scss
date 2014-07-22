@@ -33,13 +33,15 @@ p code {
     }
 
     button {
-        padding: 1em 1em;
+        padding: 1em;
         width: 8em;
         background: none;
         border: none;
         font-size: 0.8em;
         color: gray;
         display: inline-block;
+        margin-bottom: -1px;
+        border-bottom: 2px solid transparent;
 
         &:active,
         &:focus {
@@ -50,6 +52,7 @@ p code {
         &:active,
         &.active {
             color: rgb(87, 140, 255);
+            border-bottom-color: rgb(87, 140, 255);
         }
     }
 }

@@ -11,31 +11,32 @@ $ ->
                     when "requires" then "requirements")
         console.log $(target)
         $this.addClass("active").siblings().removeClass "active"
+        $(target).addClass("active").siblings().removeClass "active"
 
-        $allActions = $this.parent().addClass "active"
-        $codeInformation = $(".code-information")
+        # $allActions = $this.parent().addClass "active"
+        # $codeInformation = $(".code-information")
 
-        unless $allActions.hasClass "fixed"
-            $(target).addClass("active").siblings().removeClass "active"
+        # unless $allActions.hasClass "fixed"
+        #     $(target).addClass("active").siblings().removeClass "active"
 
-            $("html, body").animate
-                scrollTop: $allActions.offset().top
-            , 400
+        #     $("html, body").animate
+        #         scrollTop: $allActions.offset().top
+        #     , 400
 
-            setTimeout () ->
-                $(target).addClass("active").siblings().removeClass "active"
-                $codeInformation.css "padding-top", $allActions.outerHeight()
-                $allActions.addClass "fixed"
-            , 425
+        #     setTimeout () ->
+        #         $(target).addClass("active").siblings().removeClass "active"
+        #         $codeInformation.css "padding-top", $allActions.outerHeight()
+        #         $allActions.addClass "fixed"
+        #     , 425
 
-        else
-            $("html, body").animate
-                scrollTop: $codeInformation.offset().top
-            , 400
+        # else
+        #     $("html, body").animate
+        #         scrollTop: $codeInformation.offset().top
+        #     , 400
 
-            setTimeout () ->
-                $(target).addClass("active").siblings().removeClass "active"
-            , 425
+        #     setTimeout () ->
+        #         $(target).addClass("active").siblings().removeClass "active"
+        #     , 425
 
     $(".sidebar-toggle").on "click", (event) ->
         event.preventDefault()
