@@ -123,11 +123,27 @@
           }
       }
     });
-    return $(".example-commands button").on("click", function() {
+    $(".example-commands button").on("click", function() {
       var $input;
       $input = $(".playground-input");
       $input.val($(this).data("command"));
       return $input.focus();
+    });
+    return $(".resizable-handle").on("mousedown", function(e) {
+      var $resizable, initialWidth, startX;
+      startX = e.pageX;
+      $resizable = $(this).closest(".resizable");
+      initialWidth = $resizable.outerWidth();
+      e.preventDefault();
+      $resizable.parent().on("mousemove", function(e) {
+        console.log(startX, e.pageX);
+        e.preventDefault();
+        return $resizable.css("width", initialWidth + (e.pageX - startX) * 2);
+      });
+      return $resizable.parent().on("mouseup", function(e) {
+        console.log("UP");
+        return $resizable.parent().off("mousemove");
+      });
     });
   });
 
