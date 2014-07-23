@@ -17,11 +17,11 @@
 								- if both_sections
 									%h4 Attributes
 								- attributes.each do |attribute|
-									= render_partial :javascript_api_detail, method: attribute, klass: c["class"], component_file: component_file
+									= partial :javascript_api_detail, method: attribute, klass: c["class"], component_file: component_file
 
 						- unless methods.nil?
 							%div.api-methods
 								- if both_sections
 									%h4 Methods
 								- methods.each do |method|
-									= render_partial :javascript_api_detail, method: method, klass: c["class"], component_file: component_file
+									= partial :javascript_api_detail, method: method, klass: c["class"], component_file: component_file
