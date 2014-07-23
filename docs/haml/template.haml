@@ -5,10 +5,10 @@
     %div.main-content
       = partial :page_header, title: doc[:name]
       %div.components
-        = partial :download_links, component: doc[:name]
+        / = partial :download_links, component: doc[:name], component_file: doc[:short_name]
 
         %div.summary
-          %p Here is the summary.
+          / %p Here is the summary.
 
         = partial :example, html: File.read(doc[:html])
         - if File.file?(doc[:playground])
