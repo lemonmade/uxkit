@@ -7,7 +7,7 @@ comments:
   - "use variable ts to access the existing ToggleSwitch"
 example_commands:
   - label: "Create 20 switches"
-    command: "for (var i = 1; i <= 20; i++) { tsc.add({container: '.example-component'}); }"
+    command: "for (var i = 1; i <= 20; i++) { tsc.add({container: '.resizable-container'}); }"
   - label: "Toggle every third switch"
     command: "tsc.toggle(':nth-child(3n+1)')"
   - label: "Toggle switches randomly every 2 seconds"
