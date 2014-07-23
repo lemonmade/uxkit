@@ -1,0 +1,35 @@
+.resizable {
+  border: 1px solid rgba(black, 0.07);
+  position: relative;
+  padding: 1em 2em 1em 1em;
+  margin: 0 auto;
+  max-width: 100%;
+  min-width: 10em;
+}
+
+.resizable-handle {
+  background-color: $api-gray;
+  border-left: 1px solid rgba(black, 0.07);
+  width: 1em;
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  cursor: col-resize;
+
+  &:after,
+  &:before {
+    content: '';
+    display: block;
+    height: 1.5em;
+    position: absolute;
+    border-right: 1px solid rgba(black, 0.07);
+    top: 50%;
+    right: calc(0.65em - 1px);
+    margin-top: -0.75em;
+    box-shadow: 1px 0 0 rgba(white, 0.6);
+  }
+
+  &:after {
+    right: calc(0.33em - 1px);
+  }
+}
