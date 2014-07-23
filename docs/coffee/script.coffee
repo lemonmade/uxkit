@@ -144,6 +144,21 @@ $ ->
         $input.val $(this).data "command"
         $input.focus()
 
+    $(".resizable-handle").on "mousedown", (e) ->
+        startX = e.pageX
+        $resizable = $(this).closest ".resizable"
+        initialWidth = $resizable.outerWidth()
+        e.preventDefault()
+
+        $resizable.parent().on "mousemove", (e) ->
+            console.log startX, e.pageX
+            e.preventDefault()
+            $resizable.css "width", initialWidth + (e.pageX - startX)*2
+
+        $resizable.parent().on "mouseup", (e) ->
+            console.log "UP"
+            $resizable.parent().off "mousemove"
+
 
 
 
