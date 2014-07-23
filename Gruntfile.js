@@ -262,23 +262,23 @@ module.exports = function(grunt) {
                     dest: "dist/components",
                     ext: ".html"
                 }]
-            },
-
-            docs: {
-                files: [{
-                    expand: true,
-                    cwd: "docs/haml/components-standalone",
-                    src: ["**/*.haml"],
-                    dest: "docs/pages/components",
-                    ext: ".html"
-                }]
-            },
-
-            fullDocs: {
-                files: {
-                    "docs/pages/site.html": "docs/haml/site.haml"
-                }
             }
+
+            // docs: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: "docs/haml/components-standalone",
+            //         src: ["**/*.haml"],
+            //         dest: "docs/pages/components",
+            //         ext: ".html"
+            //     }]
+            // },
+
+            // fullDocs: {
+            //     files: {
+            //         "docs/pages/site.html": "docs/haml/site.haml"
+            //     }
+            // }
         },
 
         imagemin: {
@@ -363,11 +363,11 @@ module.exports = function(grunt) {
                 options: { spawn: false }
             },
 
-            docsHaml: {
-                files: ["docs/haml/**/*.haml"],
-                tasks: ["haml:docs", "haml:fullDocs"],
-                options: { spawn: false }
-            },
+            // docsHaml: {
+            //     files: ["docs/haml/**/*.haml"],
+            //     tasks: ["haml:docs", "haml:fullDocs"],
+            //     options: { spawn: false }
+            // },
 
             docsScss: {
                 files: ["docs/scss/**/*.scss"],
@@ -402,6 +402,6 @@ module.exports = function(grunt) {
     grunt.registerTask("default", ["coffee:build", "coffee:components", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "haml", "shell", "imagemin"]);
     grunt.registerTask("tests", ["coffee:specHelpers", "coffee:specs", "jasmine"]);
     grunt.registerTask("full", ["coffee", "jasmine", "concat", "sass", "autoprefixer", "csscss", "uglify", "compare_size", "slim", "shell", "imagemin"]);
-    grunt.registerTask("docs", ["haml:fullDocs", "haml:docs", "sass:docs", "autoprefixer:docs", "imagemin"]);
+    grunt.registerTask("docs", ["haml:fullDocs", "sass:docs", "autoprefixer:docs", "imagemin"]);
 
 }
