@@ -6,6 +6,10 @@
     <script src='/js/jquery.js' type='text/javascript'></script>
     <script src='/js/script.js' type='text/javascript'></script>
     <script src='/js/toggle-switch.js' type='text/javascript'></script>
+    <script src='//use.typekit.net/nre7enh.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      try{Typekit.load();}catch(e){}
+    </script>
     <title>Message Bubble</title>
   </head>
   <body>
@@ -21,47 +25,45 @@
             </li>
           </ul>
         </nav>
-        <h1>Message Bubble</h1>
-        <div class='page-icon'>
-          <div class='message-bubble-icon'></div>
-        </div>
+        <h1>
+          <div class='message-bubble-icon page-icon'></div>
+          Message Bubble
+        </h1>
+        <h2>An accessible input for toggling between two states</h2>
       </header>
       <div class='components'>
-        <div class='download-links'>
-          <a class='download-link' href='downloads/message-bubble.zip'>
-            <span>Download the <strong>Message Bubble</strong> Component</span>
-          </a>
-          <div class='download-image' src='/img/download.png'></div>
-          <a class='download-link' href='/download'>
-            <span>Create a Custom Download</span>
-          </a>
-        </div>
+        <!-- = partial :download_links, component: doc[:name], component_file: doc[:short_name] -->
         <div class='summary'>
-          <p>Here is the summary.</p>
+          <!-- %p Here is the summary. -->
         </div>
         <div class='example-components'>
           <h3>
             <span>Playground</span>
             <button class='example-css-toggle'>(try it without CSS)</button>
           </h3>
-          <div class='example-component'><div class='message-bubble-container'>
-            <div class='message-bubble'>
-              <div class='message-bubble-inner'>
-                Here is the message
-                <svg class='message-bubble-whale-tail' enable-background='new 0 0 116.42 97.35' height='119px' style='display: none' version='1.1' viewbox='0 0 116 119' width='116px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'>
-                  <path d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z' fill='#AOAOAO'></path>
-                </svg>
-              </div>
+          <div class='example-component'>
+            <div class='resizable'>
+              <div class='resizable-container'><div class='message-bubble-container'>
+                <div class='message-bubble'>
+                  <div class='message-bubble-inner'>
+                    Here is the message
+                    <svg class='message-bubble-whale-tail' enable-background='new 0 0 116.42 97.35' height='119px' style='display: none' version='1.1' viewbox='0 0 116 119' width='116px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'>
+                      <path d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z' fill='#AOAOAO'></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class='message-bubble reply'>
+                  <div class='message-bubble-inner'>
+                    Here is the reply
+                    <svg class='message-bubble-whale-tail' enable-background='new 0 0 116.42 97.35' height='119px' style='display: none' version='1.1' viewbox='0 0 116 119' width='116px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'>
+                      <path d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z' fill='#AOAOAO'></path>
+                    </svg>
+                  </div>
+                </div>
+              </div></div>
+              <div class='resizable-handle'></div>
             </div>
-            <div class='message-bubble reply'>
-              <div class='message-bubble-inner'>
-                Here is the reply
-                <svg class='message-bubble-whale-tail' enable-background='new 0 0 116.42 97.35' height='119px' style='display: none' version='1.1' viewbox='0 0 116 119' width='116px' xml:space='preserve' xmlns='http://www.w3.org/2000/svg'>
-                  <path d='M67.39,79.03 C84.24,104.95 116.42,115.32 116.42,115.32 C116.42,115.32 73.88,124.39 46.66,115.32 C19.44,106.24 0,79.03 0,79.03 L0,-0.227279902 L51.8400002,-0.227279902 L51.84,22 C51.84,22 50.54,53.1 67.39,79.03 Z' fill='#AOAOAO'></path>
-                </svg>
-              </div>
-            </div>
-          </div></div>
+          </div>
         </div>
         <div class='playground'>
           <div class='playground-output'>

@@ -6,6 +6,10 @@
     <script src='/js/jquery.js' type='text/javascript'></script>
     <script src='/js/script.js' type='text/javascript'></script>
     <script src='/js/toggle-switch.js' type='text/javascript'></script>
+    <script src='//use.typekit.net/nre7enh.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      try{Typekit.load();}catch(e){}
+    </script>
     <title>Segmented Control</title>
   </head>
   <body>
@@ -21,46 +25,44 @@
             </li>
           </ul>
         </nav>
-        <h1>Segmented Control</h1>
-        <div class='page-icon'>
-          <div class='segmented-control-icon'></div>
-        </div>
+        <h1>
+          <div class='page-icon segmented-control-icon'></div>
+          Segmented Control
+        </h1>
+        <h2>An accessible input for toggling between two states</h2>
       </header>
       <div class='components'>
-        <div class='download-links'>
-          <a class='download-link' href='downloads/segmented-control.zip'>
-            <span>Download the <strong>Segmented Control</strong> Component</span>
-          </a>
-          <div class='download-image' src='/img/download.png'></div>
-          <a class='download-link' href='/download'>
-            <span>Create a Custom Download</span>
-          </a>
-        </div>
+        <!-- = partial :download_links, component: doc[:name], component_file: doc[:short_name] -->
         <div class='summary'>
-          <p>Here is the summary.</p>
+          <!-- %p Here is the summary. -->
         </div>
         <div class='example-components'>
           <h3>
             <span>Playground</span>
             <button class='example-css-toggle'>(try it without CSS)</button>
           </h3>
-          <div class='example-component'><div class='segmented-control'>
-            <div class='segmented-option'>
-              <input id='segmented-option-1' name='segmented-control' type='radio'>
-                <label for='segmented-option-1'>Option 1</label>
-              </input>
+          <div class='example-component'>
+            <div class='resizable'>
+              <div class='resizable-container'><div class='segmented-control'>
+                <div class='segmented-option'>
+                  <input id='segmented-option-1' name='segmented-control' type='radio'>
+                    <label for='segmented-option-1'>Option 1</label>
+                  </input>
+                </div>
+                <div class='segmented-option'>
+                  <input id='segmented-option-2' name='segmented-control' type='radio'>
+                    <label for='segmented-option-2'>Option 2</label>
+                  </input>
+                </div>
+                <div class='segmented-option'>
+                  <input id='segmented-option-3' name='segmented-control' type='radio'>
+                    <label for='segmented-option-3'>Option 3</label>
+                  </input>
+                </div>
+              </div></div>
+              <div class='resizable-handle'></div>
             </div>
-            <div class='segmented-option'>
-              <input id='segmented-option-2' name='segmented-control' type='radio'>
-                <label for='segmented-option-2'>Option 2</label>
-              </input>
-            </div>
-            <div class='segmented-option'>
-              <input id='segmented-option-3' name='segmented-control' type='radio'>
-                <label for='segmented-option-3'>Option 3</label>
-              </input>
-            </div>
-          </div></div>
+          </div>
         </div>
         <div class='playground'>
           <div class='playground-output'>

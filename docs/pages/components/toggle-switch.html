@@ -6,6 +6,10 @@
     <script src='/js/jquery.js' type='text/javascript'></script>
     <script src='/js/script.js' type='text/javascript'></script>
     <script src='/js/toggle-switch.js' type='text/javascript'></script>
+    <script src='//use.typekit.net/nre7enh.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      try{Typekit.load();}catch(e){}
+    </script>
     <title>Toggle Switch</title>
   </head>
   <body>
@@ -21,36 +25,34 @@
             </li>
           </ul>
         </nav>
-        <h1>Toggle Switch</h1>
-        <div class='page-icon'>
-          <div class='toggle-switch-icon'></div>
-        </div>
+        <h1>
+          <div class='page-icon toggle-switch-icon'></div>
+          Toggle Switch
+        </h1>
+        <h2>An accessible input for toggling between two states</h2>
       </header>
       <div class='components'>
-        <div class='download-links'>
-          <a class='download-link' href='downloads/toggle-switch.zip'>
-            <span>Download the <strong>Toggle Switch</strong> Component</span>
-          </a>
-          <div class='download-image' src='/img/download.png'></div>
-          <a class='download-link' href='/download'>
-            <span>Create a Custom Download</span>
-          </a>
-        </div>
+        <!-- = partial :download_links, component: doc[:name], component_file: doc[:short_name] -->
         <div class='summary'>
-          <p>Here is the summary.</p>
+          <!-- %p Here is the summary. -->
         </div>
         <div class='example-components'>
           <h3>
             <span>Playground</span>
             <button class='example-css-toggle'>(try it without CSS)</button>
           </h3>
-          <div class='example-component'><div class='toggle-switch' tab-index='0'>
-            <input id='toggle-switch' name='toggle-switch' tabindex='-1' type='checkbox'>
-            <label class='toggle-switch-main' for='toggle-switch'>
-              <div class='toggle-switch-accent'></div>
-              <div class='toggle-switch-thumb'></div>
-            </label>
-          </div></div>
+          <div class='example-component'>
+            <div class='resizable'>
+              <div class='resizable-container'><div class='toggle-switch' tab-index='0'>
+                <input id='toggle-switch' name='toggle-switch' tabindex='-1' type='checkbox'>
+                <label class='toggle-switch-main' for='toggle-switch'>
+                  <div class='toggle-switch-accent'></div>
+                  <div class='toggle-switch-thumb'></div>
+                </label>
+              </div></div>
+              <div class='resizable-handle'></div>
+            </div>
+          </div>
         </div>
         <script type='text/javascript'>
           var ts = new ToggleSwitch('.example-component .toggle-switch:first');
@@ -64,7 +66,7 @@
           <div class='example-commands'>
             <h4>Example Commands</h4>
             <div class='example-command-buttons'>
-              <button class='example-command' data-command="for (var i = 1; i &lt;= 20; i++) { tsc.add({container: '.example-component'}); }">Create 20 switches</button>
+              <button class='example-command' data-command="for (var i = 1; i &lt;= 20; i++) { tsc.add({container: '.resizable-container'}); }">Create 20 switches</button>
               <button class='example-command' data-command="tsc.toggle(':nth-child(3n+1)')">Toggle every third switch</button>
               <button class='example-command' data-command="function toggle() { tsc.toggle(':nth-child(' + Math.ceil(Math.random()*5) + 'n)'); } setInterval(toggle, 2000);">Toggle switches randomly every 2 seconds</button>
               <button class='example-command' data-command='ts.setDisabled(!ts.disabled())'>Toggle the first switch's disabled state</button>
