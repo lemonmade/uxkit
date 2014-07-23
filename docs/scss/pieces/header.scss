@@ -4,8 +4,8 @@ $header-hamburger-width: 2em;
 $header-hamburger-height: 1.4em;
 
 .page-header {
-    padding: 10em 1em 2em;
-    background: linear-gradient(30deg, rgb(107, 164, 255), rgb(42, 87, 199));
+    padding: 6em 1em 4em;
+    background: linear-gradient(15deg, rgb(42, 87, 199), rgb(107, 164, 255));
     color: white;
     transition: all 0.3s ease;
     width: 100%;
@@ -37,12 +37,15 @@ $header-hamburger-height: 1.4em;
             margin-left: 1rem;
         }
 
+        h2 { display: none; }
+
         .page-icon {
             display: none;
         }
     }
 
-    h1 { font-weight: 200; margin: 0; font-size: 3em; }
+    h1 { font-weight: 100; margin: 0; font-size: 3em; text-align: center; }
+    h2 { font-weight: 100; margin: 1em 0 0; opacity: 0.7; font-size: 1.5em; text-align: center; }
 
     nav {
         position: absolute;
@@ -92,23 +95,12 @@ $header-hamburger-height: 1.4em;
 }
 
 .page-icon {
-    // background-color: rgb(55, 96, 223);
-    position: absolute;
-    bottom: -1em; right: -1.5em;
-    height: 8em; width: 8em;
-    border-radius: 4em;
-    background: linear-gradient(30deg, rgb(107, 164, 255), rgb(42, 87, 199));
-    box-shadow: -2px 2px 8px rgba(black, 0.15);
-    border: 2px solid white;
+    // height: 1.5em; width: 1.5em;
+    // background-size: cover;
+    // background-repeat: no-repeat;
+    // display: inline-block;
+    // margin-bottom: -0.4em;
 
-    div {
-        position: absolute;
-        height: 80%; width: 80%;
-        top: 10%; left: 10%;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-
-    .toggle-switch-icon { background-image: url(../img/toggle-switch-light.png); }
-    .notification-ios-icon { background-image: url(../img/notification-light.png); }
+    // &.toggle-switch-icon { background-image: url(../img/toggle-switch-light.png); }
+    // &.notification-ios-icon { background-image: url(../img/notification-light.png); }
 }

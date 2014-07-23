@@ -100,8 +100,10 @@ p code {
         overflow: scroll;
         // border-top: 1px solid $api-gray-border;
         border-bottom: 1px solid $api-gray-border;
-        padding: 1em;
-        background-color: $api-gray;
+        padding: 1rem;
+        background-color: rgb(241, 248, 255);
+        font-size: 0.9em;
+        line-height: 1.4;
     }
 
     h3 {
