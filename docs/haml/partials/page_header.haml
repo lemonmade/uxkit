@@ -2,12 +2,13 @@
 - icon_class = "#{title.downcase.gsub /\s+/, "-"}-icon"
 
 %header.page-header
-    %nav
-        %ul
-            %li
-                %a.sidebar-toggle{:href => "#"}
-                    Menu
-                    %span
-    %h1= title
-    %div.page-icon
-        %div{"class" => icon_class}
+  %nav
+    %ul
+      %li
+        %a.sidebar-toggle{:href => "#"}
+          Menu
+          %span
+  %h1
+    %div.page-icon{"class" => icon_class}
+    #{title}
+  %h2 An accessible input for toggling between two states
