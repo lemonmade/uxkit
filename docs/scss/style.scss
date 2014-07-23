@@ -11,6 +11,7 @@
 @import "pieces/playground.scss";
 @import "pieces/footer.scss";
 @import "pieces/download-links.scss";
+@import "pieces/resizable.scss";
 
 .example-component:not(.no-css) {
     @import "components.scss";
